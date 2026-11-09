@@ -13,8 +13,8 @@ after its parent issue exists and the maintainer approves it.
 | Phase | Parent issue | Branch | Status |
 | --- | --- | --- | --- |
 | P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
-| P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | pr-open |
-| P2 Table extraction and catalog | TBD | `feature/p2-table-extraction` | planned |
+| P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
+| P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | active |
 | P3 Growth query engine | TBD | `feature/p3-growth-engine` | planned |
 | P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
 | P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
@@ -65,7 +65,7 @@ Acceptance criteria:
 
 Parent issue: #3
 Branch: `feature/p1-source-inventory`
-Status: pr-open
+Status: complete
 
 Goal: locate every source table and output schema, then freeze the provenance
 contract before extraction begins.
@@ -85,19 +85,19 @@ Acceptance criteria:
 
 ## Phase 2: Table extraction and catalog
 
-Parent issue: TBD
+Parent issue: #10
 Branch: `feature/p2-table-extraction`
-Status: planned
+Status: active
 
 Goal: convert every TIPSY database table to a normalized, validated public
 asset and make it discoverable.
 
-- [ ] P2.1 Implement the `.tab` parser and metadata inference
-- [ ] P2.2 Implement the `.taf` parser and fixed-width/tab-delimited handling
-- [ ] P2.3 Implement the table catalog and search index
-- [ ] P2.4 Write normalized Parquet/CSV plus a checksum manifest
-- [ ] P2.5 Add `fresh-tipsy db extract`, `validate`, and `catalog` CLI commands
-- [ ] P2.6 Add parser, schema, and catalog tests
+- [ ] P2.1 Implement the `.tab` parser and metadata inference (#11)
+- [ ] P2.2 Implement the `.taf` parser and fixed-width/tab-delimited handling (#12)
+- [ ] P2.3 Implement the table catalog and search index (#13)
+- [ ] P2.4 Write normalized Parquet/CSV plus a checksum manifest (#14)
+- [ ] P2.5 Add `fresh-tipsy db extract`, `validate`, and `catalog` CLI commands (#15)
+- [ ] P2.6 Add parser, schema, and catalog tests (#16)
 
 Acceptance criteria:
 
