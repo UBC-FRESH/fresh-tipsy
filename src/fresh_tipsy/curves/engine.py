@@ -5,9 +5,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from fresh_tipsy.curves.errors import UnsupportedQueryError
-from fresh_tipsy.curves.models import CurveQuery, Provenance, TableSelection
+from fresh_tipsy.curves.errors import SourceUnavailableError, UnsupportedQueryError
+from fresh_tipsy.curves.interpolation import interpolate_table
+from fresh_tipsy.curves.models import CurveQuery, Provenance, QueryResult, TableSelection
 from fresh_tipsy.tables.catalog import CatalogEntry, CatalogQuery, TableCatalog
+from fresh_tipsy.tables.parsers import TIPSYTable, parse_tab_file, parse_taf_file
 
 _PNC_PREFERENCE: tuple[str, ...] = ("N", "C", "P")
 
@@ -20,25 +22,92 @@ class CurveEngine:
     ----------
     catalog : TableCatalog
         Table catalog.
+    source_root : Path or None, optional
+        TIPSY database directory used to load table rows.
     """
 
     catalog: TableCatalog
+    source_root: Path | None = None
 
     @classmethod
-    def from_manifest(cls, path: Path) -> CurveEngine:
+    def from_manifest(cls, path: Path, source_root: Path | None = None) -> CurveEngine:
         """Load an engine from a manifest file.
 
         Parameters
         ----------
         path : Path
             Manifest JSON path.
+        source_root : Path or None, optional
+            TIPSY database directory.
 
         Returns
         -------
         CurveEngine
             Engine backed by the loaded catalog.
         """
-        return cls(TableCatalog.from_manifest(path))
+        return cls(TableCatalog.from_manifest(path), source_root=source_root)
+
+    def query(self, query: CurveQuery) -> QueryResult:
+        """Select a table and interpolate the query age.
+
+        Parameters
+        ----------
+        query : CurveQuery
+            Growth query.
+
+        Returns
+        -------
+        QueryResult
+            Selected table and interpolated row.
+
+        Raises
+        ------
+        UnsupportedQueryError
+            When no table or scenario can answer the query.
+        InterpolationError
+            When the age is missing or outside the source range.
+        SourceUnavailableError
+            When the source table cannot be loaded.
+        """
+        selection = self.select_table(query)
+        table = self.load_table(selection)
+        row = interpolate_table(table, query)
+        return QueryResult(selection=selection, row=row)
+
+    def load_table(self, selection: TableSelection) -> TIPSYTable:
+        """Load the parsed source table for a selection.
+
+        Parameters
+        ----------
+        selection : TableSelection
+            Selected table.
+
+        Returns
+        -------
+        TIPSYTable
+            Parsed source table.
+
+        Raises
+        ------
+        SourceUnavailableError
+            When the source root is missing, the path escapes it, or the file
+            cannot be read.
+        """
+        if self.source_root is None:
+            message = "source_root is required to load table rows"
+            raise SourceUnavailableError(message)
+        root = self.source_root.resolve()
+        path = (root / selection.provenance.relative_path).resolve()
+        if not path.is_relative_to(root):
+            message = f"source path escapes the source root: {selection.provenance.relative_path}"
+            raise SourceUnavailableError(message)
+        try:
+            if selection.provenance.format == "tab":
+                return parse_tab_file(path)
+            return parse_taf_file(path)
+        except OSError as exc:
+            message = f"source table cannot be read: {path}"
+            raise SourceUnavailableError(message) from exc
 
     def select_table(self, query: CurveQuery) -> TableSelection:
         """Select the source table for a query.

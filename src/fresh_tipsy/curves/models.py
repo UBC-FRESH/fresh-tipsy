@@ -30,6 +30,14 @@ class CurveQuery:
         Exact stock-height filter.
     source_version : str or None, optional
         Source model version filter.
+    scenario : str or None, optional
+        ``None``, ``"untreated"``, ``"PCT"``, ``"CT"``, or ``"PCT+CT"``.
+    initial_density : int or None, optional
+        Initial-density filter for a run block.
+    pct_density : int or None, optional
+        Post-PCT density filter for a run block.
+    ct_density : int or None, optional
+        Post-CT density filter for a run block.
     format : str, optional
         ``"tab"`` or ``"taf"``. Defaults to the compact table.
     """
@@ -40,6 +48,10 @@ class CurveQuery:
     pnc: str | None = None
     stock_height_m: float | None = None
     source_version: str | None = None
+    scenario: str | None = None
+    initial_density: int | None = None
+    pct_density: int | None = None
+    ct_density: int | None = None
     format: str = "tab"
 
     def __post_init__(self) -> None:
@@ -67,6 +79,22 @@ class CurveQuery:
         if self.pnc is not None and self.pnc.upper() not in _PNC_VALUES:
             message = "pnc must be C, N, or P"
             raise ValueError(message)
+        if self.scenario is not None and self.scenario.upper() not in {
+            "UNTREATED",
+            "PCT",
+            "CT",
+            "PCT+CT",
+        }:
+            message = "scenario must be untreated, PCT, CT, or PCT+CT"
+            raise ValueError(message)
+        for name, density in (
+            ("initial_density", self.initial_density),
+            ("pct_density", self.pct_density),
+            ("ct_density", self.ct_density),
+        ):
+            if density is not None and density < 0:
+                message = f"{name} must be non-negative"
+                raise ValueError(message)
         if self.format not in _FORMATS:
             message = "format must be tab or taf"
             raise ValueError(message)
@@ -188,3 +216,59 @@ class TableSelection:
     provenance: Provenance
     rationale: str
     alternatives: tuple[str, ...] = field(default_factory=tuple)
+
+
+@dataclass(frozen=True)
+class InterpolatedRow:
+    """One age row from a selected run block.
+
+    Parameters
+    ----------
+    age : float
+        Requested age.
+    values : tuple of float or None
+        Non-age values in column order, after interpolation.
+    lower_age : float
+        Lower bracketing source age.
+    upper_age : float
+        Upper bracketing source age.
+    fraction : float
+        Interpolation fraction between the two ages.
+    scenario : str
+        ``"untreated"`` or the treatment label.
+    block_index : int
+        Source block index.
+    initial_density : int
+        Block initial density.
+    pct_density : int
+        Block post-PCT density.
+    ct_density : int
+        Block post-CT density.
+    """
+
+    age: float
+    values: tuple[float | None, ...]
+    lower_age: float
+    upper_age: float
+    fraction: float
+    scenario: str
+    block_index: int
+    initial_density: int
+    pct_density: int
+    ct_density: int
+
+
+@dataclass(frozen=True)
+class QueryResult:
+    """A selected table and its interpolated row.
+
+    Parameters
+    ----------
+    selection : TableSelection
+        Selected source table.
+    row : InterpolatedRow
+        Interpolated row.
+    """
+
+    selection: TableSelection
+    row: InterpolatedRow
