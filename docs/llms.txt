@@ -1,0 +1,12 @@
+# fresh-tipsy
+
+> Agent-facing index for fresh-tipsy. Read the linked pages before you change the project.
+
+## Start here
+
+- [Home](index.html): the documentation home for the project.
+- [API reference](api/index.html): every public function, with its parameters, types, and return values.
+- [Program plan](https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/plan/0001-program-plan.md): mission, scope, phases, and evidence levels.
+- [Data provenance](https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/plan/0002-data-provenance.md): source classes, manifest schema, and publication boundary.
+- [Architecture](https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/plan/0003-architecture.md): package, CLI, API, web, assistant, and FEMIC boundary.
+- [Validation and release](https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/plan/0004-validation-release.md): golden evidence, gates, and integration.

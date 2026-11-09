@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this package, cite it and the BC source tables it reads."
+title: "fresh-tipsy"
+abstract: "A public Python interoperability layer for TIPSY and FAN$IER data tables, growth queries, product recovery, and economics. Reimplementation and provenance layer, not a claim of authorship over BC government models or data."
+authors:
+  - name: "UBC FRESH Lab"
+repository-code: "https://github.com/UBC-FRESH/fresh-tipsy"
+url: "https://github.com/UBC-FRESH/fresh-tipsy"
+license: "MIT"
+version: "0.1.0"
+date-released: "2026-11-09"
+references:
+  - type: software
+    title: "TIPSY"
+    authors:
+      - name: "Province of British Columbia"
+    notes: "BC government growth-and-yield model; source tables and outputs retain BC attribution."
+  - type: software
+    title: "FAN$IER"
+    authors:
+      - name: "Province of British Columbia"
+    notes: "BC government forest economics model; source tables and outputs retain BC attribution."
