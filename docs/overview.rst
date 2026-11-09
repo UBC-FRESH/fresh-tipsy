@@ -29,6 +29,13 @@ Every table and output records the BC source, version, file, SHA256, extraction
 date, and citation. Reimplemented logic is labelled ``reimplemented`` and is
 validated against TIPSY/FAN$IER outputs where possible.
 
+Release material
+----------------
+
+- `release notes <https://github.com/UBC-FRESH/fresh-tipsy/blob/main/RELEASE_NOTES.md>`_
+- `known gaps <https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/reference/known-gaps.md>`_
+- `citation instructions <https://github.com/UBC-FRESH/fresh-tipsy/blob/main/notes/reference/citation.md>`_
+
 Non-goals
 ---------
 

@@ -72,6 +72,11 @@ issues, or the changelog alone.
 - [`reference/femic-integration.md`](reference/femic-integration.md): P6.4
   optional dependency, thin adapter, provenance pass-through, and external
   repository gap.
+- [`reference/known-gaps.md`](reference/known-gaps.md): P6.5 release gaps and
+  limits.
+- [`reference/citation.md`](reference/citation.md): P6.5 citation instructions
+  for code, manifests, and source data.
+- [`../RELEASE_NOTES.md`](../RELEASE_NOTES.md): 0.1.0 release notes.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

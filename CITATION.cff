@@ -9,14 +9,27 @@ url: "https://github.com/UBC-FRESH/fresh-tipsy"
 license: "MIT"
 version: "0.1.0"
 date-released: "2026-11-09"
+keywords:
+  - forestry
+  - TIPSY
+  - FANSIER
+  - FEMIC
+  - provenance
+  - growth-and-yield
 references:
   - type: software
     title: "TIPSY"
+    version: "4.5"
     authors:
       - name: "Province of British Columbia"
-    notes: "BC government growth-and-yield model; source tables and outputs retain BC attribution."
+    notes: "BC government growth-and-yield model. Ministry Standard Database, February 2022; source build v3.01.13W (Feb 2017 - Jul 2021). Source tables and outputs retain BC attribution; raw tables are not redistributed."
   - type: software
     title: "FAN$IER"
     authors:
       - name: "Province of British Columbia"
-    notes: "BC government forest economics model; source tables and outputs retain BC attribution."
+    notes: "BC government forest economics model. No price, cost, or NPV table is parsed or redistributed; economics in this package is explicit-input and unvalidated against FAN$IER."
+  - type: software
+    title: "FEMIC"
+    authors:
+      - name: "Province of British Columbia"
+    notes: "Forest Estate Modelling Integration Core. The optional fresh-tipsy adapter is provided; no FEMIC TSR golden output is captured."
