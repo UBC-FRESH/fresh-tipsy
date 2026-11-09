@@ -120,7 +120,7 @@ def test_curve_query_json(tmp_path: Path) -> None:
     assert result.exit_code == 0, result.output
     summary = json.loads(result.stdout)
     assert summary["status"] == "ok"
-    assert summary["query"]["species_code"] == "SYN"
+    assert summary["request"]["query"]["species_code"] == "SYN"
     assert summary["result"]["height_site_m"] == 1.0
     assert summary["result"]["provenance"]["sha256"]
     assert summary["evidence"] == "source_table"
@@ -216,7 +216,7 @@ def test_econ_run_json(tmp_path: Path) -> None:
     assert summary["result"]["revenue_per_ha"] == 100.0
     assert summary["result"]["npv_per_ha"] == pytest.approx(12.092, abs=1e-3)
     assert summary["result"]["provenance"]["source_model"] == "TIPSY"
-    assert summary["query"]["format"] == "taf"
+    assert summary["request"]["scenario"]["query"]["format"] == "taf"
 
 
 def test_cli_errors_are_nonzero(tmp_path: Path) -> None:

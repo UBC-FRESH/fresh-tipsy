@@ -55,6 +55,8 @@ issues, or the changelog alone.
   costs, NPV, site value, sensitivity, and validation limits.
 - [`reference/cli.md`](reference/cli.md): P5.1 CLI commands, exit codes, and the
   economics scenario schema.
+- [`reference/api.md`](reference/api.md): P5.2 shared service envelope, FastAPI
+  endpoints, and error contract.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

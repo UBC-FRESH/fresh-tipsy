@@ -3,24 +3,19 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 from typing import Annotated
 
 import typer
 
-from fresh_tipsy.curves import CurveEngine, CurveQuery
-from fresh_tipsy.economics import (
-    CostCategory,
-    CostEntry,
-    DiscountAssumptions,
-    EconomicsRequest,
-    PriceBook,
-    PriceEntry,
-    PriceKey,
-    evaluate_economics,
+from fresh_tipsy.api.service import (
+    ServiceError,
+    parse_scenario,
+    query_curve,
+    recover_products,
+    run_economics,
 )
-from fresh_tipsy.products import ProductGroup
+from fresh_tipsy.curves import CurveQuery
 from fresh_tipsy.tables import (
     CatalogQuery,
     TableCatalog,
@@ -369,296 +364,6 @@ def catalog(
         )
 
 
-def _source_root(source: Path | None) -> Path:
-    """Resolve a source root for catalog queries.
-
-    Parameters
-    ----------
-    source : Path or None
-        Explicit install root, or ``None`` to use ``TIPSY_INSTALL``.
-
-    Returns
-    -------
-    Path
-        Source root.
-
-    Raises
-    ------
-    CliError
-        When no source root is available.
-    """
-    if source is not None:
-        return source
-    configured = os.environ.get("TIPSY_INSTALL")
-    if configured:
-        return Path(configured)
-    message = "--source is required unless TIPSY_INSTALL is set"
-    raise CliError(message)
-
-
-def _engine(catalog: Path, source: Path | None) -> CurveEngine:
-    """Build a curve engine from a manifest.
-
-    Parameters
-    ----------
-    catalog : Path
-        Manifest path.
-    source : Path or None
-        Source install root.
-
-    Returns
-    -------
-    CurveEngine
-        Engine backed by the manifest.
-
-    Raises
-    ------
-    ManifestError
-        When the manifest is missing or invalid.
-    CliError
-        When no source root is available.
-    """
-    if not catalog.is_file():
-        message = f"manifest does not exist: {catalog}"
-        raise ManifestError(message)
-    return CurveEngine.from_manifest(catalog, source_root=_source_root(source))
-
-
-def _query_payload(query: CurveQuery) -> dict[str, object]:
-    """Return the query portion of a machine-readable response.
-
-    Parameters
-    ----------
-    query : CurveQuery
-        Growth query.
-
-    Returns
-    -------
-    dict of str to object
-        Query inputs.
-    """
-    return {
-        "species_code": query.species_code,
-        "site_index": query.site_index,
-        "age": query.age,
-        "pnc": query.pnc,
-        "stock_height_m": query.stock_height_m,
-        "source_version": query.source_version,
-        "scenario": query.scenario,
-        "initial_density": query.initial_density,
-        "pct_density": query.pct_density,
-        "ct_density": query.ct_density,
-        "format": query.format,
-    }
-
-
-def _optional_float(data: dict[str, object], key: str) -> float | None:
-    """Read an optional numeric scenario field.
-
-    Parameters
-    ----------
-    data : dict of str to object
-        Scenario object.
-    key : str
-        Field name.
-
-    Returns
-    -------
-    float or None
-        Parsed value.
-    """
-    value = data.get(key)
-    return None if value is None else float(str(value))
-
-
-def _optional_int(data: dict[str, object], key: str) -> int | None:
-    """Read an optional integer scenario field.
-
-    Parameters
-    ----------
-    data : dict of str to object
-        Scenario object.
-    key : str
-        Field name.
-
-    Returns
-    -------
-    int or None
-        Parsed value.
-    """
-    value = data.get(key)
-    return None if value is None else int(float(str(value)))
-
-
-def _scenario_query(data: dict[str, object]) -> CurveQuery:
-    """Build a curve query from a scenario object.
-
-    Parameters
-    ----------
-    data : dict of str to object
-        Scenario object.
-
-    Returns
-    -------
-    CurveQuery
-        Growth query.
-
-    Raises
-    ------
-    CliError
-        When the scenario query is malformed.
-    """
-    raw = data.get("query")
-    if not isinstance(raw, dict):
-        message = "scenario.query must be an object"
-        raise CliError(message)
-    try:
-        return CurveQuery(
-            species_code=str(raw["species_code"]),
-            site_index=float(raw["site_index"]),
-            age=float(raw["age"]),
-            pnc=None if raw.get("pnc") is None else str(raw["pnc"]),
-            stock_height_m=_optional_float(raw, "stock_height_m"),
-            source_version=(
-                None if raw.get("source_version") is None else str(raw["source_version"])
-            ),
-            scenario=None if raw.get("scenario") is None else str(raw["scenario"]),
-            initial_density=_optional_int(raw, "initial_density"),
-            pct_density=_optional_int(raw, "pct_density"),
-            ct_density=_optional_int(raw, "ct_density"),
-            format=str(raw.get("format", "taf")),
-        )
-    except (KeyError, TypeError, ValueError) as exc:
-        message = f"invalid scenario.query: {exc}"
-        raise CliError(message) from exc
-
-
-def _scenario_request(
-    data: dict[str, object], catalog: Path, source: Path | None
-) -> EconomicsRequest:
-    """Build an economics request from a scenario object.
-
-    Parameters
-    ----------
-    data : dict of str to object
-        Scenario object.
-    catalog : Path
-        Manifest path.
-    source : Path or None
-        Source install root.
-
-    Returns
-    -------
-    EconomicsRequest
-        Typed economics request.
-
-    Raises
-    ------
-    CliError
-        When the scenario is malformed.
-    """
-    query = _scenario_query(data)
-    engine = _engine(catalog, source)
-    recovery = engine.products(query)
-    period = str(data.get("period", "default"))
-    raw_groups = data.get("revenue_groups")
-    if not isinstance(raw_groups, list) or not raw_groups:
-        message = "scenario.revenue_groups must be a non-empty list"
-        raise CliError(message)
-    try:
-        groups = tuple(ProductGroup(str(group)) for group in raw_groups)
-    except ValueError as exc:
-        message = f"invalid scenario.revenue_groups: {exc}"
-        raise CliError(message) from exc
-    raw_prices = data.get("prices", [])
-    if not isinstance(raw_prices, list):
-        message = "scenario.prices must be a list"
-        raise CliError(message)
-    prices: list[PriceEntry] = []
-    for index, raw_price in enumerate(raw_prices):
-        if not isinstance(raw_price, dict):
-            message = f"scenario.prices[{index}] must be an object"
-            raise CliError(message)
-        key_data = raw_price.get("key", raw_price)
-        if not isinstance(key_data, dict):
-            message = f"scenario.prices[{index}].key must be an object"
-            raise CliError(message)
-        try:
-            key = PriceKey(
-                species_code=str(key_data.get("species_code", query.species_code)),
-                group=ProductGroup(str(key_data["group"])),
-                period=str(key_data.get("period", period)),
-                grade=None if key_data.get("grade") is None else str(key_data["grade"]),
-                dimension=(
-                    None if key_data.get("dimension") is None else str(key_data["dimension"])
-                ),
-                detail=None if key_data.get("detail") is None else str(key_data["detail"]),
-            )
-            prices.append(
-                PriceEntry(
-                    key=key,
-                    price_per_unit=float(raw_price["price_per_unit"]),
-                    unit=str(raw_price["unit"]),
-                    source=str(raw_price.get("source", "scenario")),
-                    citation=str(raw_price.get("citation", "Scenario input.")),
-                )
-            )
-        except (KeyError, TypeError, ValueError) as exc:
-            message = f"invalid scenario.prices[{index}]: {exc}"
-            raise CliError(message) from exc
-    raw_costs = data.get("costs", [])
-    if not isinstance(raw_costs, list):
-        message = "scenario.costs must be a list"
-        raise CliError(message)
-    costs: list[CostEntry] = []
-    for index, raw_cost in enumerate(raw_costs):
-        if not isinstance(raw_cost, dict):
-            message = f"scenario.costs[{index}] must be an object"
-            raise CliError(message)
-        try:
-            costs.append(
-                CostEntry(
-                    category=CostCategory(str(raw_cost["category"])),
-                    age=float(raw_cost["age"]),
-                    amount_per_ha=float(raw_cost["amount_per_ha"]),
-                    label=str(raw_cost["label"]),
-                    source=str(raw_cost.get("source", "scenario")),
-                    citation=str(raw_cost.get("citation", "Scenario input.")),
-                )
-            )
-        except (KeyError, TypeError, ValueError) as exc:
-            message = f"invalid scenario.costs[{index}]: {exc}"
-            raise CliError(message) from exc
-    raw_assumptions = data.get("assumptions")
-    if not isinstance(raw_assumptions, dict):
-        message = "scenario.assumptions must be an object"
-        raise CliError(message)
-    try:
-        assumptions = DiscountAssumptions(
-            discount_rate=float(raw_assumptions["discount_rate"]),
-            real_price_increase=float(raw_assumptions.get("real_price_increase", 0.0)),
-            real_cost_increase=float(raw_assumptions.get("real_cost_increase", 0.0)),
-            real_increase_duration=float(raw_assumptions.get("real_increase_duration", 25.0)),
-            base_age=float(raw_assumptions.get("base_age", 0.0)),
-            include_sunk_costs=bool(raw_assumptions.get("include_sunk_costs", False)),
-        )
-    except (KeyError, TypeError, ValueError) as exc:
-        message = f"invalid scenario.assumptions: {exc}"
-        raise CliError(message) from exc
-    try:
-        return EconomicsRequest(
-            recovery=recovery,
-            price_book=PriceBook(tuple(prices)),
-            assumptions=assumptions,
-            revenue_groups=groups,
-            costs=tuple(costs),
-            period=period,
-        )
-    except ValueError as exc:
-        message = f"invalid scenario: {exc}"
-        raise CliError(message) from exc
-
-
 @curve_app.command("query")
 def curve_query(
     catalog: Annotated[Path, typer.Option("--catalog", help="Manifest JSON path.")],
@@ -692,7 +397,6 @@ def curve_query(
 ) -> None:
     """Query a growth curve and print typed metrics with provenance."""
     try:
-        engine = _engine(catalog, source)
         query = CurveQuery(
             species_code=species,
             site_index=site_index,
@@ -706,26 +410,24 @@ def curve_query(
             ct_density=ct_density,
             format=table_format,
         )
-        point = engine.point(query)
-    except (CliError, ManifestError, ValueError, OSError) as exc:
+        response = query_curve(catalog, source, query)
+    except (ServiceError, ValueError, OSError) as exc:
         raise _fail(str(exc)) from exc
-    payload: dict[str, object] = {
-        "status": "ok",
-        "query": _query_payload(query),
-        "result": point.as_dict(),
-        "evidence": point.provenance.evidence,
-        "warnings": [],
-    }
     if json_output:
-        _print_json(payload)
+        _print_json(response.as_dict())
         return
-    typer.echo(f"{point.age:g} yr  {point.format}  {point.provenance.relative_path}")
+    result = response.result or {}
     typer.echo(
-        f"Volume gross {point.volume_gross_m3_ha}, height site {point.height_site_m}, "
-        f"stems {point.stems_per_ha}"
+        f"{result.get('age')} yr  {result.get('format')}  "
+        f"{response.provenance['relative_path'] if response.provenance else ''}"
     )
-    if point.unavailable_metrics:
-        typer.echo("Unavailable: " + ", ".join(point.unavailable_metrics), err=True)
+    typer.echo(
+        f"Volume gross {result.get('volume_gross_m3_ha')}, "
+        f"height site {result.get('height_site_m')}, "
+        f"stems {result.get('stems_per_ha')}"
+    )
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
 
 
 @product_app.command("recover")
@@ -743,7 +445,6 @@ def product_recover(
 ) -> None:
     """Recover product groups and run mass-balance checks."""
     try:
-        engine = _engine(catalog, source)
         query = CurveQuery(
             species_code=species,
             site_index=site_index,
@@ -752,27 +453,22 @@ def product_recover(
             stock_height_m=stock_height,
             format="taf",
         )
-        recovery = engine.products(query)
-    except (CliError, ManifestError, ValueError, OSError) as exc:
+        response = recover_products(catalog, source, query)
+    except (ServiceError, ValueError, OSError) as exc:
         raise _fail(str(exc)) from exc
-    payload: dict[str, object] = {
-        "status": "ok",
-        "query": _query_payload(query),
-        "result": recovery.as_dict(),
-        "evidence": "model_output",
-        "warnings": [],
-    }
     if json_output:
-        _print_json(payload)
+        _print_json(response.as_dict())
         return
-    typer.echo(f"Product recovery at {recovery.age:g} yr ({recovery.species_code})")
-    typer.echo(f"#2 & Better: {recovery.totals.lumber_2_or_better_bf_ha} bf/ha")
-    typer.echo(f"Graded: {recovery.totals.graded_bf_ha} bf/ha")
-    typer.echo(f"Logs: {recovery.totals.logs_m3_ha} m3/ha")
-    typer.echo(f"Residues: {recovery.totals.residues_odt_ha} ODT/ha")
-    for check in recovery.checks:
-        if check.status != "pass":
-            typer.echo(f"{check.name}: {check.status}", err=True)
+    result = response.result or {}
+    totals = result.get("totals")
+    typer.echo(f"Product recovery at {result.get('age')} yr ({result.get('species_code')})")
+    if isinstance(totals, dict):
+        typer.echo(f"#2 & Better: {totals.get('lumber_2_or_better_bf_ha')} bf/ha")
+        typer.echo(f"Graded: {totals.get('graded_bf_ha')} bf/ha")
+        typer.echo(f"Logs: {totals.get('logs_m3_ha')} m3/ha")
+        typer.echo(f"Residues: {totals.get('residues_odt_ha')} ODT/ha")
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
 
 
 @econ_app.command("run")
@@ -791,26 +487,19 @@ def econ_run(
         if not isinstance(data, dict):
             message = "scenario must be a JSON object"
             raise CliError(message)
-        request = _scenario_request(data, catalog, source)
-        result = evaluate_economics(request)
-    except (CliError, ManifestError, ValueError, OSError) as exc:
+        response = run_economics(catalog, source, parse_scenario(data))
+    except (ServiceError, ValueError, OSError) as exc:
         raise _fail(str(exc)) from exc
-    payload: dict[str, object] = {
-        "status": "ok",
-        "query": _query_payload(_scenario_query(data)),
-        "result": result.as_dict(),
-        "evidence": result.evidence,
-        "warnings": [gap.as_dict() for gap in result.gaps],
-    }
     if json_output:
-        _print_json(payload)
+        _print_json(response.as_dict())
         return
-    typer.echo(f"Revenue: {result.revenue_per_ha} CAD/ha")
-    typer.echo(f"Cost: {result.cost_per_ha} CAD/ha")
-    typer.echo(f"NPV: {result.npv_per_ha} CAD/ha")
-    typer.echo(f"Site value: {result.site_value_per_ha} CAD/ha")
-    for gap in result.gaps:
-        typer.echo(f"{gap.code}: {gap.message}", err=True)
+    result = response.result or {}
+    typer.echo(f"Revenue: {result.get('revenue_per_ha')} CAD/ha")
+    typer.echo(f"Cost: {result.get('cost_per_ha')} CAD/ha")
+    typer.echo(f"NPV: {result.get('npv_per_ha')} CAD/ha")
+    typer.echo(f"Site value: {result.get('site_value_per_ha')} CAD/ha")
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
 
 
 def main() -> None:

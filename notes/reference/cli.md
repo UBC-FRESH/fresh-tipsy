@@ -7,9 +7,9 @@ Related: [`../../src/fresh_tipsy/cli.py`](../../src/fresh_tipsy/cli.py), [`testi
 
 ## Commands
 
-All new commands support `--json`. JSON responses contain `status`, `query`,
-`result`, `evidence`, and `warnings` where applicable. Human output is a short
-summary, not a substitute for machine provenance.
+All new commands support `--json`. JSON responses contain `status`, `request`,
+`result`, `provenance`, `evidence`, and `warnings` where applicable. Human
+output is a short summary, not a substitute for machine provenance.
 
 ```bash
 fresh-tipsy db extract --source "$TIPSY_INSTALL" --out "$FRESH_TIPSY_CACHE"

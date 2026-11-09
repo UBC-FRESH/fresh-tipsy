@@ -163,7 +163,7 @@ Goal: make the package usable by people and agents through a typed API, CLI,
 FRESH-style web UI, and bounded assistant tools.
 
 - [x] P5.1 Build the Typer CLI and command contracts
-- [ ] P5.2 Build the FastAPI service and typed response models
+- [x] P5.2 Build the FastAPI service and typed response models
 - [ ] P5.3 Build the FRESH-style table, curve, product, and economics UI
 - [ ] P5.4 Add LLM tools for catalog search, curve query, provenance, and economics
 - [ ] P5.5 Add API, CLI, UI, and assistant tests
