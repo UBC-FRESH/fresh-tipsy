@@ -258,7 +258,7 @@ def create_web_app(
                 if isinstance(exc, ServiceError)
                 else ServiceError("invalid_request", str(exc), 422)
             )
-            return _render(request, "catalog.html", _error_context(error, form), 422)
+            return _render(request, "catalog.html", _error_context(error, form), error.status_code)
         return _render(
             request,
             "catalog.html",
@@ -341,7 +341,7 @@ def create_web_app(
                 if isinstance(exc, ServiceError)
                 else ServiceError("invalid_request", str(exc), 422)
             )
-            return _render(request, "curve.html", _error_context(error, form), 422)
+            return _render(request, "curve.html", _error_context(error, form), error.status_code)
         return _render(
             request,
             "curve.html",
@@ -397,7 +397,7 @@ def create_web_app(
                 if isinstance(exc, ServiceError)
                 else ServiceError("invalid_request", str(exc), 422)
             )
-            return _render(request, "product.html", _error_context(error, form), 422)
+            return _render(request, "product.html", _error_context(error, form), error.status_code)
         return _render(
             request,
             "product.html",
@@ -485,7 +485,9 @@ def create_web_app(
                 if isinstance(exc, ServiceError)
                 else ServiceError("invalid_request", str(exc), 422)
             )
-            return _render(request, "economics.html", _error_context(error, form), 422)
+            return _render(
+                request, "economics.html", _error_context(error, form), error.status_code
+            )
         return _render(
             request,
             "economics.html",

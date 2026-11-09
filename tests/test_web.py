@@ -180,3 +180,38 @@ def test_ui_errors_are_visible(tmp_path: Path) -> None:
     )
     assert missing_discount.status_code == 422
     assert "discount rate is required" in missing_discount.text
+
+
+def test_empty_forms_and_not_configured() -> None:
+    """Empty forms render without a catalog; data routes fail explicitly."""
+    client = TestClient(create_web_app())
+    missing = client.get("/ui/catalog")
+    assert missing.status_code == 503
+    assert "not_configured" in missing.text
+    for path in ("/ui/curve", "/ui/products", "/ui/economics"):
+        response = client.get(path)
+        assert response.status_code == 200
+        assert "Request and provenance" not in response.text
+
+
+def test_product_error_and_residue_option(tmp_path: Path) -> None:
+    """Product errors are visible and the residue option is honored."""
+    client, _ = _client(tmp_path)
+    bad = client.get("/ui/products", params={"species": "NOPE", "site_index": 5, "age": 2})
+    assert bad.status_code == 422
+    assert "product_failed" in bad.text
+    result = client.get(
+        "/ui/economics",
+        params={
+            "species": "SYN",
+            "site_index": 5,
+            "age": 2,
+            "group": "lumber_2_or_better",
+            "include_residues": "true",
+            "price": 1000,
+            "cost": 50,
+            "discount_rate": 0.10,
+        },
+    )
+    assert result.status_code == 200
+    assert "NPV" in result.text

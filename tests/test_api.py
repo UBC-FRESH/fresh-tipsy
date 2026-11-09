@@ -219,6 +219,18 @@ def test_api_errors_are_structured(tmp_path: Path) -> None:
     validation = client.post("/economics/run", json={"query": {}})
     assert validation.status_code == 422
     assert validation.json()["error"]["code"] == "invalid_request"
+    bad_age = client.post(
+        "/curves/query",
+        json={"species_code": "SYN", "site_index": 5, "age": -1},
+    )
+    assert bad_age.status_code == 422
+    assert bad_age.json()["error"]["code"] == "invalid_request"
+    bad_product_age = client.post(
+        "/products/recover",
+        json={"species_code": "SYN", "site_index": 5, "age": -1, "format": "taf"},
+    )
+    assert bad_product_age.status_code == 422
+    assert bad_product_age.json()["error"]["code"] == "invalid_request"
 
 
 def test_parse_scenario_rejects_bad_inputs() -> None:
