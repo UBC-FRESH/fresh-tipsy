@@ -63,6 +63,8 @@ issues, or the changelog alone.
   provenance-first prompt guidance.
 - [`reference/release-validation.md`](reference/release-validation.md): P6.1
   four-species golden regression, tolerances, and FEMIC gap.
+- [`reference/package-build.md`](reference/package-build.md): P6.2 wheel/sdist,
+  packaged data, and clean-install smoke test.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

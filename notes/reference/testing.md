@@ -22,6 +22,7 @@ The dashboard runs lint, format, strict types, tests with the coverage gate, the
 | Product | `tests/test_product_schema.py`, `tests/test_product_recovery.py`, `tests/test_product_regression.py` | 77-field contract, aggregation, mass balance, missing dimensions, and real-source PLI checks |
 | Economics | `tests/test_economics.py` | Explicit prices/costs, unit gaps, hand-checked NPV, site value, and sensitivity direction |
 | Interface | `tests/test_cli_interfaces.py`, `tests/test_cli*.py`, `tests/test_api.py`, `tests/test_web.py`, `tests/test_agent.py`, `tests/test_interfaces.py` | CLI/API/web/agent parity, provenance envelopes, error codes, UI routes, assistant tools, and missing-data contracts |
+| Package | `tests/test_package_data.py` | Packaged column map, manifest schema, templates, and static assets |
 | Self-check | `tests/test_workflow.py` | The planning surfaces pass `scripts/check_workflow.py` |
 
 ## Synthetic fixtures
