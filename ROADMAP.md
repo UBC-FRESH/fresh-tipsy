@@ -116,7 +116,7 @@ Status: active
 
 Goal: query the extracted TASS/TIPSY yield surfaces with a stable Python API.
 
-- [ ] P3.1 Implement species/site-index/PNC/stock-height table selection (#19)
+- [x] P3.1 Implement species/site-index/PNC/stock-height table selection (#19)
 - [ ] P3.2 Implement age interpolation and scenario extraction (#20)
 - [ ] P3.3 Expose volume, height, DBH, density, biomass, and carbon queries (#21)
 - [ ] P3.4 Compare queries against TIPSY outputs and FEMIC TSR curves (#22)
