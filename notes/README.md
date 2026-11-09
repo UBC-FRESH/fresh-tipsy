@@ -69,6 +69,9 @@ issues, or the changelog alone.
   decision, asset set, and rebuild instructions.
 - [`reference/release-assets.csv`](reference/release-assets.csv): machine-readable
   release asset register with checksums.
+- [`reference/femic-integration.md`](reference/femic-integration.md): P6.4
+  optional dependency, thin adapter, provenance pass-through, and external
+  repository gap.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
