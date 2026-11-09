@@ -225,3 +225,59 @@ def test_real_pli_metrics() -> None:
     )
     assert value.value > 0
     assert value.evidence == "source_table"
+
+
+def _taf_engine(tmp_path: Path, mutate: str) -> CurveEngine:
+    """Build an engine with a mutated .taf row."""
+    _write_pair(tmp_path)
+    path = tmp_path / "syn0010N00.taf"
+    lines = path.read_text(encoding="ascii").splitlines()
+    fields = lines[-1].split("\t")
+    if mutate == "blank-volume":
+        for index in range(49, 68):
+            fields[index] = ""
+    elif mutate == "zero-stems":
+        for index in range(30, 49):
+            fields[index] = "0"
+    elif mutate == "class-zero-stems":
+        for index in range(30, 49):
+            fields[index] = "0"
+        fields[30] = "100"
+    lines[-1] = "\t".join(fields)
+    path.write_text("\n".join(lines), encoding="ascii")
+    pair = parse_pair(tmp_path / "syn0010N00.tab")
+    manifest: dict[str, object] = {
+        "manifest_version": "1.2.0",
+        "generated_at_utc": "2026-11-09T00:00:00Z",
+        "extractor": {"name": "fresh-tipsy", "version": "0.1.0", "parser_version": 1},
+        "source_install": {"model": "TIPSY", "version": "4.5", "install_env": "TIPSY_INSTALL"},
+        "assets": [
+            build_tab_manifest_entry(pair.tab, tmp_path),
+            build_taf_manifest_entry(pair.taf, tmp_path),
+        ],
+    }
+    return CurveEngine(TableCatalog.from_manifest_data(manifest), source_root=tmp_path)
+
+
+def test_blank_volume_sum_is_none(tmp_path: Path) -> None:
+    """An all-blank diameter-class volume sum is None."""
+    point = _taf_engine(tmp_path, "blank-volume").point(
+        CurveQuery("SYN", 5.0, age=5.0, format="taf")
+    )
+    assert point.volume_merch_m3_ha is None
+
+
+def test_zero_stems_yields_zero_basal_area(tmp_path: Path) -> None:
+    """Zero stems yield zero basal area and no DBH."""
+    point = _taf_engine(tmp_path, "zero-stems").point(CurveQuery("SYN", 5.0, age=5.0, format="taf"))
+    assert point.basal_area_m2_ha == 0.0
+    assert point.dbh_cm is None
+
+
+def test_class_zero_stems_yield_zero_area(tmp_path: Path) -> None:
+    """Stems only in the zero-inch class yield zero basal area."""
+    point = _taf_engine(tmp_path, "class-zero-stems").point(
+        CurveQuery("SYN", 5.0, age=5.0, format="taf")
+    )
+    assert point.basal_area_m2_ha == 0.0
+    assert point.dbh_cm is None

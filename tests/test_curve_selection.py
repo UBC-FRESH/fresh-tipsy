@@ -6,6 +6,7 @@ import copy
 import json
 import math
 import os
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,7 @@ from fresh_tipsy.curves import (
     CurveEngine,
     CurveQuery,
     Provenance,
+    SourceUnavailableError,
     TableSelection,
     UnsupportedQueryError,
 )
@@ -200,3 +202,72 @@ def test_real_pli_selection() -> None:
     )
     assert selection.entry.asset_id == "tipsy45-db-pli0530n00-tab"
     assert selection.provenance.relative_path == "pli0530N00.tab"
+
+
+def test_default_smallest_stock_height() -> None:
+    """When every candidate has a height, the smallest is the default."""
+    manifest = _manifest()
+    assets = manifest["assets"]
+    assert isinstance(assets, list)
+    base = _asset(manifest)
+    assets.clear()
+    for asset_id, height in (
+        ("tipsy45-db-syn0010n02-tab-h013", 0.13),
+        ("tipsy45-db-syn0010n02-tab-h021", 0.21),
+    ):
+        variant = copy.deepcopy(base)
+        variant["id"] = asset_id
+        metadata = variant["metadata"]
+        assert isinstance(metadata, dict)
+        metadata["stock_height_m"] = height
+        assets.append(variant)
+    selection = _engine(manifest).select_table(CurveQuery("SYN", 5.0))
+    assert selection.entry.asset_id == "tipsy45-db-syn0010n02-tab-h013"
+    assert "default stock height 0.13" in selection.rationale
+
+
+def test_default_latest_source_version() -> None:
+    """When versions differ, the latest is the default."""
+    manifest = _manifest()
+    base = _asset(manifest)
+    newer = copy.deepcopy(base)
+    newer["id"] = "tipsy45-db-syn0010n02-tab-new"
+    source = newer["source"]
+    assert isinstance(source, dict)
+    source["version"] = "4.6"
+    assets = manifest["assets"]
+    assert isinstance(assets, list)
+    assets.append(newer)
+    selection = _engine(manifest).select_table(CurveQuery("SYN", 5.0))
+    assert selection.entry.source_version == "4.6"
+    assert "default source version 4.6" in selection.rationale
+
+
+def test_missing_format() -> None:
+    """A requested format with no candidate fails explicitly."""
+    manifest = _manifest()
+    assets = manifest["assets"]
+    assert isinstance(assets, list)
+    assets[:] = [asset for asset in assets if asset.get("format") != "taf"]
+    with pytest.raises(UnsupportedQueryError, match="no taf table"):
+        _engine(manifest).select_table(CurveQuery("SYN", 5.0, format="taf"))
+
+
+def test_load_table_missing_file(tmp_path: Path) -> None:
+    """A missing source file raises a source error."""
+    engine = CurveEngine(TableCatalog.from_manifest_data(_manifest()), source_root=tmp_path)
+    selection = engine.select_table(CurveQuery("SYN", 5.0))
+    with pytest.raises(SourceUnavailableError, match="cannot be read"):
+        engine.load_table(selection)
+
+
+def test_load_table_path_escape() -> None:
+    """A source path outside the root raises a source error."""
+    engine = CurveEngine(TableCatalog.from_manifest_data(_manifest()), source_root=FIXTURES)
+    selection = engine.select_table(CurveQuery("SYN", 5.0))
+    escaped = replace(
+        selection,
+        provenance=replace(selection.provenance, relative_path="../outside.tab"),
+    )
+    with pytest.raises(SourceUnavailableError, match="escapes"):
+        engine.load_table(escaped)

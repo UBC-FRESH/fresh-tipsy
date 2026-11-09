@@ -13,12 +13,14 @@ from fresh_tipsy.curves import (
     InterpolationError,
     ScenarioError,
     SourceUnavailableError,
+    interpolate_block,
 )
 from fresh_tipsy.tables import (
     TableCatalog,
     build_tab_manifest_entry,
     build_taf_manifest_entry,
     parse_pair,
+    parse_tab_file,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -149,3 +151,58 @@ def test_real_pli_interpolation() -> None:
     height = result.row.values[0]
     assert height is not None
     assert height > 0
+
+
+def test_untreated_scenario_label() -> None:
+    """An explicit untreated scenario selects the untreated block."""
+    result = _engine().query(CurveQuery("SYN", 5.0, age=2.0, scenario="untreated"))
+    assert result.row.scenario == "untreated"
+    assert result.row.block_index == 0
+
+
+def _copy_tab(tmp_path: Path) -> Path:
+    """Copy the synthetic tab fixture into a temporary file."""
+    path = tmp_path / "syn0010N02.tab"
+    path.write_text(FIXTURE_TAB.read_text(encoding="ascii"), encoding="ascii")
+    return path
+
+
+def test_non_numeric_value_raises(tmp_path: Path) -> None:
+    """A non-numeric value raises an interpolation error."""
+    path = _copy_tab(tmp_path)
+    lines = path.read_text(encoding="ascii").splitlines()
+    index = next(i for i, line in enumerate(lines) if line.startswith("1\t"))
+    fields = lines[index].split("\t")
+    fields[1] = "abc"
+    lines[index] = "\t".join(fields)
+    path.write_text("\n".join(lines), encoding="ascii")
+    table = parse_tab_file(path)
+    with pytest.raises(InterpolationError, match="not numeric"):
+        interpolate_block(table.blocks[0], 0, 1.0)
+
+
+def test_no_numeric_age_raises(tmp_path: Path) -> None:
+    """A block with no numeric age raises an interpolation error."""
+    path = _copy_tab(tmp_path)
+    lines = path.read_text(encoding="ascii").splitlines()
+    for index, line in enumerate(lines):
+        if line and line[0].isdigit():
+            lines[index] = "\t" + "\t".join(line.split("\t")[1:])
+    path.write_text("\n".join(lines), encoding="ascii")
+    table = parse_tab_file(path)
+    with pytest.raises(InterpolationError, match="no numeric age"):
+        interpolate_block(table.blocks[0], 0, 1.0)
+
+
+def test_blank_value_interpolates_to_none(tmp_path: Path) -> None:
+    """A blank endpoint yields a blank interpolated value."""
+    path = _copy_tab(tmp_path)
+    lines = path.read_text(encoding="ascii").splitlines()
+    index = next(i for i, line in enumerate(lines) if line.startswith("2\t"))
+    fields = lines[index].split("\t")
+    fields[1] = ""
+    lines[index] = "\t".join(fields)
+    path.write_text("\n".join(lines), encoding="ascii")
+    table = parse_tab_file(path)
+    row = interpolate_block(table.blocks[0], 0, 1.5)
+    assert row.values[0] is None
