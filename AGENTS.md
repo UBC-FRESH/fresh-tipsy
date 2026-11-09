@@ -123,8 +123,6 @@ Record the result in the changelog entry for the milestone.
 
 Add domain guardrails here, each with its reason. Keep shared workflow rules out of this section.
 
-## Project-specific rules
-
 - **Attribution is part of the data contract.** Every table, curve, product
   total, and price series records its BC source, source version, source file,
   SHA256, extraction date, and citation. The original source remains the BC
