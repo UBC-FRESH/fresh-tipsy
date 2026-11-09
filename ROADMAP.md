@@ -15,8 +15,8 @@ after its parent issue exists and the maintainer approves it.
 | P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
 | P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
 | P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | complete |
-| P3 Growth query engine | #18 | `feature/p3-growth-engine` | pr-open |
-| P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
+| P3 Growth query engine | #18 | `feature/p3-growth-engine` | complete |
+| P4 Product recovery and economics | #25 | `feature/p4-product-economics` | pr-open |
 | P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
 | P6 Validation, packaging, and femic integration | TBD | `feature/p6-release-integration` | planned |
 
@@ -112,7 +112,7 @@ Acceptance criteria:
 
 Parent issue: #18
 Branch: `feature/p3-growth-engine`
-Status: pr-open
+Status: complete
 
 Goal: query the extracted TASS/TIPSY yield surfaces with a stable Python API.
 
@@ -131,18 +131,18 @@ Acceptance criteria:
 
 ## Phase 4: Product recovery and economics
 
-Parent issue: TBD
+Parent issue: #25
 Branch: `feature/p4-product-economics`
-Status: planned
+Status: pr-open
 
 Goal: expose TIPSY product columns, residue categories, and FAN$IER-style
 economics through a documented reimplementation.
 
-- [ ] P4.1 Map TIPSY lumber, residue, log-grade, and industrial-log columns
-- [ ] P4.2 Capture or extract golden product outputs from TIPSY/FAN$IER
-- [ ] P4.3 Implement product recovery with mass-balance checks
-- [ ] P4.4 Implement FAN$IER-style prices, costs, NPV, and sensitivity
-- [ ] P4.5 Add product/economics regression and boundary tests
+- [x] P4.1 Map TIPSY lumber, residue, log-grade, and industrial-log columns (#26)
+- [x] P4.2 Capture or extract golden product outputs from TIPSY/FAN$IER (#27)
+- [x] P4.3 Implement product recovery with mass-balance checks (#28)
+- [x] P4.4 Implement FAN$IER-style prices, costs, NPV, and sensitivity (#29)
+- [x] P4.5 Add product/economics regression and boundary tests (#30)
 
 Acceptance criteria:
 

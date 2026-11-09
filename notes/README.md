@@ -45,6 +45,14 @@ issues, or the changelog alone.
   environment variables, and the coverage gate.
 - [`reference/curve-validation.md`](reference/curve-validation.md): P3.4 golden
   query set, tolerances, TIPSY comparisons, and the FEMIC TSR gap.
+- [`reference/product-schema.md`](reference/product-schema.md): P4.1 typed
+  product groups, totals, and mass-balance rules.
+- [`reference/product-goldens.md`](reference/product-goldens.md): P4.2 product
+  golden candidates, checksums, runtime/FAN$IER gaps, and reproduction commands.
+- [`reference/product-recovery.md`](reference/product-recovery.md): P4.3 product
+  aggregation, mass-balance checks, strict failure behavior, and limits.
+- [`reference/economics.md`](reference/economics.md): P4.4 explicit prices,
+  costs, NPV, site value, sensitivity, and validation limits.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

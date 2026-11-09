@@ -18,11 +18,10 @@ NPV / site value
 sensitivity cases
 ```
 
-## What is not yet located
+## What is not yet parsed
 
-The local TIPSY 4.5 install is present. A separate FAN$IER executable and its
-internal data tables have not been located in the same tree.
-
+The local TIPSY 4.5 install and a separate FAN$IER executable are present in
+the recorded source tree. FAN$IER's internal data tables have not been parsed.
 Phase 1 must inventory:
 
 - the FAN$IER install root;
@@ -77,3 +76,11 @@ unavailable       no source or runtime available
 
 FAN$IER economics should remain optional. A growth-only or product-only user
 must not be forced to install or run FAN$IER.
+
+## P4.4 implementation status
+
+The economic formulas and explicit-input layer are implemented in
+[`economics.md`](economics.md). It provides price lookup, revenue, NPV, site
+value, and sensitivity, but embeds no default price or cost table and claims no
+FAN$IER parity. The unparsed FAN$IER tables and missing golden outputs remain
+recording gaps.

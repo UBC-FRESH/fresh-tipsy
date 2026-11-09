@@ -55,6 +55,10 @@ Both files are from TIPSY 4.5, source build `v3.01.13W (Feb 2017 - Jul 2021)`, d
 
 The machine-readable inventory is in [`golden-outputs.csv`](golden-outputs.csv).
 
+Product-specific golden candidates, checksums, and gaps are in
+[`product-goldens.md`](product-goldens.md) and
+[`product-goldens.csv`](product-goldens.csv).
+
 ## What the golden inventory proves
 
 - The `.tab` and `.taf` pair is a valid golden candidate for the growth, stock, mortality, biomass, and product columns.
