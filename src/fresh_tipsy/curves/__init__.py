@@ -22,6 +22,7 @@ from fresh_tipsy.curves.models import (
     QueryResult,
     TableSelection,
 )
+from fresh_tipsy.curves.validation import MetricComparison, compare_metric
 
 __all__ = [
     "METRICS",
@@ -30,6 +31,7 @@ __all__ = [
     "CurveQuery",
     "InterpolatedRow",
     "InterpolationError",
+    "MetricComparison",
     "MetricSpec",
     "MetricUnavailableError",
     "MetricValue",
@@ -41,6 +43,7 @@ __all__ = [
     "UnknownMetricError",
     "UnsupportedQueryError",
     "build_curve_point",
+    "compare_metric",
     "interpolate_block",
     "interpolate_table",
     "select_block",

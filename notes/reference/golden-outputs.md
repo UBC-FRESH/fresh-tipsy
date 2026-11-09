@@ -50,7 +50,7 @@ Both files are from TIPSY 4.5, source build `v3.01.13W (Feb 2017 - Jul 2021)`, d
 | `golden-tipsy-pli0530n00-taf` | source table | TIPSY 4.5 | checksum only | Full table; 151 fields, 16 runs, 276 data rows |
 | `golden-tipsy-pli0530n00-products` | model output | TIPSY 4.5 `.taf` | available in `.taf` | Product columns 2-10 and 68-150; LRF is derived in P4 |
 | `golden-fansier-sample-fns` | sample project | FAN$IER | located, not validated | `Samples/sample.fns`; no economic run captured |
-| `golden-femic-tsr` | golden output | FEMIC | not captured | No FEMIC TSR output was located in this phase |
+| `golden-femic-tsr` | golden output | FEMIC | not captured | P3.4 confirmed no output; the comparison remains a gap |
 | `golden-tipsy-custom-runtime` | model output | TIPSY 4.5 runtime | unavailable | Custom output blocked by the .NET 4.8/Wine failure |
 
 The machine-readable inventory is in [`golden-outputs.csv`](golden-outputs.csv).
