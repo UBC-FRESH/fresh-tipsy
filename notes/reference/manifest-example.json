@@ -1,5 +1,5 @@
 {
-  "manifest_version": "1.1.0",
+  "manifest_version": "1.2.0",
   "generated_at_utc": "2026-11-09T00:00:00Z",
   "extractor": {
     "name": "fresh-tipsy",

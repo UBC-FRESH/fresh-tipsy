@@ -8,7 +8,7 @@ from fresh_tipsy.tables.formats import TAB_COLUMNS, TAF_COLUMNS_REF, TAF_FIELD_C
 from fresh_tipsy.tables.parsers import TIPSYTable
 
 
-def _table_metadata(table: TIPSYTable) -> dict[str, object]:
+def build_table_metadata(table: TIPSYTable) -> dict[str, object]:
     """Build the table metadata block for a manifest entry.
 
     Parameters
@@ -125,7 +125,7 @@ def build_tab_manifest_entry(
             "size_bytes": table.size_bytes,
         },
         "table": table_entry,
-        "metadata": _table_metadata(table),
+        "metadata": build_table_metadata(table),
         "columns": columns,
         "citation": f"Province of British Columbia. TIPSY {model_version}. {relative_path}.",
         "validation": validation,
@@ -209,7 +209,7 @@ def build_taf_manifest_entry(
             "size_bytes": table.size_bytes,
         },
         "table": table_entry,
-        "metadata": _table_metadata(table),
+        "metadata": build_table_metadata(table),
         "columns_ref": TAF_COLUMNS_REF,
         "column_count": TAF_FIELD_COUNT,
         "citation": f"Province of British Columbia. TIPSY {model_version}. {relative_path}.",

@@ -28,7 +28,7 @@ def _manifest_data() -> dict[str, object]:
     """Build a synthetic manifest with one .tab/.taf pair."""
     pair = parse_pair(FIXTURE_TAB)
     return {
-        "manifest_version": "1.1.0",
+        "manifest_version": "1.2.0",
         "generated_at_utc": "2026-11-09T00:00:00Z",
         "extractor": {"name": "fresh-tipsy", "version": "0.1.0", "parser_version": 1},
         "source_install": {"model": "TIPSY", "version": "4.5", "install_env": "TIPSY_INSTALL"},
@@ -85,7 +85,7 @@ def test_catalog_entry_as_dict() -> None:
 
 
 def test_catalog_loads_manifest_example() -> None:
-    """The committed 1.1.0 manifest example loads with its metadata."""
+    """The committed 1.2.0 manifest example loads with its metadata."""
     catalog = TableCatalog.from_manifest(EXAMPLE_MANIFEST)
     assert len(catalog) == 2
     results = catalog.search(
@@ -141,7 +141,7 @@ def test_real_catalog() -> None:
     root = Path(database)
     pair = parse_pair(root / "pli0530N00.tab")
     manifest: dict[str, object] = {
-        "manifest_version": "1.1.0",
+        "manifest_version": "1.2.0",
         "generated_at_utc": "2026-11-09T00:00:00Z",
         "extractor": {"name": "fresh-tipsy", "version": "0.1.0", "parser_version": 1},
         "source_install": {"model": "TIPSY", "version": "4.5", "install_env": "TIPSY_INSTALL"},

@@ -93,7 +93,7 @@ The manifest is a JSON envelope:
 
 ```json
 {
-  "manifest_version": "1.1.0",
+  "manifest_version": "1.2.0",
   "generated_at_utc": "2026-11-09T00:00:00Z",
   "extractor": {"name": "fresh-tipsy", "version": "0.1.0", "parser_version": 1},
   "source_install": {

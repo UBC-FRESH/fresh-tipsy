@@ -12,8 +12,25 @@ from fresh_tipsy.tables.formats import (
     TAF_FIELD_COUNT,
     ColumnSpec,
 )
-from fresh_tipsy.tables.manifest import build_tab_manifest_entry, build_taf_manifest_entry
+from fresh_tipsy.tables.manifest import (
+    build_tab_manifest_entry,
+    build_table_metadata,
+    build_taf_manifest_entry,
+)
 from fresh_tipsy.tables.metadata import FilenameMetadata, parse_filename, slugify
+from fresh_tipsy.tables.normalize import (
+    NormalizationError,
+    NormalizedAssets,
+    NormalizedRow,
+    NormalizedTable,
+    build_normalized_manifest_entries,
+    build_normalized_manifest_entry,
+    normalize_table,
+    verify_round_trip,
+    write_csv,
+    write_normalized_assets,
+    write_parquet,
+)
 from fresh_tipsy.tables.parsers import (
     Header,
     PairTable,
@@ -39,6 +56,10 @@ __all__ = [
     "ColumnSpec",
     "FilenameMetadata",
     "Header",
+    "NormalizationError",
+    "NormalizedAssets",
+    "NormalizedRow",
+    "NormalizedTable",
     "PairTable",
     "RunBlock",
     "RunMarker",
@@ -46,9 +67,13 @@ __all__ = [
     "TableCatalog",
     "TableFormatError",
     "TableRow",
+    "build_normalized_manifest_entries",
+    "build_normalized_manifest_entry",
     "build_tab_manifest_entry",
+    "build_table_metadata",
     "build_taf_manifest_entry",
     "load_columns",
+    "normalize_table",
     "parse_filename",
     "parse_header",
     "parse_pair",
@@ -56,4 +81,8 @@ __all__ = [
     "parse_tab_file",
     "parse_taf_file",
     "slugify",
+    "verify_round_trip",
+    "write_csv",
+    "write_normalized_assets",
+    "write_parquet",
 ]
