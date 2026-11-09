@@ -1,6 +1,6 @@
 [TASS SPECIES]
 DatabaseTitle=Synthetic fixture - not BC data
-File=syn0010N00
+File=syn0010N02
 SpeciesName=Synthetic species
 Source=synthetic
 Code=SYN
@@ -21,4 +21,5 @@ PCT=2
 
 1	0.5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 2	1.0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+2	1.1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
 3	1.5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

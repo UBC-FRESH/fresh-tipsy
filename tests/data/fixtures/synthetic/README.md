@@ -8,13 +8,13 @@ They exist so parser tests can run without a TIPSY install. They exercise:
 - 22 fields per `.tab` data row;
 - 151 fields per `.taf` data row;
 - two `[RUN,...]` blocks;
-- a PCT treatment boundary with `PCT=2`;
+- a PCT treatment boundary with a repeated age-2 row in the `PCT=2` block;
 - LF line endings, while the real source files use CRLF.
 
 | File | Size | SHA-256 |
 | --- | ---: | --- |
-| `syn0010N00.tab` | 511 bytes | `df903e29bab725c3f1c77cb704a46e2c96cead70745ece9f6b64ebd002e1d25f` |
-| `syn0010N00.taf` | 2,059 bytes | `b7d2477f32707c3f6a10982bb460038881487da901934d358d17b6534e94da93` |
+| `syn0010N02.tab` | 557 bytes | `038121b1afa939d16cebce93494d7abffc375dc53b259c649bcd59efc6ca9898` |
+| `syn0010N02.taf` | 2,363 bytes | `4888ec98d0113e2a9ee1ac35ffad63e2a0dbe585f5e933f786c1aad53512786f` |
 
 The header identifies the fixture as `DatabaseTitle=Synthetic fixture - not BC data` and `Source=synthetic`. The species code `SYN` is not a real BC species.
 

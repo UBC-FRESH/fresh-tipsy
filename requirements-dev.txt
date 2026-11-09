@@ -6,4 +6,5 @@ ruff>=0.6
 mypy>=1.11
 numpydoc>=1.7
 hypothesis>=6.100
+jsonschema>=4.20
 pre-commit>=3.7

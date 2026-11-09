@@ -1,11 +1,28 @@
-# Tool configuration for the UBC-FRESH dev workflow. This repository is a seed and
-# documentation kit, not a Python package, so there is no [project] table. Each gate
-# configured here is also a check in the green dashboard (scripts/dashboard.py).
+# Tool configuration for the UBC-FRESH dev workflow and the fresh-tipsy package.
+# Each gate configured here is also a check in the green dashboard
+# (scripts/dashboard.py).
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fresh-tipsy"
+version = "0.1.0"
+description = "A provenance-first Python interoperability layer for BC TIPSY and FAN$IER tables."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "UBC FRESH Lab" }]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-src = ["scripts", "tests"]
+src = ["scripts", "tests", "src"]
 extend-exclude = ["tmp", "_build"]
 
 [tool.ruff.lint]
@@ -24,7 +41,7 @@ python_version = "3.11"
 strict = true
 warn_unreachable = true
 mypy_path = "scripts"
-files = ["scripts", "tests", "docs/conf.py"]
+files = ["scripts", "src", "tests", "docs/conf.py"]
 
 [[tool.mypy.overrides]]
 module = ["numpydoc", "numpydoc.*"]
@@ -32,6 +49,7 @@ ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 addopts = "--cov=scripts --cov-branch --cov-report=term-missing --cov-fail-under=95"
 
 [tool.coverage.run]

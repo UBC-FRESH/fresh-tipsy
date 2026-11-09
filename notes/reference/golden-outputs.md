@@ -21,8 +21,8 @@ under `tests/data/fixtures/synthetic/`.
 
 | File | Size | SHA-256 | Purpose |
 | --- | ---: | --- | --- |
-| `tests/data/fixtures/synthetic/syn0010N00.tab` | 511 bytes | `df903e29bab725c3f1c77cb704a46e2c96cead70745ece9f6b64ebd002e1d25f` | 22-field `.tab`, two run blocks, PCT boundary |
-| `tests/data/fixtures/synthetic/syn0010N00.taf` | 2,059 bytes | `b7d2477f32707c3f6a10982bb460038881487da901934d358d17b6534e94da93` | 151-field `.taf`, two run blocks, PCT boundary |
+| `tests/data/fixtures/synthetic/syn0010N02.tab` | 557 bytes | `038121b1afa939d16cebce93494d7abffc375dc53b259c649bcd59efc6ca9898` | 22-field `.tab`, two run blocks, PCT boundary |
+| `tests/data/fixtures/synthetic/syn0010N02.taf` | 2,363 bytes | `4888ec98d0113e2a9ee1ac35ffad63e2a0dbe585f5e933f786c1aad53512786f` | 151-field `.taf`, two run blocks, PCT boundary |
 
 - The fixtures are synthetic, not BC data, and not for golden validation.
 - They use LF line endings; the real source files use CRLF. The parser must
