@@ -500,7 +500,11 @@ def _parse_entry(asset: dict[str, object], index: int) -> CatalogEntry:
     metadata = _mapping(asset.get("metadata"), f"{label}.metadata")
     validation = _mapping(asset.get("validation"), f"{label}.validation")
     table_format = _string(table, "format", f"{label}.table")
-    columns = load_columns(table_format)
+    try:
+        columns = load_columns(table_format)
+    except ValueError as exc:
+        message = f"{label}.table.format is unsupported: {table_format!r}"
+        raise CatalogError(message) from exc
     field_count = _int(table, "field_count", f"{label}.table")
     if field_count != len(columns):
         message = f"{label}.table.field_count {field_count} does not match {len(columns)} columns"

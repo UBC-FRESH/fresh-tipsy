@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 from typer.testing import CliRunner
 
-from fresh_tipsy.cli import app
+from fresh_tipsy.cli import app, main
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = ROOT / "tests" / "data" / "fixtures" / "synthetic"
@@ -252,3 +252,150 @@ def test_real_cli_extract(tmp_path: Path) -> None:
     catalog_summary = json.loads(catalog_result.stdout)
     assert catalog_summary["count"] == 2
     assert {table["format"] for table in catalog_summary["tables"]} == {"tab", "taf"}
+
+
+def test_extract_non_json(tmp_path: Path) -> None:
+    """Extract prints a human-readable summary."""
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "extract", "--source", str(FIXTURES), "--out", str(tmp_path / "out")],
+    )
+    assert result.exit_code == 0, result.output
+    assert "Extracted 1 table pairs" in result.stdout
+
+
+def test_extract_no_tab_files(tmp_path: Path) -> None:
+    """An empty source directory fails."""
+    source = tmp_path / "empty"
+    source.mkdir()
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "extract", "--source", str(source), "--out", str(tmp_path / "out")],
+    )
+    assert result.exit_code == 1
+    assert "no .tab files" in result.output
+
+
+def test_extract_pair_warning_fails(tmp_path: Path) -> None:
+    """A structurally broken pair fails extraction."""
+    source = tmp_path / "source"
+    source.mkdir()
+    for suffix in ("tab", "taf"):
+        shutil.copyfile(FIXTURES / f"syn0010N02.{suffix}", source / f"syn0010N02.{suffix}")
+    tab = source / "syn0010N02.tab"
+    tab.write_text(
+        tab.read_text(encoding="ascii").replace("File=syn0010N02", "File=other"),
+        encoding="ascii",
+    )
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "extract", "--source", str(source), "--out", str(tmp_path / "out")],
+    )
+    assert result.exit_code == 1
+    assert "headers differ" in result.output
+
+
+def test_extract_records_age_grid_gap(tmp_path: Path) -> None:
+    """A pair with different age grids is extracted with a gap record."""
+    source = tmp_path / "source"
+    source.mkdir()
+    for suffix in ("tab", "taf"):
+        shutil.copyfile(FIXTURES / f"syn0010N02.{suffix}", source / f"syn0010N02.{suffix}")
+    taf = source / "syn0010N02.taf"
+    lines = taf.read_text(encoding="ascii").splitlines()
+    index = next(i for i, line in enumerate(lines) if line.startswith("1\t"))
+    fields = lines[index].split("\t")
+    fields[0] = "9"
+    lines[index] = "\t".join(fields)
+    taf.write_text("\n".join(lines), encoding="ascii")
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        [
+            "db",
+            "extract",
+            "--source",
+            str(source),
+            "--out",
+            str(tmp_path / "out"),
+            "--json",
+        ],
+    )
+    assert result.exit_code == 0, result.output
+    summary = json.loads(result.stdout)
+    assert summary["age_mismatch_pairs"] == 1
+    assert summary["gaps"][0]["id"] == "taf-tab-age-grid-mismatch"
+
+
+def test_validate_non_json(tmp_path: Path) -> None:
+    """Validate prints a human-readable success summary."""
+    manifest_path = _extract(tmp_path)
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "validate", "--catalog", str(manifest_path)],
+    )
+    assert result.exit_code == 0, result.output
+    assert "Manifest valid." in result.stdout
+
+
+def test_validate_missing_manifest(tmp_path: Path) -> None:
+    """A missing manifest fails validation."""
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "validate", "--catalog", str(tmp_path / "missing.json")],
+    )
+    assert result.exit_code == 1
+    assert "does not exist" in result.output
+
+
+def test_catalog_non_json(tmp_path: Path) -> None:
+    """Catalog prints matching rows and an explicit empty result."""
+    manifest_path = _extract(tmp_path)
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "catalog", "--catalog", str(manifest_path), "--species", "SYN"],
+    )
+    assert result.exit_code == 0, result.output
+    assert "syn0010n02" in result.stdout
+    empty = runner.invoke(
+        app,
+        ["db", "catalog", "--catalog", str(manifest_path), "--species", "PLI"],
+    )
+    assert empty.exit_code == 0
+    assert "No tables matched." in empty.stdout
+
+
+def test_catalog_missing_manifest(tmp_path: Path) -> None:
+    """A missing manifest fails catalog loading."""
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "catalog", "--catalog", str(tmp_path / "missing.json")],
+    )
+    assert result.exit_code == 1
+    assert "does not exist" in result.output
+
+
+def test_manifest_validation_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A manifest validation error fails extraction."""
+    monkeypatch.setattr("fresh_tipsy.cli.validate_manifest_data", lambda _: ["boom"])
+    runner = CliRunner()
+    result = runner.invoke(
+        app,
+        ["db", "extract", "--source", str(FIXTURES), "--out", str(tmp_path / "out")],
+    )
+    assert result.exit_code == 1
+    assert "manifest validation failed" in result.output
+
+
+def test_main_help(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The module entry point runs the Typer app."""
+    monkeypatch.setattr("sys.argv", ["fresh-tipsy", "--help"])
+    with pytest.raises(SystemExit):
+        main()
