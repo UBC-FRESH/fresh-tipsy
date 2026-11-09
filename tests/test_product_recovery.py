@@ -137,6 +137,7 @@ def test_recover_products_groups_and_totals(tmp_path: Path) -> None:
     recovery = _engine(tmp_path).products(_query())
     assert recovery.age == 5.0
     assert recovery.scenario == "untreated"
+    assert recovery.species_code == "SYN"
     assert recovery.provenance.evidence == "model_output"
     assert len(recovery.lumber_2_or_better) == 4
     assert len(recovery.residues) == 5

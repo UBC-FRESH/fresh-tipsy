@@ -51,6 +51,8 @@ issues, or the changelog alone.
   golden candidates, checksums, runtime/FAN$IER gaps, and reproduction commands.
 - [`reference/product-recovery.md`](reference/product-recovery.md): P4.3 product
   aggregation, mass-balance checks, strict failure behavior, and limits.
+- [`reference/economics.md`](reference/economics.md): P4.4 explicit prices,
+  costs, NPV, site value, sensitivity, and validation limits.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

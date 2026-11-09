@@ -146,6 +146,8 @@ class ProductRecovery:
         Query age.
     scenario : str
         Scenario label.
+    species_code : str
+        Uppercase source species code.
     provenance : Provenance
         Source provenance.
     lumber_2_or_better : tuple of ProductQuantity
@@ -168,6 +170,7 @@ class ProductRecovery:
 
     age: float
     scenario: str
+    species_code: str
     provenance: Provenance
     lumber_2_or_better: tuple[ProductQuantity, ...]
     residues: tuple[ProductQuantity, ...]
@@ -189,6 +192,7 @@ class ProductRecovery:
         return {
             "age": self.age,
             "scenario": self.scenario,
+            "species_code": self.species_code,
             "provenance": self.provenance.as_dict(),
             "lumber_2_or_better": [item.as_dict() for item in self.lumber_2_or_better],
             "residues": [item.as_dict() for item in self.residues],
@@ -415,6 +419,7 @@ def recover_products(result: QueryResult, *, strict: bool = True) -> ProductReco
     return ProductRecovery(
         age=result.row.age,
         scenario=result.row.scenario,
+        species_code=result.selection.entry.species_code,
         provenance=result.selection.provenance,
         lumber_2_or_better=lumber_2_or_better,
         residues=groups[ProductGroup.RESIDUE],
