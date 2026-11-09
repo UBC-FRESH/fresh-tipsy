@@ -15,7 +15,7 @@ after its parent issue exists and the maintainer approves it.
 | P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
 | P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
 | P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | complete |
-| P3 Growth query engine | #18 | `feature/p3-growth-engine` | active |
+| P3 Growth query engine | #18 | `feature/p3-growth-engine` | pr-open |
 | P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
 | P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
 | P6 Validation, packaging, and femic integration | TBD | `feature/p6-release-integration` | planned |
@@ -112,7 +112,7 @@ Acceptance criteria:
 
 Parent issue: #18
 Branch: `feature/p3-growth-engine`
-Status: active
+Status: pr-open
 
 Goal: query the extracted TASS/TIPSY yield surfaces with a stable Python API.
 
