@@ -1,9 +1,10 @@
 id,kind,filename,sha256,size_bytes,publication,source_version,citation,notes
-pkg-wheel,package,fresh_tipsy-0.1.0-py3-none-any.whl,8d56ffd7c416a5fa66065999ebee2422c7171b157eaa2684b29e0c6246b0494c,91796,published,0.1.0,UBC FRESH Lab,"Built wheel; requires release/tag approval."
-pkg-sdist,package,fresh_tipsy-0.1.0.tar.gz,029398a43870d1e1637ba6570fd92b90d153d6052a31157541cfb8cb77bfc471,125513,published,0.1.0,UBC FRESH Lab,"Built sdist; requires release/tag approval."
+pkg-wheel,package,fresh_tipsy-0.1.0-py3-none-any.whl,24cb9f343cd463eec7f70d139dd592405575561586247add4a854affec554055,91811,published,0.1.0,UBC FRESH Lab,"Built wheel; requires release/tag approval."
+pkg-sdist,package,fresh_tipsy-0.1.0.tar.gz,ecffe98b017b154a94ac55dcca6f3f22a6a3db9685817ae7af605115e2097af5,125562,published,0.1.0,UBC FRESH Lab,"Built sdist; requires release/tag approval."
 data-manifest-example,manifest,notes/reference/manifest-example.json,c8adec1cfb6d111b4ec5a68bb2a4c38d5b71bb4d71aed1727df6cdfdebcdc976,9189,repository,1.2.0,Province of British Columbia,"Example pair manifest; validates against the packaged schema."
 table-manifest,manifest,notes/reference/tipsy-table-manifest.csv,5e785a5c8d604e544752168e75a8f7994a0371586279a9f0aacd3658578bad03,50852,repository,4.5,Province of British Columbia,"192 source tables with SHA-256; no table bodies."
 file-manifest,manifest,notes/reference/tipsy-file-manifest.csv,e147f51d08e43e2ddd9a3f610881e191d6a7a3fd5c5257e47e3ed69fe592ebfa,8652,repository,4.5,Province of British Columbia,"Non-database TIPSY files with SHA-256."
 fansier-file-manifest,manifest,notes/reference/fansier-file-manifest.csv,9813fcb6a410f077b4e5d7f640d4196535f748e41e68e5ec28d91518e1dba07d,829,repository,unreported,Province of British Columbia,"Located FAN$IER files; no price or cost table parsed."
 raw-tipsy-tables,raw,Database/*.tab|Database/*.taf,,,withheld,4.5,Province of British Columbia,"Redistribution terms unclear; rebuild from a local licensed install."
 normalized-tipsy,normalized,tables/tipsy/**,,,withheld,4.5,Province of British Columbia,"Withheld with the source tables; rebuild with db extract and the parquet extra."
+docs-html,docs,fresh-tipsy-0.1.0-docs.zip,d7f1cb384e954e51fd044681583676bc2499091d0c8d121bdb16f52c5de31e9d,7777397,published,0.1.0,UBC FRESH Lab,"Sphinx HTML docs; GitHub Pages unavailable on the current private plan."

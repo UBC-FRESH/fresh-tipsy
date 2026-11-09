@@ -52,8 +52,11 @@ Scope: gaps that must remain visible in release notes, API responses, and citati
   multi-line scenarios.
 - **Assistant**: deterministic tools and prompt guidance only; no live model
   adapter, conversation persistence, or prompt-evaluation suite.
-- **Release assets**: wheel and sdist are published in the `v0.1.0` release;
-  raw and normalized TIPSY assets remain withheld.
+- **Release assets**: wheel, sdist, and HTML docs are published in the `v0.1.0`
+  release; raw and normalized TIPSY assets remain withheld.
+- **Docs hosting**: GitHub Pages is unavailable on the current private-repository
+  plan. The docs workflow builds successfully and skips deployment; HTML is
+  attached to the release.
 
 ## Data and metrics
 

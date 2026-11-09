@@ -21,8 +21,8 @@ is not a TASS rewrite and does not claim authorship of the BC models or data.
 - Server-rendered FRESH-style catalog, curve, product, and economics UI.
 - Deterministic assistant tools and provenance-first prompt guidance.
 - Optional FEMIC adapter with package-version and data-manifest provenance.
-- Wheel, sdist, package-data checks, release-asset validation, and a checksummed
-  release asset register.
+- Wheel, sdist, Sphinx HTML docs archive, package-data checks, release-asset
+  validation, and a checksummed release asset register.
 
 ## Source versions
 
@@ -68,6 +68,7 @@ product, and economics commands. `db extract` writes Parquet and requires the
 - Four-species TIPSY golden regression passes when `TIPSY_DATABASE` is set.
 - Wheel and sdist build and install in an isolated environment.
 - Web, API, CLI, and assistant parity tests pass.
+- Sphinx docs build with warnings as errors; GitHub Pages is unavailable on the private plan, so HTML is attached to the release.
 - No raw TIPSY tables or normalized assets are redistributed.
 
 ## Known gaps

@@ -15,8 +15,8 @@ Artifacts:
 
 | Artifact | SHA-256 |
 | --- | --- |
-| `fresh_tipsy-0.1.0-py3-none-any.whl` | `8d56ffd7c416a5fa66065999ebee2422c7171b157eaa2684b29e0c6246b0494c` |
-| `fresh_tipsy-0.1.0.tar.gz` | `029398a43870d1e1637ba6570fd92b90d153d6052a31157541cfb8cb77bfc471` |
+| `fresh_tipsy-0.1.0-py3-none-any.whl` | `24cb9f343cd463eec7f70d139dd592405575561586247add4a854affec554055` |
+| `fresh_tipsy-0.1.0.tar.gz` | `ecffe98b017b154a94ac55dcca6f3f22a6a3db9685817ae7af605115e2097af5` |
 
 The build emits no license deprecation warning after changing `project.license`
 to the SPDX string `MIT`.

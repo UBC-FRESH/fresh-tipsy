@@ -27,6 +27,7 @@ records its build checksum.
 | --- | --- | --- |
 | Wheel `fresh_tipsy-0.1.0-py3-none-any.whl` | published | Built and smoke-tested |
 | Sdist `fresh_tipsy-0.1.0.tar.gz` | published | Built and smoke-tested |
+| Docs `fresh-tipsy-0.1.0-docs.zip` | published | Sphinx HTML; Pages deploy unavailable on the private plan |
 | Example data manifest | repository | Schema 1.2.0; validates against the packaged schema |
 | Table/file/FAN$IER manifests | repository | Checksums only; no raw table bodies |
 | Raw TIPSY tables | withheld | Rebuild from a local install |
@@ -41,8 +42,8 @@ proves schema and provenance behavior without redistributing data.
 Package checksums from the P6.2 build:
 
 ```text
-8d56ffd7c416a5fa66065999ebee2422c7171b157eaa2684b29e0c6246b0494c  fresh_tipsy-0.1.0-py3-none-any.whl
-029398a43870d1e1637ba6570fd92b90d153d6052a31157541cfb8cb77bfc471  fresh_tipsy-0.1.0.tar.gz
+24cb9f343cd463eec7f70d139dd592405575561586247add4a854affec554055  fresh_tipsy-0.1.0-py3-none-any.whl
+ecffe98b017b154a94ac55dcca6f3f22a6a3db9685817ae7af605115e2097af5  fresh_tipsy-0.1.0.tar.gz
 ```
 
 Repository manifest checksums are in `release-assets.csv`.
@@ -76,5 +77,7 @@ A user must obtain the source tables under their own licence terms.
 ## Release action
 
 Published as tag `v0.1.0` on 2026-11-09. The tag and release contain the wheel,
-sdist, checksums, and release notes. Raw and normalized TIPSY assets remain
+sdist, docs archive, checksums, and release notes. GitHub Pages is unavailable on
+the current private-repository plan, so the docs workflow builds successfully
+and the HTML is attached to the release. Raw and normalized TIPSY assets remain
 withheld.

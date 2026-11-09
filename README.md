@@ -59,8 +59,8 @@ Extras:
 - The minimal install supports parsing, catalog, curve, product, and economics
   commands that do not need Parquet or the API.
 
-Download the wheel or sdist from the 0.1.0 GitHub release. Build evidence is in
-[`notes/reference/package-build.md`](notes/reference/package-build.md).
+Download the wheel, sdist, or HTML docs archive from the 0.1.0 GitHub release.
+Build evidence is in [`notes/reference/package-build.md`](notes/reference/package-build.md).
 
 ## Quick start
 
