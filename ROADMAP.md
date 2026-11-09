@@ -12,8 +12,8 @@ after its parent issue exists and the maintainer approves it.
 
 | Phase | Parent issue | Branch | Status |
 | --- | --- | --- | --- |
-| P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | pr-open |
-| P1 Source inventory and provenance | TBD | `feature/p1-source-inventory` | planned |
+| P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
+| P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | pr-open |
 | P2 Table extraction and catalog | TBD | `feature/p2-table-extraction` | planned |
 | P3 Growth query engine | TBD | `feature/p3-growth-engine` | planned |
 | P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
@@ -44,7 +44,7 @@ after its parent issue exists and the maintainer approves it.
 
 Parent issue: #1
 Branch: `feature/p0-bootstrap`
-Status: pr-open
+Status: complete
 
 Goal: make the repository's public purpose, attribution, and agent contract
 unambiguous before code lands.
@@ -63,18 +63,18 @@ Acceptance criteria:
 
 ## Phase 1: Source inventory and provenance
 
-Parent issue: TBD
+Parent issue: #3
 Branch: `feature/p1-source-inventory`
-Status: planned
+Status: pr-open
 
 Goal: locate every source table and output schema, then freeze the provenance
 contract before extraction begins.
 
-- [ ] P1.1 Inventory TIPSY and FAN$IER installs, databases, reports, and samples
-- [ ] P1.2 Decode `.tab` and `.taf` grammar, filename fields, and header metadata
-- [ ] P1.3 Map `OutputColumns.txt`, report templates, and output columns to tables
-- [ ] P1.4 Write the data-provenance contract and source-citation manifest
-- [ ] P1.5 Capture tiny fixtures and a golden output inventory
+- [x] P1.1 Inventory TIPSY and FAN$IER installs, databases, reports, and samples (#4)
+- [x] P1.2 Decode `.tab` and `.taf` grammar, filename fields, and header metadata (#5)
+- [x] P1.3 Map `OutputColumns.txt`, report templates, and output columns to tables (#6)
+- [x] P1.4 Write the data-provenance contract and source-citation manifest (#7)
+- [x] P1.5 Capture tiny fixtures and a golden output inventory (#8)
 
 Acceptance criteria:
 

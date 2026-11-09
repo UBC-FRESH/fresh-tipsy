@@ -1,0 +1,7 @@
+id,kind,source_model,source_version,relative_path,sha256,size_bytes,status,redistribution,reproduction,notes
+golden-tipsy-pli0530n00-tab,source_table,TIPSY,4.5,Database/pli0530N00.tab,55bfaa37745819e66d41a66349b72617b0a094e1041a11070f9b641c3b3827aa,27317,checksum_only,unclear,"sha256sum ""$TIPSY_DATABASE/pli0530N00.tab""",Candidate compact table; source data is not committed.
+golden-tipsy-pli0530n00-taf,source_table,TIPSY,4.5,Database/pli0530N00.taf,569d57639c86b7360b7a577599c37688b38c2060a8f8202ed82548de7238581d,124361,checksum_only,unclear,"sha256sum ""$TIPSY_DATABASE/pli0530N00.taf""",Candidate full table; includes product and grade columns.
+golden-tipsy-pli0530n00-products,model_output,TIPSY,4.5,Database/pli0530N00.taf,569d57639c86b7360b7a577599c37688b38c2060a8f8202ed82548de7238581d,124361,available_in_taf,unclear,Read .taf columns 2-10 and 68-150; derive LRF in P4.,Product and grade fields are precomputed TASS/SYLVER model output.
+golden-fansier-sample-fns,fixture,FANSIER,unreported,Samples/sample.fns,29b88b26f6f271a09384acdfec84f1b1438866607c62c4ecd1a566dee6793eb7,908975,located_not_validated,unclear,"sha256sum ""$FANSIER_INSTALL/Samples/sample.fns""",Sample project; no FAN$IER economic run has been captured.
+golden-femic-tsr,golden_output,FEMIC,unreported,,,,not_captured,unclear,,A FEMIC TSR output has not been located in this phase.
+golden-tipsy-custom-runtime,model_output,TIPSY,4.5,,,,unavailable,unclear,,Custom runtime output is blocked by the .NET Framework 4.8/Wine failure.
