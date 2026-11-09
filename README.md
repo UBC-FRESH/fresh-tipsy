@@ -13,9 +13,9 @@ Repository: <https://github.com/UBC-FRESH/fresh-tipsy>
 
 ## Status
 
-Phase 0 (bootstrap and attribution) is planned. `ROADMAP.md` lists the phases,
-and GitHub issues carry the live status. The first working milestone is the
-table extraction and catalog layer, not a TASS rewrite.
+Phase 0 (bootstrap and attribution) is active as issue #1. `ROADMAP.md` lists
+the phases, and GitHub issues carry the live status. The first working milestone
+is the table extraction and catalog layer, not a TASS rewrite.
 
 ## What this is
 
