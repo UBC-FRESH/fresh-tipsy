@@ -44,6 +44,10 @@ jobs:
 
   deploy:
     needs: build
+    # GitHub Pages is not available on the current private-repository plan.
+    # Build always runs; deploy starts automatically when the repository is
+    # public or the plan supports Pages.
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-24.04
     environment:
       name: github-pages

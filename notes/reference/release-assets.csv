@@ -1,6 +1,6 @@
 id,kind,filename,sha256,size_bytes,publication,source_version,citation,notes
-pkg-wheel,package,fresh_tipsy-0.1.0-py3-none-any.whl,5570bdb7cf9a8a18f35b46b96b085a80b6cef5114ae1aefa0650eb5f452a7a05,88548,release_pending,0.1.0,UBC FRESH Lab,"Built wheel; requires release/tag approval."
-pkg-sdist,package,fresh_tipsy-0.1.0.tar.gz,82af94eea106ea2aab95428925831e787689290296ec1d9c2345811b5ca5bdf0,120473,release_pending,0.1.0,UBC FRESH Lab,"Built sdist; requires release/tag approval."
+pkg-wheel,package,fresh_tipsy-0.1.0-py3-none-any.whl,8d56ffd7c416a5fa66065999ebee2422c7171b157eaa2684b29e0c6246b0494c,91796,published,0.1.0,UBC FRESH Lab,"Built wheel; requires release/tag approval."
+pkg-sdist,package,fresh_tipsy-0.1.0.tar.gz,029398a43870d1e1637ba6570fd92b90d153d6052a31157541cfb8cb77bfc471,125513,published,0.1.0,UBC FRESH Lab,"Built sdist; requires release/tag approval."
 data-manifest-example,manifest,notes/reference/manifest-example.json,c8adec1cfb6d111b4ec5a68bb2a4c38d5b71bb4d71aed1727df6cdfdebcdc976,9189,repository,1.2.0,Province of British Columbia,"Example pair manifest; validates against the packaged schema."
 table-manifest,manifest,notes/reference/tipsy-table-manifest.csv,5e785a5c8d604e544752168e75a8f7994a0371586279a9f0aacd3658578bad03,50852,repository,4.5,Province of British Columbia,"192 source tables with SHA-256; no table bodies."
 file-manifest,manifest,notes/reference/tipsy-file-manifest.csv,e147f51d08e43e2ddd9a3f610881e191d6a7a3fd5c5257e47e3ed69fe592ebfa,8652,repository,4.5,Province of British Columbia,"Non-database TIPSY files with SHA-256."

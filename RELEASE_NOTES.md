@@ -1,7 +1,7 @@
 # fresh-tipsy 0.1.0
 
 Release date: 2026-11-09
-Status: prepared for release; not tagged or published
+Status: released 2026-11-09
 
 `fresh-tipsy` is a provenance-first Python interoperability layer for BC TIPSY
 and FAN$IER data tables. This release is a reimplementation and query layer; it
@@ -49,11 +49,12 @@ grade values are `model_output`, never measured field grades.
 
 ## Install
 
-When published:
+Download the wheel or sdist from the 0.1.0 GitHub release:
 
 ```bash
-pip install "fresh-tipsy[api]"       # CLI, API, and web UI
-pip install "fresh-tipsy[parquet]"   # Parquet normalization and db extract
+pip install ./fresh_tipsy-0.1.0-py3-none-any.whl
+pip install fastapi uvicorn jinja2   # API and web UI
+pip install pyarrow                  # Parquet normalization and db extract
 ```
 
 The minimal install includes the CLI's core `db validate`/`catalog` and curve,
@@ -85,5 +86,5 @@ relicensed by this package.
 
 ## Release action
 
-The wheel and sdist are prepared but not published. Creating a tag, GitHub
-release, or upload requires separate approval.
+Published as tag `v0.1.0` on 2026-11-09. Raw and normalized TIPSY assets remain
+withheld.

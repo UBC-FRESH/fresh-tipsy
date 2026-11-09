@@ -1,7 +1,7 @@
 # Known gaps at 0.1.0
 
 Date: 2026-11-09
-Status: release preparation, not published
+Status: released 0.1.0
 Scope: gaps that must remain visible in release notes, API responses, and citations
 
 ## Source and runtime
@@ -52,8 +52,8 @@ Scope: gaps that must remain visible in release notes, API responses, and citati
   multi-line scenarios.
 - **Assistant**: deterministic tools and prompt guidance only; no live model
   adapter, conversation persistence, or prompt-evaluation suite.
-- **Release assets**: wheel and sdist are prepared and checksummed but not
-  published. Creating a tag, GitHub release, or upload needs separate approval.
+- **Release assets**: wheel and sdist are published in the `v0.1.0` release;
+  raw and normalized TIPSY assets remain withheld.
 
 ## Data and metrics
 

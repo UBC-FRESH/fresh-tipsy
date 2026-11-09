@@ -13,7 +13,7 @@ Repository: <https://github.com/UBC-FRESH/fresh-tipsy>
 
 ## Status
 
-Version 0.1.0 is prepared for release but not tagged, published, or uploaded.
+Version 0.1.0 was released on 2026-11-09.
 `ROADMAP.md` and GitHub issues carry the live status. The package is an
 interoperability layer over precomputed TASS/TIPSY tables, not a TASS rewrite.
 
@@ -59,7 +59,7 @@ Extras:
 - The minimal install supports parsing, catalog, curve, product, and economics
   commands that do not need Parquet or the API.
 
-A wheel and sdist are prepared in the release process. See
+Download the wheel or sdist from the 0.1.0 GitHub release. Build evidence is in
 [`notes/reference/package-build.md`](notes/reference/package-build.md).
 
 ## Quick start
