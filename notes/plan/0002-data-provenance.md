@@ -1,7 +1,7 @@
 # Data and provenance contract
 
 Date: 2026-11-09
-Status: draft, binding once Phase 1 closes
+Status: binding as of P1.4 (2026-11-09)
 
 ## Principles
 
@@ -82,35 +82,68 @@ FAN$IER documentation and is labelled `reimplemented`.
 
 ## Manifest schema
 
-Each extracted asset gets one manifest entry:
+The contract is binding. The machine-readable schema is
+[`../reference/manifest-schema.json`](../reference/manifest-schema.json), the
+human-readable contract is
+[`../reference/manifest-schema.md`](../reference/manifest-schema.md), and a
+validated example is
+[`../reference/manifest-example.json`](../reference/manifest-example.json).
 
-```yaml
-id: tipsy-pli0530n00
-kind: tipsy_database_table
-source_model: TIPSY
-source_version: "4.5"
-source_file: "Database/pli0530N00.tab"
-source_sha256: "<sha256>"
-extracted_at_utc: "2026-11-09T00:00:00Z"
-extractor: "fresh-tipsy 0.1.0"
-parser_version: 1
-species_code: PLI
-species_name: Lodgepole Pine
-site_from: 5
-site_to: 30
-pnc: N
-stock_height_m: 0.13
-columns:
-  - age
-  - site_height_m
-  - volume_gross_m3_ha
-row_count: 13
-units:
-  age: years
-  volume_gross_m3_ha: m3/ha
-citation: "Province of British Columbia. TIPSY 4.5 database."
-notes: ""
+The manifest is a JSON envelope:
+
+```json
+{
+  "manifest_version": "1.0.0",
+  "generated_at_utc": "2026-11-09T00:00:00Z",
+  "extractor": {"name": "fresh-tipsy", "version": "0.1.0", "parser_version": 1},
+  "source_install": {
+    "model": "TIPSY",
+    "version": "4.5",
+    "database_title": "Ministry Standard Database, February 2022",
+    "install_env": "TIPSY_INSTALL",
+    "database_env": "TIPSY_DATABASE"
+  },
+  "assets": [],
+  "gaps": []
+}
 ```
+
+Each asset records:
+
+- `id`, `kind`, `format`, `role`, `evidence`, and `publication`.
+- `source`: model, version, build, database title, relative path, SHA-256, size.
+- `table`: pair ID, format, field count, data rows, run count, age range, treatments.
+- `columns` or `columns_ref`: positions, names, units, evidence, confidence.
+- `citation` and `validation`: status, checks, warnings.
+- `notes` for caveats.
+
+Each gap records an unavailable source, runtime, model, or schema, with a reason
+and the phase that needs it. A gap is never filled with an invented value.
+
+The `.tab` schema is the 22-row `Base` category; the `.taf` schema is the 151-row
+`Full` category. Product and grade columns carry `model_output`. Growth and
+stock columns carry `source_table`. Derived columns carry `reimplemented`.
+
+### Manifest validation gates
+
+P2 fails when any of these checks fails:
+
+1. The manifest validates against the schema.
+2. Asset and pair IDs are unique; every `.tab`/`.taf` pair is complete.
+3. Source paths are relative, with no absolute path or `..`.
+4. Every SHA-256 and size matches a fresh recomputation.
+5. `.tab` rows have 22 fields; `.taf` rows have 151; zero exceptions.
+6. Row counts, run counts, and age ranges match a fresh parse.
+7. Pair headers, run counts, and row counts match.
+8. Column positions are contiguous and every column has a name, unit, evidence,
+   and confidence.
+9. Raw sources are `manifest_only`; no raw table is committed.
+10. Every citation names the BC source, version, and relative path.
+11. No personal path, credential, or secret-shaped string appears.
+12. A failed runtime or missing source is a gap, not an invented value.
+
+The full rule list is in
+[`../reference/manifest-schema.md`](../reference/manifest-schema.md).
 
 ## Asset layout
 

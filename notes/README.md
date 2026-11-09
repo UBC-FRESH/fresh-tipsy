@@ -31,6 +31,12 @@ issues, or the changelog alone.
   classification with class, source, evidence, and confidence.
 - [`reference/report-column-map.csv`](reference/report-column-map.csv): 210
   report-column references resolved to `OutputColumns.txt` names.
+- [`reference/manifest-schema.md`](reference/manifest-schema.md): P1.4 binding
+  manifest contract and P2 validation gates.
+- [`reference/manifest-schema.json`](reference/manifest-schema.json): JSON Schema
+  for the data manifest.
+- [`reference/manifest-example.json`](reference/manifest-example.json): validated
+  manifest example for a TIPSY `.tab`/`.taf` pair.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

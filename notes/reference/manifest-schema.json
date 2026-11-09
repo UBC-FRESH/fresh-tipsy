@@ -1,0 +1,390 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/UBC-FRESH/fresh-tipsy/main/notes/reference/manifest-schema.json",
+  "title": "fresh-tipsy data manifest",
+  "description": "Provenance manifest for extracted TIPSY and FAN$IER tables, fixtures, normalized assets, and recorded gaps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "generated_at_utc",
+    "extractor",
+    "source_install",
+    "assets"
+  ],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the manifest schema."
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp with a trailing Z."
+    },
+    "extractor": {
+      "$ref": "#/$defs/extractor"
+    },
+    "source_install": {
+      "$ref": "#/$defs/source_install"
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gap"
+      }
+    }
+  },
+  "$defs": {
+    "extractor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "parser_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Command or entry point that produced the assets."
+        }
+      }
+    },
+    "source_install": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "version", "install_env"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["TIPSY", "FANSIER"]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_title": {
+          "type": "string"
+        },
+        "install_env": {
+          "type": "string",
+          "enum": ["TIPSY_INSTALL", "FANSIER_INSTALL"]
+        },
+        "database_env": {
+          "type": "string",
+          "enum": ["TIPSY_DATABASE"]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "version", "relative_path", "sha256", "size_bytes"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["TIPSY", "FANSIER"]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build": {
+          "type": "string",
+          "description": "TASS/SYLVER build or source string from the table header."
+        },
+        "database_title": {
+          "type": "string"
+        },
+        "relative_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*\\.\\./).+$",
+          "description": "Path relative to the source install. No absolute or parent-traversal paths."
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "field_count", "data_rows", "run_count"],
+      "properties": {
+        "pair_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["tab", "taf"]
+        },
+        "field_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "data_rows": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "run_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "first_age": {
+          "type": "number"
+        },
+        "last_age": {
+          "type": "number"
+        },
+        "field_count_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "treatments": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["PCT", "CT"]
+          }
+        }
+      }
+    },
+    "column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "name", "units", "evidence", "confidence"],
+      "properties": {
+        "position": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "units": {
+          "type": "string"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low"]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "checks"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "warn", "fail"]
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "string",
+      "enum": [
+        "source_table",
+        "model_output",
+        "reimplemented",
+        "validated_against",
+        "experimental",
+        "unavailable"
+      ]
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "format",
+        "role",
+        "evidence",
+        "publication",
+        "source",
+        "citation",
+        "validation"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "tipsy_table",
+            "fansier_file",
+            "normalized_table",
+            "fixture",
+            "golden_output",
+            "schema",
+            "report_template",
+            "support_file",
+            "binary",
+            "documentation"
+          ]
+        },
+        "format": {
+          "type": "string",
+          "enum": ["tab", "taf", "parquet", "csv", "json", "txt", "rpt", "tcl", "pdf", "dbf", "shp", "exe", "dll", "rgm", "tip", "other"]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "source_table",
+            "release_asset",
+            "fixture",
+            "golden_output",
+            "schema",
+            "report_template",
+            "support_file"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "publication": {
+          "type": "string",
+          "enum": ["commit", "release_asset", "manifest_only"]
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "table": {
+          "$ref": "#/$defs/table"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/column"
+          }
+        },
+        "columns_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "column_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "citation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validation": {
+          "$ref": "#/$defs/validation"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "tipsy_table"
+              }
+            },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["table"],
+            "anyOf": [
+              {
+                "required": ["columns"]
+              },
+              {
+                "required": ["columns_ref"]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "gap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "status", "reason"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["unavailable_source", "model_gap", "runtime_gap", "schema_gap"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["unavailable", "blocked", "planned"]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_for": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

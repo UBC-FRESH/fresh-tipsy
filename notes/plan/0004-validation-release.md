@@ -7,6 +7,7 @@ Status: draft
 
 ### Table extraction
 
+- The manifest validates against `notes/reference/manifest-schema.json`.
 - Raw file SHA256 matches the manifest.
 - Field count matches the declared grammar.
 - Header metadata matches inferred filename metadata.

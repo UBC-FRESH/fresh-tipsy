@@ -1,0 +1,294 @@
+{
+  "manifest_version": "1.0.0",
+  "generated_at_utc": "2026-11-09T00:00:00Z",
+  "extractor": {
+    "name": "fresh-tipsy",
+    "version": "0.1.0",
+    "parser_version": 1,
+    "command": "fresh-tipsy db extract"
+  },
+  "source_install": {
+    "model": "TIPSY",
+    "version": "4.5",
+    "database_title": "Ministry Standard Database, February 2022",
+    "install_env": "TIPSY_INSTALL",
+    "database_env": "TIPSY_DATABASE",
+    "notes": "Source files are not redistributed. The manifest records provenance and checksums only."
+  },
+  "assets": [
+    {
+      "id": "tipsy45-db-pli0530n00-tab",
+      "kind": "tipsy_table",
+      "format": "tab",
+      "role": "source_table",
+      "evidence": "source_table",
+      "publication": "manifest_only",
+      "source": {
+        "model": "TIPSY",
+        "version": "4.5",
+        "build": "v3.01.13W (Feb 2017 - Jul 2021)",
+        "database_title": "Ministry Standard Database, February 2022",
+        "relative_path": "Database/pli0530N00.tab",
+        "sha256": "55bfaa37745819e66d41a66349b72617b0a094e1041a11070f9b641c3b3827aa",
+        "size_bytes": 27317
+      },
+      "table": {
+        "pair_id": "tipsy45-pli0530n00",
+        "format": "tab",
+        "field_count": 22,
+        "data_rows": 276,
+        "run_count": 16,
+        "first_age": 8,
+        "last_age": 490,
+        "field_count_rule": "Every non-empty data row has 22 fields.",
+        "treatments": []
+      },
+      "columns": [
+        {
+          "position": 0,
+          "name": "YearTASS_Base",
+          "units": "yrs",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 1,
+          "name": "HeightSindex_Base",
+          "units": "m",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 2,
+          "name": "VolumeGross",
+          "units": "m³/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 3,
+          "name": "Volume000",
+          "units": "m³/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 4,
+          "name": "Volume125",
+          "units": "m³/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 5,
+          "name": "Volume175",
+          "units": "m³/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 6,
+          "name": "BasalArea000",
+          "units": "m²/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 7,
+          "name": "BasalArea125",
+          "units": "m²/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 8,
+          "name": "BasalArea175",
+          "units": "m²/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 9,
+          "name": "MeanDBHg000",
+          "units": "cm",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 10,
+          "name": "MeanDBHg125",
+          "units": "cm",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 11,
+          "name": "MeanDBHg175",
+          "units": "cm",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 12,
+          "name": "StemCount000",
+          "units": "#/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 13,
+          "name": "StemCount125",
+          "units": "#/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 14,
+          "name": "StemCount175",
+          "units": "#/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 15,
+          "name": "CrownCover",
+          "units": "%",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 16,
+          "name": "Crop250VolUtil125",
+          "units": "m³/ha",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 17,
+          "name": "Crop250DBHgMean",
+          "units": "cm",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 18,
+          "name": "Crop250LiveCrown",
+          "units": "%",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 19,
+          "name": "HeightTassTop",
+          "units": "m",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 20,
+          "name": "HeightTassMean",
+          "units": "m",
+          "evidence": "source_table",
+          "confidence": "high"
+        },
+        {
+          "position": 21,
+          "name": "HeightTassPredom",
+          "units": "m",
+          "evidence": "source_table",
+          "confidence": "high"
+        }
+      ],
+      "citation": "Province of British Columbia. TIPSY 4.5. Database/pli0530N00.tab.",
+      "validation": {
+        "status": "pass",
+        "checks": [
+          "sha256 matches the source file",
+          "size_bytes matches the source file",
+          "field_count is 22",
+          "pair headers, run counts, and row counts match the .taf pair"
+        ]
+      },
+      "notes": "Compact TIPSY yield table. No product or grade columns."
+    },
+    {
+      "id": "tipsy45-db-pli0530n00-taf",
+      "kind": "tipsy_table",
+      "format": "taf",
+      "role": "source_table",
+      "evidence": "model_output",
+      "publication": "manifest_only",
+      "source": {
+        "model": "TIPSY",
+        "version": "4.5",
+        "build": "v3.01.13W (Feb 2017 - Jul 2021)",
+        "database_title": "Ministry Standard Database, February 2022",
+        "relative_path": "Database/pli0530N00.taf",
+        "sha256": "569d57639c86b7360b7a577599c37688b38c2060a8f8202ed82548de7238581d",
+        "size_bytes": 124361
+      },
+      "table": {
+        "pair_id": "tipsy45-pli0530n00",
+        "format": "taf",
+        "field_count": 151,
+        "data_rows": 276,
+        "run_count": 16,
+        "first_age": 8,
+        "last_age": 490,
+        "field_count_rule": "Every non-empty data row has 151 fields.",
+        "treatments": []
+      },
+      "columns_ref": "notes/reference/tab-taf-columns.csv#format=taf",
+      "column_count": 151,
+      "citation": "Province of British Columbia. TIPSY 4.5. Database/pli0530N00.taf.",
+      "validation": {
+        "status": "warn",
+        "checks": [
+          "sha256 matches the source file",
+          "size_bytes matches the source file",
+          "field_count is 151",
+          "pair headers, run counts, and row counts match the .tab pair"
+        ],
+        "warnings": [
+          "The mortality summary at positions 11-15 is medium confidence; positions 12-13 do not behave like simple means."
+        ]
+      },
+      "notes": "Full TIPSY table. Contains product and grade columns as TASS/SYLVER model outputs; not measured field grades."
+    }
+  ],
+  "gaps": [
+    {
+      "id": "fansier-economics",
+      "kind": "unavailable_source",
+      "status": "unavailable",
+      "reason": "FAN$IER executable and sample project are located, but no price/cost table or validated economic run is captured.",
+      "required_for": [
+        "P4 economics",
+        "P1.3 economics classification"
+      ],
+      "notes": "Do not invent prices, costs, discount rates, or NPV."
+    },
+    {
+      "id": "tipsy-custom-runtime",
+      "kind": "runtime_gap",
+      "status": "blocked",
+      "reason": "The TIPSY .NET Framework 4.8 runtime currently fails under Wine before producing custom output.",
+      "required_for": [
+        "custom runtime outputs",
+        "Phase 4 golden products"
+      ],
+      "notes": "Table extraction, including the .taf product columns, does not depend on this runtime."
+    },
+    {
+      "id": "taf-mortality-aggregation",
+      "kind": "schema_gap",
+      "status": "planned",
+      "reason": "Mortality_DBHg_Mean and Mortality_Height_Mean at .taf positions 12-13 do not behave like simple means.",
+      "required_for": [
+        "P2 schema validation",
+        "P3 queries"
+      ],
+      "notes": "Keep them medium confidence until a TASS schema or a working runtime confirms the aggregation."
+    }
+  ]
+}
