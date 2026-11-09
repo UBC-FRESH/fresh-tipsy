@@ -365,6 +365,29 @@ def test_sensitivity_unavailable_and_negative_rate() -> None:
         )
 
 
+def test_sensitivity_price_delta_matches_discounted_revenue() -> None:
+    """A 10% price change equals 10% of discounted revenue."""
+    result = evaluate_sensitivity(
+        _request(costs=(_cost(),)),
+        (SensitivityCase("revenue_plus_10", price_multiplier=1.1),),
+    )
+    assert result.cases[0].npv_change_per_ha == pytest.approx(38.554329, abs=1e-6)
+
+
+def test_cost_only_npv_boundary() -> None:
+    """No product revenue produces a negative cost-only NPV."""
+    result = evaluate_economics(
+        _request(
+            recovery=_recovery(quantity=0.0),
+            book=PriceBook(),
+            costs=(_cost(amount=25.0),),
+        )
+    )
+    assert result.revenue_per_ha == 0.0
+    assert result.npv_per_ha == -25.0
+    assert result.gaps == ()
+
+
 def test_base_age_and_sunk_costs() -> None:
     """Costs before the base age are ignored unless explicitly included."""
     assumptions = DiscountAssumptions(0.10, base_age=5.0)

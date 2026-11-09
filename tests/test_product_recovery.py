@@ -61,6 +61,7 @@ def _taf_row(
     lumber_2x4: float = 10.0,
     product_values: bool = True,
     all_grades_fallback: bool = False,
+    blank_2x6: bool = False,
 ) -> list[str]:
     """Build a full row with known product values."""
     fields = ["0"] * 151
@@ -68,7 +69,7 @@ def _taf_row(
     fields[1] = "10"
     fields[2] = str(lumber_2x4)
     if product_values:
-        fields[3] = "20"
+        fields[3] = "" if blank_2x6 else "20"
         fields[4] = "30"
         fields[5] = "40"
         for offset, value in enumerate(("1", "2", "3", "4", "5"), start=6):
@@ -93,6 +94,7 @@ def _engine(
     lumber_2x4: float = 10.0,
     product_values: bool = True,
     all_grades_fallback: bool = False,
+    blank_2x6: bool = False,
 ) -> CurveEngine:
     """Build an engine for the synthetic product pair."""
     (tmp_path / "syn0010N00.tab").write_text(
@@ -107,6 +109,7 @@ def _engine(
                         lumber_2x4=lumber_2x4,
                         product_values=product_values,
                         all_grades_fallback=all_grades_fallback,
+                        blank_2x6=blank_2x6,
                     )
                 ),
             ]
@@ -139,13 +142,25 @@ def test_recover_products_groups_and_totals(tmp_path: Path) -> None:
     assert recovery.scenario == "untreated"
     assert recovery.species_code == "SYN"
     assert recovery.provenance.evidence == "model_output"
+    assert recovery.provenance.source_model == "TIPSY"
+    assert recovery.provenance.source_version == "4.5"
+    assert recovery.provenance.relative_path.endswith("syn0010N00.taf")
+    assert len(recovery.provenance.sha256) == 64
     assert len(recovery.lumber_2_or_better) == 4
     assert len(recovery.residues) == 5
     assert len(recovery.log_grades) == 8
     assert len(recovery.graded_lumber) == 20
     assert len(recovery.degraded_lumber) == 20
     assert len(recovery.industrial_logs) == 20
-    assert all(item.field.evidence == "model_output" for item in recovery.graded_lumber)
+    quantities = (
+        *recovery.lumber_2_or_better,
+        *recovery.residues,
+        *recovery.log_grades,
+        *recovery.graded_lumber,
+        *recovery.degraded_lumber,
+        *recovery.industrial_logs,
+    )
+    assert all(item.field.evidence == "model_output" for item in quantities)
     assert recovery.totals.lumber_2_or_better_bf_ha == 100.0
     assert recovery.totals.graded_bf_ha == 100.0
     assert recovery.totals.degraded_bf_ha == 0.0
@@ -176,6 +191,17 @@ def test_product_mass_balance_failure_is_hard(tmp_path: Path) -> None:
     failed = checks["lumber_2_or_better_vs_graded"]
     assert failed.status == "fail"
     assert failed.difference == 1.0
+
+
+def test_missing_dimension_fails_crosscheck(tmp_path: Path) -> None:
+    """A blank lumber dimension cannot pass the independent cross-check."""
+    engine = _engine(tmp_path, blank_2x6=True)
+    with pytest.raises(MassBalanceError, match="lumber_2_or_better_vs_graded"):
+        engine.products(_query())
+    recovery = recover_products(engine.query(_query()), strict=False)
+    check = next(check for check in recovery.checks if check.name == "lumber_2_or_better_vs_graded")
+    assert check.status == "fail"
+    assert check.total_value == 80.0
 
 
 def test_product_mass_balance_all_grade_fallback(tmp_path: Path) -> None:
