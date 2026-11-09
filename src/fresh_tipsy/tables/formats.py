@@ -8,6 +8,7 @@ from typing import Final
 TAB_FIELD_COUNT: Final[int] = 22
 TAF_FIELD_COUNT: Final[int] = 151
 TABLE_HEADER_MARKER: Final[str] = "[TASS SPECIES]"
+TAF_COLUMNS_REF: Final[str] = "notes/reference/tab-taf-columns.csv#format=taf"
 
 
 @dataclass(frozen=True)

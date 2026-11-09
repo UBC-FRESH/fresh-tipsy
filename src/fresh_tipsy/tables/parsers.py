@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from fresh_tipsy.tables.errors import TableFormatError
-from fresh_tipsy.tables.formats import TAB_FIELD_COUNT, TABLE_HEADER_MARKER
+from fresh_tipsy.tables.formats import TAB_FIELD_COUNT, TABLE_HEADER_MARKER, TAF_FIELD_COUNT
 from fresh_tipsy.tables.metadata import FilenameMetadata, parse_filename, slugify
 
 _RUN_RE: re.Pattern[str] = re.compile(r"^\[RUN,(?P<initial>\d+),(?P<pct>\d+),(?P<ct>\d+)\]$")
@@ -147,8 +147,8 @@ class RunBlock:
 
 
 @dataclass(frozen=True)
-class TabTable:
-    """A parsed compact TIPSY ``.tab`` table.
+class TIPSYTable:
+    """A parsed compact ``.tab`` or full ``.taf`` TIPSY table.
 
     Parameters
     ----------
@@ -166,6 +166,8 @@ class TabTable:
         Source SHA-256.
     size_bytes : int
         Source size in bytes.
+    format : str
+        ``"tab"`` or ``"taf"``.
     warnings : tuple of str
         Metadata reconciliation warnings.
     """
@@ -177,6 +179,7 @@ class TabTable:
     field_count: int
     sha256: str
     size_bytes: int
+    format: str
     warnings: tuple[str, ...] = ()
 
     @property
@@ -203,13 +206,13 @@ class TabTable:
 
     @property
     def pair_id(self) -> str:
-        """Return the stable pair ID for this table and its ``.taf`` partner."""
+        """Return the stable pair ID for this table and its partner."""
         return f"tipsy45-{slugify(self.path.stem)}"
 
     @property
     def asset_id(self) -> str:
-        """Return the stable manifest ID for this ``.tab`` asset."""
-        return f"tipsy45-db-{slugify(self.path.stem)}-tab"
+        """Return the stable manifest ID for this asset."""
+        return f"tipsy45-db-{slugify(self.path.stem)}-{self.format}"
 
     @property
     def treatments(self) -> tuple[str, ...]:
@@ -219,6 +222,41 @@ class TabTable:
             if block.treatment is not None and block.treatment not in labels:
                 labels.append(block.treatment)
         return tuple(labels)
+
+
+@dataclass(frozen=True)
+class PairTable:
+    """A verified ``.tab``/``.taf`` pair.
+
+    Parameters
+    ----------
+    tab : TIPSYTable
+        Compact table.
+    taf : TIPSYTable
+        Full table.
+    warnings : tuple of str
+        Structural reconciliation warnings.
+    age_mismatches : tuple of int
+        Run-block indices whose age sequences differ between the two formats.
+    age_range_mismatch : bool
+        Whether the first or last age differs between the two formats.
+    """
+
+    tab: TIPSYTable
+    taf: TIPSYTable
+    warnings: tuple[str, ...] = ()
+    age_mismatches: tuple[int, ...] = ()
+    age_range_mismatch: bool = False
+
+    @property
+    def pair_id(self) -> str:
+        """Return the shared pair ID."""
+        return self.tab.pair_id
+
+    @property
+    def ok(self) -> bool:
+        """Return whether the pair has no structural reconciliation warnings."""
+        return not self.warnings
 
 
 def _required(values: dict[str, str], key: str) -> str:
@@ -493,7 +531,7 @@ def _treatment_label(marker: RunMarker) -> str | None:
     return None
 
 
-def _parse_block(marker: RunMarker, lines: Sequence[str]) -> RunBlock:
+def _parse_block(marker: RunMarker, lines: Sequence[str], field_count: int) -> RunBlock:
     """Parse one run block.
 
     Parameters
@@ -502,6 +540,8 @@ def _parse_block(marker: RunMarker, lines: Sequence[str]) -> RunBlock:
         Block marker.
     lines : sequence of str
         Lines after the marker and before the next marker.
+    field_count : int
+        Required field count per data row.
 
     Returns
     -------
@@ -518,10 +558,8 @@ def _parse_block(marker: RunMarker, lines: Sequence[str]) -> RunBlock:
         if not line.strip():
             continue
         fields = tuple(line.split("\t"))
-        if len(fields) != TAB_FIELD_COUNT:
-            message = (
-                f"data row has {len(fields)} fields, expected {TAB_FIELD_COUNT}: {line[:80]!r}"
-            )
+        if len(fields) != field_count:
+            message = f"data row has {len(fields)} fields, expected {field_count}: {line[:80]!r}"
             raise TableFormatError(message)
         rows.append(TableRow(age=_parse_age(fields[0]), fields=fields))
     if not rows:
@@ -540,6 +578,45 @@ def _parse_block(marker: RunMarker, lines: Sequence[str]) -> RunBlock:
         treatment=_treatment_label(marker),
         boundary_index=boundary_index,
     )
+
+
+def _parse_blocks(lines: Sequence[str], field_count: int) -> tuple[RunBlock, ...]:
+    """Parse every run block in a file.
+
+    Parameters
+    ----------
+    lines : sequence of str
+        File lines starting at the first ``[RUN,...]`` marker.
+    field_count : int
+        Required field count per data row.
+
+    Returns
+    -------
+    tuple of RunBlock
+        Blocks in source order.
+
+    Raises
+    ------
+    TableFormatError
+        When the file has no run blocks.
+    """
+    blocks: list[RunBlock] = []
+    marker: RunMarker | None = None
+    block_lines: list[str] = []
+    for line in lines:
+        if line.startswith("[RUN"):
+            if marker is not None:
+                blocks.append(_parse_block(marker, block_lines, field_count))
+            marker = parse_run_marker(line)
+            block_lines = []
+        elif marker is not None:
+            block_lines.append(line)
+    if marker is not None:
+        blocks.append(_parse_block(marker, block_lines, field_count))
+    if not blocks:
+        message = "file has no run blocks"
+        raise TableFormatError(message)
+    return tuple(blocks)
 
 
 def _compare_metadata(header: Header, filename: FilenameMetadata, stem: str) -> tuple[str, ...]:
@@ -585,17 +662,21 @@ def _compare_metadata(header: Header, filename: FilenameMetadata, stem: str) -> 
     return tuple(warnings)
 
 
-def parse_tab_file(path: Path) -> TabTable:
-    """Parse a compact TIPSY ``.tab`` table.
+def _parse_table(path: Path, field_count: int, table_format: str) -> TIPSYTable:
+    """Parse a TIPSY table with a declared field count.
 
     Parameters
     ----------
     path : Path
         Source file.
+    field_count : int
+        Required field count per data row.
+    table_format : str
+        ``"tab"`` or ``"taf"``.
 
     Returns
     -------
-    TabTable
+    TIPSYTable
         The parsed table.
 
     Raises
@@ -614,29 +695,156 @@ def parse_tab_file(path: Path) -> TabTable:
     lines = text.splitlines()
     header, first_run = parse_header(lines)
     filename = parse_filename(path.stem)
-    blocks: list[RunBlock] = []
-    marker: RunMarker | None = None
-    block_lines: list[str] = []
-    for line in lines[first_run:]:
-        if line.startswith("[RUN"):
-            if marker is not None:
-                blocks.append(_parse_block(marker, block_lines))
-            marker = parse_run_marker(line)
-            block_lines = []
-        elif marker is not None:
-            block_lines.append(line)
-    if marker is not None:
-        blocks.append(_parse_block(marker, block_lines))
-    if not blocks:
-        message = f"file has no run blocks: {path}"
-        raise TableFormatError(message)
-    return TabTable(
+    blocks = _parse_blocks(lines[first_run:], field_count)
+    return TIPSYTable(
         path=path,
         header=header,
         filename=filename,
-        blocks=tuple(blocks),
-        field_count=TAB_FIELD_COUNT,
+        blocks=blocks,
+        field_count=field_count,
         sha256=hashlib.sha256(raw).hexdigest(),
         size_bytes=len(raw),
+        format=table_format,
         warnings=_compare_metadata(header, filename, path.stem),
+    )
+
+
+def parse_tab_file(path: Path) -> TIPSYTable:
+    """Parse a compact TIPSY ``.tab`` table.
+
+    Parameters
+    ----------
+    path : Path
+        Source file.
+
+    Returns
+    -------
+    TIPSYTable
+        The parsed table.
+
+    Raises
+    ------
+    TableFormatError
+        When the file is not ASCII, malformed, or has an invalid field count.
+    OSError
+        When the file cannot be read.
+    """
+    return _parse_table(path, TAB_FIELD_COUNT, "tab")
+
+
+def parse_taf_file(path: Path) -> TIPSYTable:
+    """Parse a full TIPSY ``.taf`` table.
+
+    Parameters
+    ----------
+    path : Path
+        Source file.
+
+    Returns
+    -------
+    TIPSYTable
+        The parsed table.
+
+    Raises
+    ------
+    TableFormatError
+        When the file is not ASCII, malformed, or has an invalid field count.
+    OSError
+        When the file cannot be read.
+    """
+    return _parse_table(path, TAF_FIELD_COUNT, "taf")
+
+
+def _pair_warnings(tab: TIPSYTable, taf: TIPSYTable) -> tuple[str, ...]:
+    """Compare a ``.tab`` and ``.taf`` pair.
+
+    Parameters
+    ----------
+    tab : TIPSYTable
+        Compact table.
+    taf : TIPSYTable
+        Full table.
+
+    Returns
+    -------
+    tuple of str
+        Pair reconciliation warnings, empty when the pair agrees.
+    """
+    warnings: list[str] = []
+    if tab.pair_id != taf.pair_id:
+        warnings.append(f"pair IDs differ: {tab.pair_id!r} and {taf.pair_id!r}")
+    if tab.header != taf.header:
+        warnings.append("tab and taf headers differ")
+    if tab.run_count != taf.run_count:
+        warnings.append(f"run counts differ: {tab.run_count} and {taf.run_count}")
+    if tab.data_rows != taf.data_rows:
+        warnings.append(f"data row counts differ: {tab.data_rows} and {taf.data_rows}")
+    if tab.run_count == taf.run_count:
+        for index, (tab_block, taf_block) in enumerate(zip(tab.blocks, taf.blocks, strict=True)):
+            if len(tab_block.rows) != len(taf_block.rows):
+                warnings.append(f"run block {index} row counts differ")
+    return tuple(warnings)
+
+
+def _pair_age_mismatches(tab: TIPSYTable, taf: TIPSYTable) -> tuple[tuple[int, ...], bool]:
+    """Compare the age grids of a ``.tab``/``.taf`` pair.
+
+    Parameters
+    ----------
+    tab : TIPSYTable
+        Compact table.
+    taf : TIPSYTable
+        Full table.
+
+    Returns
+    -------
+    tuple of (tuple of int, bool)
+        Run-block indices with differing age sequences, and whether the first
+        or last age differs.
+    """
+    mismatches: list[int] = []
+    if tab.run_count == taf.run_count:
+        for index, (tab_block, taf_block) in enumerate(zip(tab.blocks, taf.blocks, strict=True)):
+            if len(tab_block.rows) != len(taf_block.rows):
+                continue
+            tab_ages = [row.age for row in tab_block.rows]
+            taf_ages = [row.age for row in taf_block.rows]
+            if tab_ages != taf_ages:
+                mismatches.append(index)
+    range_mismatch = tab.first_age != taf.first_age or tab.last_age != taf.last_age
+    return tuple(mismatches), range_mismatch
+
+
+def parse_pair(tab_path: Path, taf_path: Path | None = None) -> PairTable:
+    """Parse and verify a ``.tab``/``.taf`` pair.
+
+    Parameters
+    ----------
+    tab_path : Path
+        Compact table path.
+    taf_path : Path or None, optional
+        Full table path. Defaults to the sibling ``.taf`` file.
+
+    Returns
+    -------
+    PairTable
+        The parsed pair and reconciliation warnings.
+
+    Raises
+    ------
+    TableFormatError
+        When either table is malformed.
+    OSError
+        When either file cannot be read.
+    """
+    resolved_taf = taf_path if taf_path is not None else tab_path.with_suffix(".taf")
+    tab = parse_tab_file(tab_path)
+    taf = parse_taf_file(resolved_taf)
+    age_mismatches, age_range_mismatch = _pair_age_mismatches(tab, taf)
+    return PairTable(
+        tab=tab,
+        taf=taf,
+        warnings=_pair_warnings(tab, taf),
+        age_mismatches=age_mismatches,
+        age_range_mismatch=age_range_mismatch,
     )

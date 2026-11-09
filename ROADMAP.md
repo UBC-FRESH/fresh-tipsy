@@ -93,7 +93,7 @@ Goal: convert every TIPSY database table to a normalized, validated public
 asset and make it discoverable.
 
 - [x] P2.1 Implement the `.tab` parser and metadata inference (#11)
-- [ ] P2.2 Implement the `.taf` parser and fixed-width/tab-delimited handling (#12)
+- [x] P2.2 Implement the `.taf` parser and fixed-width/tab-delimited handling (#12)
 - [ ] P2.3 Implement the table catalog and search index (#13)
 - [ ] P2.4 Write normalized Parquet/CSV plus a checksum manifest (#14)
 - [ ] P2.5 Add `fresh-tipsy db extract`, `validate`, and `catalog` CLI commands (#15)
