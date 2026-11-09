@@ -172,8 +172,51 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["PCT", "CT"]
+            "enum": ["PCT", "CT", "PCT+CT"]
           }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["species_code", "species_name", "site_from", "site_to", "pnc"],
+      "properties": {
+        "species_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "species_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "site_from": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "site_to": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pnc": {
+          "type": "string",
+          "enum": ["C", "N", "P"]
+        },
+        "stock_height_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "stock_age_years": {
+          "type": "number",
+          "minimum": 0
+        },
+        "pct_height_m": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ct_height_m": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -305,6 +348,9 @@
         "table": {
           "$ref": "#/$defs/table"
         },
+        "metadata": {
+          "$ref": "#/$defs/metadata"
+        },
         "columns": {
           "type": "array",
           "items": {
@@ -341,7 +387,7 @@
             "required": ["kind"]
           },
           "then": {
-            "required": ["table"],
+            "required": ["table", "metadata"],
             "anyOf": [
               {
                 "required": ["columns"]

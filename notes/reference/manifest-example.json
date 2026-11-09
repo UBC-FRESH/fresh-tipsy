@@ -1,5 +1,5 @@
 {
-  "manifest_version": "1.0.0",
+  "manifest_version": "1.1.0",
   "generated_at_utc": "2026-11-09T00:00:00Z",
   "extractor": {
     "name": "fresh-tipsy",
@@ -209,7 +209,16 @@
           "pair headers, run counts, and row counts match the .taf pair"
         ]
       },
-      "notes": "Compact TIPSY yield table. No product or grade columns."
+      "notes": "Compact TIPSY yield table. No product or grade columns.",
+      "metadata": {
+        "species_code": "PLI",
+        "species_name": "Lodgepole Pine",
+        "site_from": 5,
+        "site_to": 30,
+        "pnc": "N",
+        "stock_height_m": 0.13,
+        "stock_age_years": 0.0
+      }
     },
     {
       "id": "tipsy45-db-pli0530n00-taf",
@@ -253,7 +262,16 @@
           "The mortality summary at positions 11-15 is medium confidence; positions 12-13 do not behave like simple means."
         ]
       },
-      "notes": "Full TIPSY table. Contains product and grade columns as TASS/SYLVER model outputs; not measured field grades."
+      "notes": "Full TIPSY table. Contains product and grade columns as TASS/SYLVER model outputs; not measured field grades.",
+      "metadata": {
+        "species_code": "PLI",
+        "species_name": "Lodgepole Pine",
+        "site_from": 5,
+        "site_to": 30,
+        "pnc": "N",
+        "stock_height_m": 0.13,
+        "stock_age_years": 0.0
+      }
     }
   ],
   "gaps": [

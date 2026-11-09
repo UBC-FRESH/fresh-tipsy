@@ -8,6 +8,37 @@ from fresh_tipsy.tables.formats import TAB_COLUMNS, TAF_COLUMNS_REF, TAF_FIELD_C
 from fresh_tipsy.tables.parsers import TIPSYTable
 
 
+def _table_metadata(table: TIPSYTable) -> dict[str, object]:
+    """Build the table metadata block for a manifest entry.
+
+    Parameters
+    ----------
+    table : TIPSYTable
+        Parsed table.
+
+    Returns
+    -------
+    dict of str to object
+        Species, site, PNC, and optional stock/treatment metadata.
+    """
+    metadata: dict[str, object] = {
+        "species_code": table.header.code,
+        "species_name": table.header.species_name,
+        "site_from": table.header.site_from,
+        "site_to": table.header.site_to,
+        "pnc": table.header.pnc,
+    }
+    if table.header.stock_height_m is not None:
+        metadata["stock_height_m"] = table.header.stock_height_m
+    if table.header.stock_age is not None:
+        metadata["stock_age_years"] = table.header.stock_age
+    if table.header.pct_height_m is not None:
+        metadata["pct_height_m"] = table.header.pct_height_m
+    if table.header.ct_height_m is not None:
+        metadata["ct_height_m"] = table.header.ct_height_m
+    return metadata
+
+
 def build_tab_manifest_entry(
     table: TIPSYTable,
     source_root: Path,
@@ -94,6 +125,7 @@ def build_tab_manifest_entry(
             "size_bytes": table.size_bytes,
         },
         "table": table_entry,
+        "metadata": _table_metadata(table),
         "columns": columns,
         "citation": f"Province of British Columbia. TIPSY {model_version}. {relative_path}.",
         "validation": validation,
@@ -177,6 +209,7 @@ def build_taf_manifest_entry(
             "size_bytes": table.size_bytes,
         },
         "table": table_entry,
+        "metadata": _table_metadata(table),
         "columns_ref": TAF_COLUMNS_REF,
         "column_count": TAF_FIELD_COUNT,
         "citation": f"Province of British Columbia. TIPSY {model_version}. {relative_path}.",

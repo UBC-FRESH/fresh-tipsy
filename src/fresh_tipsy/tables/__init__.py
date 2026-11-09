@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from fresh_tipsy.tables.catalog import CatalogEntry, CatalogError, CatalogQuery, TableCatalog
+from fresh_tipsy.tables.columns import load_columns
 from fresh_tipsy.tables.errors import TableFormatError
 from fresh_tipsy.tables.formats import (
     TAB_COLUMNS,
@@ -31,6 +33,9 @@ __all__ = [
     "TAB_FIELD_COUNT",
     "TAF_COLUMNS_REF",
     "TAF_FIELD_COUNT",
+    "CatalogEntry",
+    "CatalogError",
+    "CatalogQuery",
     "ColumnSpec",
     "FilenameMetadata",
     "Header",
@@ -38,10 +43,12 @@ __all__ = [
     "RunBlock",
     "RunMarker",
     "TIPSYTable",
+    "TableCatalog",
     "TableFormatError",
     "TableRow",
     "build_tab_manifest_entry",
     "build_taf_manifest_entry",
+    "load_columns",
     "parse_filename",
     "parse_header",
     "parse_pair",
