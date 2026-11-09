@@ -37,6 +37,10 @@ issues, or the changelog alone.
   for the data manifest.
 - [`reference/manifest-example.json`](reference/manifest-example.json): validated
   manifest example for a TIPSY `.tab`/`.taf` pair.
+- [`reference/golden-outputs.md`](reference/golden-outputs.md): P1.5
+  redistribution decision, candidate fixtures, and golden output inventory.
+- [`reference/golden-outputs.csv`](reference/golden-outputs.csv): machine-readable
+  golden output inventory.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

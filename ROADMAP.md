@@ -74,7 +74,7 @@ contract before extraction begins.
 - [x] P1.2 Decode `.tab` and `.taf` grammar, filename fields, and header metadata (#5)
 - [x] P1.3 Map `OutputColumns.txt`, report templates, and output columns to tables (#6)
 - [x] P1.4 Write the data-provenance contract and source-citation manifest (#7)
-- [ ] P1.5 Capture tiny fixtures and a golden output inventory (#8)
+- [x] P1.5 Capture tiny fixtures and a golden output inventory (#8)
 
 Acceptance criteria:
 
