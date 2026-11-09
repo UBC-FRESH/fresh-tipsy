@@ -69,6 +69,8 @@ issues, or the changelog alone.
   decision, asset set, and rebuild instructions.
 - [`reference/release-assets.csv`](reference/release-assets.csv): machine-readable
   release asset register with checksums.
+- [`reference/release-workflow.md`](reference/release-workflow.md): TestPyPI/PyPI
+  trusted-publishing workflow and manual commands.
 - [`reference/femic-integration.md`](reference/femic-integration.md): P6.4
   optional dependency, thin adapter, provenance pass-through, and external
   repository gap.
