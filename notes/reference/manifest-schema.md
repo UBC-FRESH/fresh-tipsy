@@ -1,7 +1,7 @@
 # Data manifest contract
 
 Date: 2026-11-09
-Version: `1.0.0`
+Version: `1.2.0`
 Status: binding for P2 and later extraction work
 Schema: [`manifest-schema.json`](manifest-schema.json)
 Example: [`manifest-example.json`](manifest-example.json)
@@ -17,7 +17,7 @@ The manifest is a release artifact and a test input. It is not a place for raw g
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `manifest_version` | yes | Semantic version of this schema; currently `1.0.0` |
+| `manifest_version` | yes | Semantic version of this schema; currently `1.2.0` |
 | `generated_at_utc` | yes | ISO 8601 UTC timestamp ending in `Z` |
 | `extractor` | yes | `name`, `version`, optional `parser_version`, optional `command` |
 | `source_install` | yes | Source model, version, install environment variable, database title, notes |
@@ -37,7 +37,10 @@ The manifest is a release artifact and a test input. It is not a place for raw g
 | `evidence` | yes | Evidence label, see below |
 | `publication` | yes | `commit`, `release_asset`, or `manifest_only` |
 | `source` | yes | Source model, version, relative path, SHA-256, size |
-| `table` | for `tipsy_table` | Pair ID, format, field count, row count, run count, age range, treatment list |
+| `table` | for `tipsy_table` and `normalized_table` | Pair ID, source format, field count, row count, run count, age range, treatment list |
+| `metadata` | for `tipsy_table` and `normalized_table` | Species code, species name, site range, PNC, and optional stock/treatment metadata |
+| `artifact` | for `normalized_table` and every `release_asset` | Released file path, SHA-256, and size |
+| `source_asset_ids` | for `normalized_table` | IDs of the source assets the normalized file came from |
 | `columns` | one of `columns` or `columns_ref` for `tipsy_table` | Column definitions |
 | `columns_ref` | one of `columns` or `columns_ref` for `tipsy_table` | Versioned reference to a committed column map |
 | `column_count` | no | Number of columns in `columns_ref` |
@@ -71,6 +74,37 @@ The manifest is a release artifact and a test input. It is not a place for raw g
 | `first_age`, `last_age` | no | Observed age range |
 | `field_count_rule` | no | Human-readable field-count rule |
 | `treatments` | no | `PCT`, `CT`, or both |
+
+## Table metadata fields
+
+`metadata` is required for `tipsy_table`:
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `species_code` | yes | Uppercase species code |
+| `species_name` | yes | Species display name |
+| `site_from` | yes | Minimum site index |
+| `site_to` | yes | Maximum site index |
+| `pnc` | yes | `C`, `N`, or `P` |
+| `stock_height_m` | no | Planting stock height |
+| `stock_age_years` | no | Planting stock age |
+| `pct_height_m` | no | PCT treatment height |
+| `ct_height_m` | no | CT treatment height |
+
+The catalog reads these fields to filter by species, site index, PNC, and stock height without opening the source table.
+
+## Normalized asset fields
+
+A normalized asset adds:
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `artifact` | yes | `relative_path`, `sha256`, and `size_bytes` of the released CSV or Parquet file |
+| `source_asset_ids` | yes | The source table asset ID or IDs |
+| `table` | yes | Source table format, field count, rows, runs, and treatments |
+| `metadata` | yes | The same species/site/PNC/stock metadata as the source |
+
+`publication` is `release_asset`. The raw source remains `manifest_only` and is not committed.
 
 ## Column fields
 

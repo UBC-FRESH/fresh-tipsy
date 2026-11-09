@@ -212,6 +212,7 @@ Mortality-summary caveat:
 - 192 files: 96 `.tab` with 22 fields per data row, 96 `.taf` with 151 fields per data row; 0 field-count exceptions.
 - 8,278 run markers; 246,048 non-empty data rows; 1,384 rows with a blank first field.
 - All 96 `.tab`/`.taf` pairs match on header content, run count, and row count.
+- 12 pairs have different age sequences between `.tab` and `.taf` even though headers, run counts, and row counts match. Each reader must use its own table's age grid; do not assume row alignment across formats.
 - All 192 files have `File` equal to the filename stem.
 - Filename pattern matched all 96 stems.
 - `.tab` positions 12-14 equal cumulative stock-table stem sums on sampled rows.

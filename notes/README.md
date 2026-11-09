@@ -41,6 +41,8 @@ issues, or the changelog alone.
   redistribution decision, candidate fixtures, and golden output inventory.
 - [`reference/golden-outputs.csv`](reference/golden-outputs.csv): machine-readable
   golden output inventory.
+- [`reference/testing.md`](reference/testing.md): test layers, real-source test
+  environment variables, and the coverage gate.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
