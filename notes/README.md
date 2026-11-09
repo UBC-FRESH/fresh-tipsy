@@ -25,6 +25,12 @@ issues, or the changelog alone.
   `.taf` grammar, filename rules, run blocks, and column candidates.
 - [`reference/tab-taf-columns.csv`](reference/tab-taf-columns.csv): 173-row
   column map with units, confidence, evidence, and open questions.
+- [`reference/output-columns.md`](reference/output-columns.md): P1.3
+  classification of `OutputColumns.txt`, report templates, and the economics gap.
+- [`reference/output-columns.csv`](reference/output-columns.csv): 269-row
+  classification with class, source, evidence, and confidence.
+- [`reference/report-column-map.csv`](reference/report-column-map.csv): 210
+  report-column references resolved to `OutputColumns.txt` names.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

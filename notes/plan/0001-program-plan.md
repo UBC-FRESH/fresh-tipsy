@@ -91,11 +91,13 @@ No output is published without a source and an evidence level.
 
 ## Main risks
 
-- The TIPSY .NET runtime may fail on a given host. Table extraction does not
-  depend on the runtime; product-output extraction does.
+- The TIPSY .NET runtime may fail on a given host. Table extraction, including
+  the `.taf` product columns, does not depend on the runtime; custom runtime
+  outputs do.
 - FAN$IER may be a separate install or may not expose every internal table.
-- TIPSY product columns are runtime outputs, not fields in the `.tab`/`.taf`
-  growth tables.
+- The `.taf` `Full` table already carries the TASS/SYLVER product columns as
+  `model_output`; they are absent from the compact `.tab` table. Custom runtime
+  outputs still require a working runtime or an existing output archive.
 - The filename grammar and some fixed-width fields need confirmation against
   headers and known tables.
 - Full FAN$IER parity will require golden outputs and documented assumptions.

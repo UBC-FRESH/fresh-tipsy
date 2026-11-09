@@ -145,37 +145,34 @@ Rules:
 
 ## `.tab` column map
 
-The `.tab` table is the compact yield table. The map below is high confidence where the value can be reproduced from the `.taf` stock and volume tables.
+The `.tab` table is the compact yield table. Its 22 fields match the 22 rows of the `OutputColumns.txt` `Base` category in order. P1.3 resolved the earlier unknowns: positions 16-18 are crop-tree fields, positions 19-21 are TASS height fields, and positions 2-3 are `VolumeGross` and `Volume000`.
 
-| Position | Candidate name | Unit | Confidence | Evidence |
+| Position | Name | Unit | Confidence | Evidence |
 | ---: | --- | --- | --- | --- |
-| 0 | `age` | years | high | Matches `.taf` `YearTASS_Full` on every sampled row |
-| 1 | `height_site` | m | high | Matches `.taf` `HeightSindex_Full` on every sampled row |
-| 2 | `volume_gross_000` | m³/ha | medium | Larger of the two whole-stand volumes; exact gross/total label needs a TASS schema |
-| 3 | `volume_total_000` | m³/ha | medium | Smaller of the two whole-stand volumes; exact label needs a TASS schema |
-| 4 | `volume_merch_125` | m³/ha | high | Equals the sum of `.taf` `Volume_Diameter_Class_*` rows |
-| 5 | `volume_merch_175` | m³/ha | high | Equals the sum of the 20 cm-and-larger stock-volume rows |
-| 6 | `basal_area_000` | m²/ha | high | Recomputed from the `.taf` stock table and class midpoints |
-| 7 | `basal_area_125` | m²/ha | high | Recomputed from stock classes 15+ |
-| 8 | `basal_area_175` | m²/ha | high | Recomputed from stock classes 20+ |
-| 9 | `dbhq_000` | cm | high | Quadratic mean DBH from the stock table |
-| 10 | `dbhq_125` | cm | high | Quadratic mean DBH from stock classes 15+ |
-| 11 | `dbhq_175` | cm | high | Quadratic mean DBH from stock classes 20+ |
-| 12 | `tree_count_000` | #/ha | high | Equals the sum of `.taf` `Stems_Diameter_Class_*` rows |
-| 13 | `tree_count_125` | #/ha | high | Equals the sum of stock classes 15+ |
-| 14 | `tree_count_175` | #/ha | high | Equals the sum of stock classes 20+ |
-| 15 | `crown_cover` | % | high | Tracks a crown-cover curve: rises toward 100% and then declines |
-| 16 | `unknown_16` | unknown | low | Populated from about age 19; grows with age. Do not use until confirmed |
-| 17 | `unknown_17` | unknown | low | Rises with age and stand development. Do not use until confirmed |
-| 18 | `unknown_18` | unknown | low | Generally declines after canopy closure. Do not use until confirmed |
-| 19 | `height_mean` | m | high | Mean height; at or below top height |
-| 20 | `dbhq_exact` | cm | high | Exact stand quadratic mean DBH; differs from the stock-class approximation in position 9 |
-| 21 | `height_top` | m | high | Top height; at or above mean height |
+| 0 | `YearTASS_Base` | years | high | `Base` row 0; matches `.taf` `YearTASS_Full` on every sampled row |
+| 1 | `HeightSindex_Base` | m | high | `Base` row 1; matches `.taf` `HeightSindex_Full` |
+| 2 | `VolumeGross` | m³/ha | high | `Base` row 2; gross whole-stand volume |
+| 3 | `Volume000` | m³/ha | high | `Base` row 3; total standing 0.0+ volume |
+| 4 | `Volume125` | m³/ha | high | `Base` row 4; equals the sum of `.taf` `Volume_Diameter_Class_*` |
+| 5 | `Volume175` | m³/ha | high | `Base` row 5; equals the sum of the 20 cm-and-larger stock-volume rows |
+| 6 | `BasalArea000` | m²/ha | high | `Base` row 6; recomputed from the `.taf` stock table |
+| 7 | `BasalArea125` | m²/ha | high | `Base` row 7; stock classes 15+ |
+| 8 | `BasalArea175` | m²/ha | high | `Base` row 8; stock classes 20+ |
+| 9 | `MeanDBHg000` | cm | high | `Base` row 9; quadratic mean DBH from the stock table |
+| 10 | `MeanDBHg125` | cm | high | `Base` row 10; stock classes 15+ |
+| 11 | `MeanDBHg175` | cm | high | `Base` row 11; stock classes 20+ |
+| 12 | `StemCount000` | #/ha | high | `Base` row 12; equals the sum of `.taf` `Stems_Diameter_Class_*` |
+| 13 | `StemCount125` | #/ha | high | `Base` row 13; stock classes 15+ |
+| 14 | `StemCount175` | #/ha | high | `Base` row 14; stock classes 20+ |
+| 15 | `CrownCover` | % | high | `Base` row 15; crown-cover curve |
+| 16 | `Crop250VolUtil125` | m³/ha | high | `Base` row 16; crop-tree volume 12.5+ |
+| 17 | `Crop250DBHgMean` | cm | high | `Base` row 17; crop-tree mean DBH |
+| 18 | `Crop250LiveCrown` | % | high | `Base` row 18; crop-tree live crown |
+| 19 | `HeightTassTop` | m | high | `Base` row 19; TASS top height |
+| 20 | `HeightTassMean` | m | high | `Base` row 20; TASS mean height |
+| 21 | `HeightTassPredom` | m | high | `Base` row 21; TASS predominant height |
 
-Open `.tab` questions:
-
-- Positions 16-18 are populated but do not match the periodic mortality deltas, the cumulative mortality columns, or the product columns. Mark them unresolved and keep them out of public queries until a TASS schema or a successful runtime output confirms them.
-- The exact assignment of positions 2 and 3 as gross versus total standing volume needs a TASS schema. The ordering is stable, but the labels are not proven.
+The machine-readable map is in [`tab-taf-columns.csv`](tab-taf-columns.csv).
 
 ## `.taf` column map
 
@@ -225,8 +222,6 @@ Mortality-summary caveat:
 
 ## Open questions for P2 and P3
 
-- Confirm `.tab` positions 16-18 from a TASS database schema or a working runtime output.
-- Confirm the exact gross/total labels for `.tab` positions 2-3.
 - Confirm the `Mortality_DBHg_Mean` and `Mortality_Height_Mean` aggregation.
 - Decide whether P2 stores one row per age with a treatment-boundary flag, or one row per raw record. The raw order must be preserved either way.
 - Confirm the PCT/CT threshold rule: the observed treatment row is the first row at or above the header height, with a pre-treatment row retained at the same age.

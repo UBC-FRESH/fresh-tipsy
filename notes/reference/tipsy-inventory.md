@@ -100,9 +100,7 @@ LRF_Graded_All
 LRF_Degraded_All
 ```
 
-These are runtime outputs. They are not columns in the `.tab` or `.taf` growth
-tables. Phase 4 must obtain them from a working TIPSY run, an existing output
-archive, or a documented reimplementation.
+These are TASS/SYLVER model outputs. They are present in the `.taf` `Full` table and absent from the compact `.tab` table. Treat them as `model_output`, not measured field grades. Phase 4 must validate them against a working TIPSY run or an existing output archive; the extraction path does not invent them.
 
 ## Runtime note
 
@@ -110,8 +108,9 @@ archive, or a documented reimplementation.
 crashes before producing output. This is a runtime engineering issue, not a
 table-format issue:
 
-- table extraction does not depend on the runtime;
-- product-output extraction does;
+- table extraction, including the `.taf` product columns, does not depend on
+  the runtime;
+- custom runtime outputs do;
 - existing TIPSY/FEMIC output CSVs and fixture archives are valid golden
   sources when the runtime is unavailable;
 - a failed runtime is recorded as a failed run, not replaced by invented data.

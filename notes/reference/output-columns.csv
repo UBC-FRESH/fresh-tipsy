@@ -1,0 +1,270 @@
+category,name,group,description,detail,units,class,source_table,source_position,evidence,confidence,notes
+Calc,Year,Stand,Year,,yrs,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,TotalAge,Stand,Age,Total,yrs,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,BHAge,Stand,Age,BH,yrs,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,StandAge,Stand,Age,Stand,yrs,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,HeightSindex,Stand,Height (pre adjusted),,m,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,Height,Stand,Height,{condec},m,derived_runtime,TIPSY runtime,,reimplemented,medium,Derived age or height field.
+Calc,GWgain,Stand,GW Gain,,%,derived_runtime,TIPSY runtime,,model_output,medium,TIPSY model adjustment; not a stored table column.
+Calc,FertGain,Stand,Fertilization Height Gain,,m,derived_runtime,TIPSY runtime,,model_output,medium,TIPSY model adjustment; not a stored table column.
+Calc,OAFremoval,OAF,OAF,Removal,,derived_runtime,TIPSY runtime,,model_output,medium,TIPSY model adjustment; not a stored table column.
+Calc,OAFmortality,OAF,OAF,Mortality,,derived_runtime,TIPSY runtime,,model_output,medium,TIPSY model adjustment; not a stored table column.
+Calc,OAFimpact,OAF,OAF,Combined Impact,,derived_runtime,TIPSY runtime,,model_output,medium,TIPSY model adjustment; not a stored table column.
+choose,OAF,OAF,OAF,{oaf},,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,Volume,Stand,Volume,{condec} {utiliz},m³/ha,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,BasalArea,Stand,Basal Area,{condec} {utiliz},m²/ha,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,DBHg,Stand,DBHg,{condec} {utiliz},cm,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,SPH,Stand,Stems Per Ha,{condec} {utiliz},#/ha,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,MAI,Stand,MAI,{condec} {utiliz},m³/ha/yr,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,VPT,Stand,VPT,{condec} {utiliz},m³,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,CC,Stand,Crown Cover,{condec},%,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,Juvenille_Volume,Stand,Juvenille Volume,{condec} {utiliz},m³/ha,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+choose,Juvenille_Percent,Stand,Juvenille Percent,{condec} {utiliz},%,selectable_runtime,runtime selection over Base/Full,,model_output,medium,User-selectable utilization-level column; not a stored table column.
+Base,YearTASS_Base,raw,Year TASS,,yrs,table_base,Database/*.tab,0,source_table,high,
+Base,HeightSindex_Base,raw,Height,,m,table_base,Database/*.tab,1,source_table,high,
+Base,VolumeGross,Stand,Volume,Gross,m³/ha,table_base,Database/*.tab,2,source_table,high,
+Base,Volume000,raw,Volume,0.0 +,m³/ha,table_base,Database/*.tab,3,source_table,high,
+Base,Volume125,raw,Volume,12.5 +,m³/ha,table_base,Database/*.tab,4,source_table,high,
+Base,Volume175,raw,Volume,17.5 +,m³/ha,table_base,Database/*.tab,5,source_table,high,
+Base,BasalArea000,raw,Basal Area,0.0 +,m²/ha,table_base,Database/*.tab,6,source_table,high,
+Base,BasalArea125,raw,Basal Area,12.5 +,m²/ha,table_base,Database/*.tab,7,source_table,high,
+Base,BasalArea175,raw,Basal Area,17.5 +,m²/ha,table_base,Database/*.tab,8,source_table,high,
+Base,MeanDBHg000,raw,Mean DBHg,0.0 +,cm,table_base,Database/*.tab,9,source_table,high,
+Base,MeanDBHg125,raw,Mean DBHg,12.5 +,cm,table_base,Database/*.tab,10,source_table,high,
+Base,MeanDBHg175,raw,Mean DBHg,17.5 +,cm,table_base,Database/*.tab,11,source_table,high,
+Base,StemCount000,raw,Stem Count,0.0 +,#/ha,table_base,Database/*.tab,12,source_table,high,
+Base,StemCount125,raw,Stem Count,12.5 +,#/ha,table_base,Database/*.tab,13,source_table,high,
+Base,StemCount175,raw,Stem Count,17.5 +,#/ha,table_base,Database/*.tab,14,source_table,high,
+Base,CrownCover,raw,Crown Cover,,%,table_base,Database/*.tab,15,source_table,high,
+Base,Crop250VolUtil125,Crop Trees,Crop Trees,Volume 12.5,m³/ha,table_base,Database/*.tab,16,source_table,high,
+Base,Crop250DBHgMean,Crop Trees,Crop Trees,DBHg Mean,cm,table_base,Database/*.tab,17,source_table,high,
+Base,Crop250LiveCrown,Crop Trees,Crop Trees,Live Crown,%,table_base,Database/*.tab,18,source_table,high,
+Base,HeightTassTop,Stand,TASS Height,Top,m,table_base,Database/*.tab,19,source_table,high,
+Base,HeightTassMean,Stand,TASS Height,Mean,m,table_base,Database/*.tab,20,source_table,high,
+Base,HeightTassPredom,Stand,TASS Height,Predom,m,table_base,Database/*.tab,21,source_table,high,
+BaseCalc,MAI000,raw,Mean Annual Increment,0.0 +,m³/ha/yr,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+BaseCalc,MAI125,raw,Mean Annual Increment,12.5 +,m³/ha/yr,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+BaseCalc,MAI175,raw,Mean Annual Increment,17.5 +,m³/ha/yr,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+BaseCalc,VPT000,raw,Volume per Tree,0.0 +,m³,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+BaseCalc,VPT125,raw,Volume per Tree,12.5 +,m³,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+BaseCalc,VPT175,raw,Volume per Tree,17.5 +,m³,derived_base,derived from Database/*.tab,,reimplemented,high,Formula on Base fields (MAI or volume per tree).
+Full,YearTASS_Full,raw,Year TASS,,yrs,table_full,Database/*.taf,0,source_table,high,
+Full,HeightSindex_Full,raw,Height (SI),,m,table_full,Database/*.taf,1,source_table,high,
+Full,Lumber_2_or_Better_2x4,Products,Lumber (#2 & Better),2 x 4,bf/ha,table_full_product,Database/*.taf,2,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_2_or_Better_2x6,Products,Lumber (#2 & Better),2 x 6,bf/ha,table_full_product,Database/*.taf,3,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_2_or_Better_2x8,Products,Lumber (#2 & Better),2 x 8,bf/ha,table_full_product,Database/*.taf,4,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_2_or_Better_2x10,Products,Lumber (#2 & Better),2 x 10,bf/ha,table_full_product,Database/*.taf,5,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Residual_Chips,Products,Residual,Chips,ODT/ha,table_full_product,Database/*.taf,6,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Residual_Sawdust,Products,Residual,Sawdust,ODT/ha,table_full_product,Database/*.taf,7,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Residual_Shavings,Products,Residual,Shavings,ODT/ha,table_full_product,Database/*.taf,8,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Residual_Trim,Products,Residual,Trim,ODT/ha,table_full_product,Database/*.taf,9,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Residual_Bark,Products,Residual,Bark,ODT/ha,table_full_product,Database/*.taf,10,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Mortality_Stems,Mortality,Mortality,Stems,#/ha,table_full,Database/*.taf,11,source_table,medium,Mortality summary aggregation needs confirmation.
+Full,Mortality_DBHg_Mean,Mortality,Mortality,Mean DBHg,cm,table_full,Database/*.taf,12,source_table,medium,Mortality summary aggregation needs confirmation.
+Full,Mortality_Height_Mean,Mortality,Mortality,Mean Height,m,table_full,Database/*.taf,13,source_table,medium,Mortality summary aggregation needs confirmation.
+Full,Mortality_Basal_Area,Mortality,Mortality,Basal Area,m²/ha,table_full,Database/*.taf,14,source_table,medium,Mortality summary aggregation needs confirmation.
+Full,Mortality_Volume_Total,Mortality,Mortality,Volume,m³/ha,table_full,Database/*.taf,15,source_table,medium,Mortality summary aggregation needs confirmation.
+Full,Mortality_Stems_Size_Class_5,Mortality Stock,Mortality Stems (Size Class),5,#/ha,table_full,Database/*.taf,16,source_table,high,
+Full,Mortality_Stems_Size_Class_15,Mortality Stock,Mortality Stems (Size Class),15,#/ha,table_full,Database/*.taf,17,source_table,high,
+Full,Mortality_Stems_Size_Class_25,Mortality Stock,Mortality Stems (Size Class),25,#/ha,table_full,Database/*.taf,18,source_table,high,
+Full,Mortality_Stems_Size_Class_35,Mortality Stock,Mortality Stems (Size Class),35,#/ha,table_full,Database/*.taf,19,source_table,high,
+Full,Mortality_Stems_Size_Class_45,Mortality Stock,Mortality Stems (Size Class),45,#/ha,table_full,Database/*.taf,20,source_table,high,
+Full,Mortality_Stems_Size_Class_55,Mortality Stock,Mortality Stems (Size Class),55,#/ha,table_full,Database/*.taf,21,source_table,high,
+Full,Mortality_Stems_Size_Class_65,Mortality Stock,Mortality Stems (Size Class),65,#/ha,table_full,Database/*.taf,22,source_table,high,
+Full,Mortality_Volume_Size_Class_5,Mortality Stock,Mortality Volume (Size Class),5,m³/ha,table_full,Database/*.taf,23,source_table,high,
+Full,Mortality_Volume_Size_Class_15,Mortality Stock,Mortality Volume (Size Class),15,m³/ha,table_full,Database/*.taf,24,source_table,high,
+Full,Mortality_Volume_Size_Class_25,Mortality Stock,Mortality Volume (Size Class),25,m³/ha,table_full,Database/*.taf,25,source_table,high,
+Full,Mortality_Volume_Size_Class_35,Mortality Stock,Mortality Volume (Size Class),35,m³/ha,table_full,Database/*.taf,26,source_table,high,
+Full,Mortality_Volume_Size_Class_45,Mortality Stock,Mortality Volume (Size Class),45,m³/ha,table_full,Database/*.taf,27,source_table,high,
+Full,Mortality_Volume_Size_Class_55,Mortality Stock,Mortality Volume (Size Class),55,m³/ha,table_full,Database/*.taf,28,source_table,high,
+Full,Mortality_Volume_Size_Class_65,Mortality Stock,Mortality Volume (Size Class),65,m³/ha,table_full,Database/*.taf,29,source_table,high,
+Full,Stems_Diameter_Class_0,Stock,Stems (Diameter Class),0,#/ha,table_full,Database/*.taf,30,source_table,high,
+Full,Stems_Diameter_Class_5,Stock,Stems (Diameter Class),5,#/ha,table_full,Database/*.taf,31,source_table,high,
+Full,Stems_Diameter_Class_10,Stock,Stems (Diameter Class),10,#/ha,table_full,Database/*.taf,32,source_table,high,
+Full,Stems_Diameter_Class_15,Stock,Stems (Diameter Class),15,#/ha,table_full,Database/*.taf,33,source_table,high,
+Full,Stems_Diameter_Class_20,Stock,Stems (Diameter Class),20,#/ha,table_full,Database/*.taf,34,source_table,high,
+Full,Stems_Diameter_Class_25,Stock,Stems (Diameter Class),25,#/ha,table_full,Database/*.taf,35,source_table,high,
+Full,Stems_Diameter_Class_30,Stock,Stems (Diameter Class),30,#/ha,table_full,Database/*.taf,36,source_table,high,
+Full,Stems_Diameter_Class_35,Stock,Stems (Diameter Class),35,#/ha,table_full,Database/*.taf,37,source_table,high,
+Full,Stems_Diameter_Class_40,Stock,Stems (Diameter Class),40,#/ha,table_full,Database/*.taf,38,source_table,high,
+Full,Stems_Diameter_Class_45,Stock,Stems (Diameter Class),45,#/ha,table_full,Database/*.taf,39,source_table,high,
+Full,Stems_Diameter_Class_50,Stock,Stems (Diameter Class),50,#/ha,table_full,Database/*.taf,40,source_table,high,
+Full,Stems_Diameter_Class_55,Stock,Stems (Diameter Class),55,#/ha,table_full,Database/*.taf,41,source_table,high,
+Full,Stems_Diameter_Class_60,Stock,Stems (Diameter Class),60,#/ha,table_full,Database/*.taf,42,source_table,high,
+Full,Stems_Diameter_Class_65,Stock,Stems (Diameter Class),65,#/ha,table_full,Database/*.taf,43,source_table,high,
+Full,Stems_Diameter_Class_70,Stock,Stems (Diameter Class),70,#/ha,table_full,Database/*.taf,44,source_table,high,
+Full,Stems_Diameter_Class_75,Stock,Stems (Diameter Class),75,#/ha,table_full,Database/*.taf,45,source_table,high,
+Full,Stems_Diameter_Class_80,Stock,Stems (Diameter Class),80,#/ha,table_full,Database/*.taf,46,source_table,high,
+Full,Stems_Diameter_Class_85,Stock,Stems (Diameter Class),85,#/ha,table_full,Database/*.taf,47,source_table,high,
+Full,Stems_Diameter_Class_90,Stock,Stems (Diameter Class),90,#/ha,table_full,Database/*.taf,48,source_table,high,
+Full,Volume_Diameter_Class_0,Stock,Volume (Diameter Class),0,m³/ha,table_full,Database/*.taf,49,source_table,high,
+Full,Volume_Diameter_Class_5,Stock,Volume (Diameter Class),5,m³/ha,table_full,Database/*.taf,50,source_table,high,
+Full,Volume_Diameter_Class_10,Stock,Volume (Diameter Class),10,m³/ha,table_full,Database/*.taf,51,source_table,high,
+Full,Volume_Diameter_Class_15,Stock,Volume (Diameter Class),15,m³/ha,table_full,Database/*.taf,52,source_table,high,
+Full,Volume_Diameter_Class_20,Stock,Volume (Diameter Class),20,m³/ha,table_full,Database/*.taf,53,source_table,high,
+Full,Volume_Diameter_Class_25,Stock,Volume (Diameter Class),25,m³/ha,table_full,Database/*.taf,54,source_table,high,
+Full,Volume_Diameter_Class_30,Stock,Volume (Diameter Class),30,m³/ha,table_full,Database/*.taf,55,source_table,high,
+Full,Volume_Diameter_Class_35,Stock,Volume (Diameter Class),35,m³/ha,table_full,Database/*.taf,56,source_table,high,
+Full,Volume_Diameter_Class_40,Stock,Volume (Diameter Class),40,m³/ha,table_full,Database/*.taf,57,source_table,high,
+Full,Volume_Diameter_Class_45,Stock,Volume (Diameter Class),45,m³/ha,table_full,Database/*.taf,58,source_table,high,
+Full,Volume_Diameter_Class_50,Stock,Volume (Diameter Class),50,m³/ha,table_full,Database/*.taf,59,source_table,high,
+Full,Volume_Diameter_Class_55,Stock,Volume (Diameter Class),55,m³/ha,table_full,Database/*.taf,60,source_table,high,
+Full,Volume_Diameter_Class_60,Stock,Volume (Diameter Class),60,m³/ha,table_full,Database/*.taf,61,source_table,high,
+Full,Volume_Diameter_Class_65,Stock,Volume (Diameter Class),65,m³/ha,table_full,Database/*.taf,62,source_table,high,
+Full,Volume_Diameter_Class_70,Stock,Volume (Diameter Class),70,m³/ha,table_full,Database/*.taf,63,source_table,high,
+Full,Volume_Diameter_Class_75,Stock,Volume (Diameter Class),75,m³/ha,table_full,Database/*.taf,64,source_table,high,
+Full,Volume_Diameter_Class_80,Stock,Volume (Diameter Class),80,m³/ha,table_full,Database/*.taf,65,source_table,high,
+Full,Volume_Diameter_Class_85,Stock,Volume (Diameter Class),85,m³/ha,table_full,Database/*.taf,66,source_table,high,
+Full,Volume_Diameter_Class_90,Stock,Volume (Diameter Class),90,m³/ha,table_full,Database/*.taf,67,source_table,high,
+Full,Logs_Grade_D,Products,Logs (Grade),D,m³/ha,table_full_product,Database/*.taf,68,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_F,Products,Logs (Grade),F,m³/ha,table_full_product,Database/*.taf,69,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_H,Products,Logs (Grade),H,m³/ha,table_full_product,Database/*.taf,70,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_I,Products,Logs (Grade),I,m³/ha,table_full_product,Database/*.taf,71,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_J,Products,Logs (Grade),J,m³/ha,table_full_product,Database/*.taf,72,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_U,Products,Logs (Grade),U,m³/ha,table_full_product,Database/*.taf,73,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_X,Products,Logs (Grade),X,m³/ha,table_full_product,Database/*.taf,74,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Logs_Grade_Y,Products,Logs (Grade),Y,m³/ha,table_full_product,Database/*.taf,75,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Juvenille_Volume000,raw,Juvenille Volume (Util.),0.0 +,m³/ha,table_full,Database/*.taf,76,source_table,high,
+Full,Juvenille_Volume125,raw,Juvenille Volume (Util.),12.5 +,m³/ha,table_full,Database/*.taf,77,source_table,high,
+Full,Juvenille_Volume175,raw,Juvenille Volume (Util.),17.5 +,m³/ha,table_full,Database/*.taf,78,source_table,high,
+Full,Biomass_Live_Wood,Biomass Live,Live Biomass,Wood,ODT/ha,table_full,Database/*.taf,79,source_table,high,
+Full,Biomass_Live_Bark,Biomass Live,Live Biomass,Bark,ODT/ha,table_full,Database/*.taf,80,source_table,high,
+Full,Biomass_Live_Foliar,Biomass Live,Live Biomass,Foliar,ODT/ha,table_full,Database/*.taf,81,source_table,high,
+Full,Biomass_Live_Branch,Biomass Live,Live Biomass,Branch,ODT/ha,table_full,Database/*.taf,82,source_table,high,
+Full,Biomass_Live_Roots,Biomass Live,Live Biomass,Roots,ODT/ha,table_full,Database/*.taf,83,source_table,high,
+Full,Biomass_Dead_Wood,Biomass Dead,Dead Biomass,Wood,ODT/ha,table_full,Database/*.taf,84,source_table,high,
+Full,Biomass_Dead_Bark,Biomass Dead,Dead Biomass,Bark,ODT/ha,table_full,Database/*.taf,85,source_table,high,
+Full,Biomass_Dead_Foliar,Biomass Dead,Dead Biomass,Foliar,ODT/ha,table_full,Database/*.taf,86,source_table,high,
+Full,Biomass_Dead_Branch,Biomass Dead,Dead Biomass,Branch,ODT/ha,table_full,Database/*.taf,87,source_table,high,
+Full,Biomass_Dead_Roots,Biomass Dead,Dead Biomass,Roots,ODT/ha,table_full,Database/*.taf,88,source_table,high,
+Full,mean_height_to_crown_base,Fire,Mean Height to Crown Base,,m,table_full,Database/*.taf,89,source_table,high,
+Full,mean_crown_length,Fire,Mean Crown Length,,m,table_full,Database/*.taf,90,source_table,high,
+Full,Lumber_Graded_SS_2x4,Lumber Graded,Graded Lumber (SS),2x4,bf/ha,table_full_product,Database/*.taf,91,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_SS_2x6,Lumber Graded,Graded Lumber (SS),2x6,bf/ha,table_full_product,Database/*.taf,92,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_SS_2x8,Lumber Graded,Graded Lumber (SS),2x8,bf/ha,table_full_product,Database/*.taf,93,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_SS_2x10,Lumber Graded,Graded Lumber (SS),2x10,bf/ha,table_full_product,Database/*.taf,94,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_1_2x4,Lumber Graded,Graded Lumber (#1),2x4,bf/ha,table_full_product,Database/*.taf,95,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_1_2x6,Lumber Graded,Graded Lumber (#1),2x6,bf/ha,table_full_product,Database/*.taf,96,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_1_2x8,Lumber Graded,Graded Lumber (#1),2x8,bf/ha,table_full_product,Database/*.taf,97,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_1_2x10,Lumber Graded,Graded Lumber (#1),2x10,bf/ha,table_full_product,Database/*.taf,98,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_2_2x4,Lumber Graded,Graded Lumber (#2),2x4,bf/ha,table_full_product,Database/*.taf,99,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_2_2x6,Lumber Graded,Graded Lumber (#2),2x6,bf/ha,table_full_product,Database/*.taf,100,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_2_2x8,Lumber Graded,Graded Lumber (#2),2x8,bf/ha,table_full_product,Database/*.taf,101,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_2_2x10,Lumber Graded,Graded Lumber (#2),2x10,bf/ha,table_full_product,Database/*.taf,102,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_3_2x4,Lumber Graded,Graded Lumber (#3),2x4,bf/ha,table_full_product,Database/*.taf,103,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_3_2x6,Lumber Graded,Graded Lumber (#3),2x6,bf/ha,table_full_product,Database/*.taf,104,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_3_2x8,Lumber Graded,Graded Lumber (#3),2x8,bf/ha,table_full_product,Database/*.taf,105,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_3_2x10,Lumber Graded,Graded Lumber (#3),2x10,bf/ha,table_full_product,Database/*.taf,106,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_4_2x4,Lumber Graded,Graded Lumber (#4),2x4,bf/ha,table_full_product,Database/*.taf,107,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_4_2x6,Lumber Graded,Graded Lumber (#4),2x6,bf/ha,table_full_product,Database/*.taf,108,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_4_2x8,Lumber Graded,Graded Lumber (#4),2x8,bf/ha,table_full_product,Database/*.taf,109,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Graded_4_2x10,Lumber Graded,Graded Lumber (#4),2x10,bf/ha,table_full_product,Database/*.taf,110,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_SS_2x4,Lumber Degraded,Degraded Lumber (SS),2x4,bf/ha,table_full_product,Database/*.taf,111,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_SS_2x6,Lumber Degraded,Degraded Lumber (SS),2x6,bf/ha,table_full_product,Database/*.taf,112,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_SS_2x8,Lumber Degraded,Degraded Lumber (SS),2x8,bf/ha,table_full_product,Database/*.taf,113,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_SS_2x10,Lumber Degraded,Degraded Lumber (SS),2x10,bf/ha,table_full_product,Database/*.taf,114,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_1_2x4,Lumber Degraded,Degraded Lumber (#1),2x4,bf/ha,table_full_product,Database/*.taf,115,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_1_2x6,Lumber Degraded,Degraded Lumber (#1),2x6,bf/ha,table_full_product,Database/*.taf,116,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_1_2x8,Lumber Degraded,Degraded Lumber (#1),2x8,bf/ha,table_full_product,Database/*.taf,117,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_1_2x10,Lumber Degraded,Degraded Lumber (#1),2x10,bf/ha,table_full_product,Database/*.taf,118,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_2_2x4,Lumber Degraded,Degraded Lumber (#2),2x4,bf/ha,table_full_product,Database/*.taf,119,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_2_2x6,Lumber Degraded,Degraded Lumber (#2),2x6,bf/ha,table_full_product,Database/*.taf,120,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_2_2x8,Lumber Degraded,Degraded Lumber (#2),2x8,bf/ha,table_full_product,Database/*.taf,121,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_2_2x10,Lumber Degraded,Degraded Lumber (#2),2x10,bf/ha,table_full_product,Database/*.taf,122,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_3_2x4,Lumber Degraded,Degraded Lumber (#3),2x4,bf/ha,table_full_product,Database/*.taf,123,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_3_2x6,Lumber Degraded,Degraded Lumber (#3),2x6,bf/ha,table_full_product,Database/*.taf,124,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_3_2x8,Lumber Degraded,Degraded Lumber (#3),2x8,bf/ha,table_full_product,Database/*.taf,125,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_3_2x10,Lumber Degraded,Degraded Lumber (#3),2x10,bf/ha,table_full_product,Database/*.taf,126,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_4_2x4,Lumber Degraded,Degraded Lumber (#4),2x4,bf/ha,table_full_product,Database/*.taf,127,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_4_2x6,Lumber Degraded,Degraded Lumber (#4),2x6,bf/ha,table_full_product,Database/*.taf,128,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_4_2x8,Lumber Degraded,Degraded Lumber (#4),2x8,bf/ha,table_full_product,Database/*.taf,129,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Lumber_Degraded_4_2x10,Lumber Degraded,Degraded Lumber (#4),2x10,bf/ha,table_full_product,Database/*.taf,130,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D38L13,Industrial Logs,Industrial Logs - Sawlog/Peeler,D38L13,m³/ha,table_full_product,Database/*.taf,131,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D38L11,Industrial Logs,Industrial Logs - Sawlog/Peeler,D38L11,m³/ha,table_full_product,Database/*.taf,132,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D38L8,Industrial Logs,Industrial Logs - Sawlog/Peeler,D38L8,m³/ha,table_full_product,Database/*.taf,133,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D30L13,Industrial Logs,Industrial Logs - Large Gang,D30L13,m³/ha,table_full_product,Database/*.taf,134,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D30L11,Industrial Logs,Industrial Logs - Large Gang,D30L11,m³/ha,table_full_product,Database/*.taf,135,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D30L8,Industrial Logs,Industrial Logs - Large Gang,D30L8,m³/ha,table_full_product,Database/*.taf,136,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D20L13,Industrial Logs,Industrial Logs - Small Gang,D20L13,m³/ha,table_full_product,Database/*.taf,137,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D20L11,Industrial Logs,Industrial Logs - Small Gang,D20L11,m³/ha,table_full_product,Database/*.taf,138,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D20L8,Industrial Logs,Industrial Logs - Small Gang,D20L8,m³/ha,table_full_product,Database/*.taf,139,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L13,Industrial Logs,Industrial Logs - Chip'n'Saw,D125L13,m³/ha,table_full_product,Database/*.taf,140,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L11,Industrial Logs,Industrial Logs - Chip'n'Saw,D125L11,m³/ha,table_full_product,Database/*.taf,141,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L8,Industrial Logs,Industrial Logs - Chip'n'Saw,D125L8,m³/ha,table_full_product,Database/*.taf,142,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L63,Industrial Logs,Industrial Logs - Chip'n'Saw,D125L63,m³/ha,table_full_product,Database/*.taf,143,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L51,Industrial Logs,Industrial Logs - Pulp,D125L51,m³/ha,table_full_product,Database/*.taf,144,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D125L5,Industrial Logs,Industrial Logs - Pulp,D125L5,m³/ha,table_full_product,Database/*.taf,145,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D305,Industrial Logs (Deciduous),Deciduous Ind. Log - Sawlog/Peeler,D305,m³/ha,table_full_product,Database/*.taf,146,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D254,Industrial Logs (Deciduous),Deciduous Ind. Log - Sawlog/Peeler,D254,m³/ha,table_full_product,Database/*.taf,147,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D203,Industrial Logs (Deciduous),Deciduous Ind. Log - Pulp,D203,m³/ha,table_full_product,Database/*.taf,148,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D178,Industrial Logs (Deciduous),Deciduous Ind. Log - Pulp,D178,m³/ha,table_full_product,Database/*.taf,149,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+Full,Industrial_Logs_D152,Industrial Logs (Deciduous),Deciduous Ind. Log - Pulp,D152,m³/ha,table_full_product,Database/*.taf,150,model_output,high,"Product/grade output; model output, not a measured BC field grade."
+FullCalc,VPT_Diameter_Class_0,Stock,Volume per Tree (Diameter Class),0,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_5,Stock,Volume per Tree (Diameter Class),5,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_10,Stock,Volume per Tree (Diameter Class),10,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_15,Stock,Volume per Tree (Diameter Class),15,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_20,Stock,Volume per Tree (Diameter Class),20,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_25,Stock,Volume per Tree (Diameter Class),25,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_30,Stock,Volume per Tree (Diameter Class),30,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_35,Stock,Volume per Tree (Diameter Class),35,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_40,Stock,Volume per Tree (Diameter Class),40,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_45,Stock,Volume per Tree (Diameter Class),45,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_50,Stock,Volume per Tree (Diameter Class),50,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_55,Stock,Volume per Tree (Diameter Class),55,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_60,Stock,Volume per Tree (Diameter Class),60,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_65,Stock,Volume per Tree (Diameter Class),65,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_70,Stock,Volume per Tree (Diameter Class),70,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_75,Stock,Volume per Tree (Diameter Class),75,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_80,Stock,Volume per Tree (Diameter Class),80,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_85,Stock,Volume per Tree (Diameter Class),85,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,VPT_Diameter_Class_90,Stock,Volume per Tree (Diameter Class),90,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Biomass_Live_Total,Biomass Live,Live Biomass,Total,ODT/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Biomass_Live_Above,Biomass Live,Live Biomass,Above Ground,ODT/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Biomass_Dead_Total,Biomass Dead,Dead Biomass,Total,ODT/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Biomass_Dead_Above,Biomass Dead,Dead Biomass,Above Ground,ODT/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Total,Carbon Live,Live Carbon,Total,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Above,Carbon Live,Live Carbon,Above Ground,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Total,Carbon Dead,Dead Carbon,Total,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Above,Carbon Dead,Dead Carbon,Above Ground,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Wood,Carbon Live,Live Carbon,Wood,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Bark,Carbon Live,Live Carbon,Bark,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Foliar,Carbon Live,Live Carbon,Foliar,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Branch,Carbon Live,Live Carbon,Branch,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Live_Roots,Carbon Live,Live Carbon,Roots,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Wood,Carbon Dead,Dead Carbon,Wood,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Bark,Carbon Dead,Dead Carbon,Bark,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Foliar,Carbon Dead,Dead Carbon,Foliar,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Branch,Carbon Dead,Dead Carbon,Branch,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Carbon_Dead_Roots,Carbon Dead,Dead Carbon,Roots,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Total,CO2e Live,Live CO2e,Total,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Above,CO2e Live,Live CO2e,Above Ground,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Total,CO2e Dead,Dead CO2e,Total,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Above,CO2e Dead,Dead CO2e,Above Ground,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Wood,CO2e Live,Live CO2e,Wood,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Bark,CO2e Live,Live CO2e,Bark,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Foliar,CO2e Live,Live CO2e,Foliar,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Branch,CO2e Live,Live CO2e,Branch,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Live_Roots,CO2e Live,Live CO2e,Roots,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Wood,CO2e Dead,Dead CO2e,Wood,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Bark,CO2e Dead,Dead CO2e,Bark,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Foliar,CO2e Dead,Dead CO2e,Foliar,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Branch,CO2e Dead,Dead CO2e,Branch,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,CO2e_Dead_Roots,CO2e Dead,Dead CO2e,Roots,tonnes/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Logs_Grade_All,Products,Logs (Grade),All,m³/ha,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,Lumber_2_or_Better_All,Products,Lumber (#2 & Better),All,bf/ha,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,Lumber_Graded_All,Lumber Graded,Lumber (Graded),All,bf/ha,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,Lumber_Degraded_All,Lumber Degraded,Lumber (Degraded),All,bf/ha,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,LRF_2_or_Better_All,Products,LRF (#2 & Better),,bf/m³,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,LRF_Graded_All,Lumber Graded,LRF (Graded),,bf/m³,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,LRF_Degraded_All,Lumber Degraded,LRF (Degraded),,bf/m³,derived_full_product,derived from Database/*.taf,,model_output,high,"Derived product aggregate; model output, not a measured BC field grade."
+FullCalc,Mortality_VPT_Size_Class_5,Mortality Stock,Mortality Volume per Tree (Size Class),5,m³/ha,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_15,Mortality Stock,Mortality Volume per Tree (Size Class),15,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_25,Mortality Stock,Mortality Volume per Tree (Size Class),25,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_35,Mortality Stock,Mortality Volume per Tree (Size Class),35,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_45,Mortality Stock,Mortality Volume per Tree (Size Class),45,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_55,Mortality Stock,Mortality Volume per Tree (Size Class),55,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Mortality_VPT_Size_Class_65,Mortality Stock,Mortality Volume per Tree (Size Class),65,m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Juvenille_Percent000,raw,Juvenille Percent,0.0 +,%,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Juvenille_Percent125,raw,Juvenille Percent,12.5 +,%,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Juvenille_Percent175,raw,Juvenille Percent,17.5 +,%,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.
+FullCalc,Crown_Bulk_Density,Fire,Crown Bulk Density,,Kg/m³,derived_full,derived from Database/*.taf,,reimplemented,high,Derived from Full fields; not a stored table column.

@@ -126,7 +126,7 @@ These are resolved or narrowed in [`tab-taf-grammar.md`](tab-taf-grammar.md); th
   - UTF-8 with a byte-order mark; tab-delimited; 269 rows and 12 columns.
   - Category counts: `Full` 151, `FullCalc` 69, `Base` 22, `Calc` 11, `choose` 10, `BaseCalc` 6.
   - The `Full` category contains 77 product-related rows: lumber, residues, logs, industrial logs, and LRF.
-  - The product fields are runtime outputs; they are not columns in the `.tab` or `.taf` growth tables.
+- The product fields are TASS/SYLVER model outputs. They are present in the `.taf` `Full` table and absent from the compact `.tab` table. Treat them as `model_output`, not measured field grades.
 - Report templates: 17 `.rpt` files, including Lumber, Logs, Industrial, Volume, Yield, Stock, Stand, Mortality, Biomass, Carbon, CO2e, VPT, and Wildlife reports.
 - Tcl definitions: `BatchTIPSY45.tcl`, `TIPSY.tcl`, `TIPSY44.tcl`, `TIPSY45.tcl`, and `Tass_Sum.tcl`.
 - Samples: 21 files, including `.Tip` project files, `TIPSY45 Sample.rgm`, exported CSV outputs (`MSYT.csv`, `ex1.csv`, `mck_no_rust.csv`, `tass_input_lakes.csv`), and `VRIsample.dbf`/`VRIsample.shp`.
@@ -149,7 +149,7 @@ See [`fansier-file-manifest.csv`](fansier-file-manifest.csv).
 
 ## Runtime status
 
-The TIPSY `.NET Framework 4.8` runtime currently fails under Wine before producing output. Table extraction does not depend on the runtime; product-output extraction does. A failed run is recorded as a failed run and is not replaced with invented values.
+The TIPSY `.NET Framework 4.8` runtime currently fails under Wine before producing output. Table extraction, including the `.taf` product columns, does not depend on the runtime; custom runtime outputs do. A failed run is recorded as a failed run and is not replaced with invented values.
 
 ## Verification
 

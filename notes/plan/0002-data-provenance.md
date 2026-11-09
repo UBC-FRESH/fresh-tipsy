@@ -69,8 +69,9 @@ Industrial_Logs_*
 LRF_2_or_Better_All, LRF_Graded_All, LRF_Degraded_All
 ```
 
-These product fields are runtime outputs, not fields in the `.tab`/`.taf`
-growth tables.
+These product fields are TASS/SYLVER model outputs. They are present in the
+`.taf` `Full` table and absent from the compact `.tab` table. Label them
+`model_output`, never a measured field grade.
 
 ### FAN$IER
 
