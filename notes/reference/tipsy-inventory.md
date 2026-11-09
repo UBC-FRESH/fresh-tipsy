@@ -4,6 +4,9 @@ Date: 2026-11-09
 Status: observed from the local TIPSY 4.5 installation
 Scope: table extraction and output-schema planning
 
+P1.1 inventory: the complete source inventory, counts, and checksum manifests
+are in [`source-inventory.md`](source-inventory.md).
+
 ## Installation shape
 
 The local TIPSY 4.5 install contains:
@@ -62,14 +65,18 @@ PNC variants observed: `C`, `N`, `P`.
 
 The filename grammar is not yet authoritative. Treat the header fields as the
 source of truth and use the filename only as a fallback after Phase 1 confirms
-the pattern.
+the pattern. Filenames use lowercase species codes and sometimes contain spaces,
+such as `at 1032C00.tab`.
 
 ## Table format observations
 
-- `.tab`: tab-delimited; the sample `pli0530N00.tab` row had 22 fields.
-- `.taf`: tab-delimited; the sample `pli0530N00.taf` row had 151 fields.
-- The files are ASCII, not binary.
-- The data block starts after `[RUN,...]`.
+- `.tab`: tab-delimited; every non-empty data row has 22 fields.
+- `.taf`: tab-delimited; every non-empty data row has 151 fields.
+- The files are ASCII with CRLF line endings, not binary.
+- Data blocks start after each `[RUN,...]` marker, and a file contains multiple
+  run blocks. There are 8,278 run markers across the 192 files.
+- Duplicate age values occur within some blocks, so P1.2 must define the age
+  key rather than assume strict monotonicity.
 - `.tab` is the compact TASS yield table.
 - `.taf` is the expanded output table; it still does **not** contain the TIPSY
   product columns.

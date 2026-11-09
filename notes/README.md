@@ -19,6 +19,14 @@ issues, or the changelog alone.
 
 - [`reference/tipsy-inventory.md`](reference/tipsy-inventory.md): observed TIPSY
   4.5 install, table formats, species codes, and runtime note.
+- [`reference/source-inventory.md`](reference/source-inventory.md): P1.1 install
+  inventory, table and file counts, checksum manifests, and FAN$IER status.
+- [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
+  192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
+- [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
+  non-database TIPSY files with IDs, sizes, and SHA-256.
+- [`reference/fansier-file-manifest.csv`](reference/fansier-file-manifest.csv):
+  located FAN$IER files with IDs, sizes, and SHA-256.
 - [`reference/fansier-scope.md`](reference/fansier-scope.md): FAN$IER scope,
   inventory gaps, and economics boundary.
 

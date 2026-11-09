@@ -1,0 +1,6 @@
+id,relative_path,kind,size_bytes,sha256,source_version,notes
+fansier-file-fansier-exe,Fansier.exe,binary,719792,1af8758976203cf5827e0c033a1e6e5d5c68cbd87a72ad506c7efa6b403e1b8e,unreported,PE32 .NET assembly; version not reported by strings
+fansier-file-fansier-chm,Fansier.chm,documentation,374405,3fd4cec5300d123b7d1580751408bce0c4a15c755861d0ca923179e18206842e,unreported,Compiled help file
+fansier-file-activities-ez,activities.ez,support,45741,7990895f7f1ab68a6c9e4738b8af7755c538887d34d9d321cf0154657841632d,unreported,Support data
+fansier-file-help-ez,help.ez,support,7654,61c95a6a50ed0296668cb5c8c566a400f9e275839c7f4b0aacb4ff39b76e291e,unreported,Help data
+fansier-file-samples-sample-fns,Samples/sample.fns,sample,908975,29b88b26f6f271a09384acdfec84f1b1438866607c62c4ecd1a566dee6793eb7,unreported,Sample FAN$IER project
