@@ -71,7 +71,7 @@ Goal: locate every source table and output schema, then freeze the provenance
 contract before extraction begins.
 
 - [x] P1.1 Inventory TIPSY and FAN$IER installs, databases, reports, and samples (#4)
-- [ ] P1.2 Decode `.tab` and `.taf` grammar, filename fields, and header metadata (#5)
+- [x] P1.2 Decode `.tab` and `.taf` grammar, filename fields, and header metadata (#5)
 - [ ] P1.3 Map `OutputColumns.txt`, report templates, and output columns to tables (#6)
 - [ ] P1.4 Write the data-provenance contract and source-citation manifest (#7)
 - [ ] P1.5 Capture tiny fixtures and a golden output inventory (#8)

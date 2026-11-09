@@ -3,7 +3,7 @@
 Date: 2026-11-09
 Status: observed from the local installs; P1.1 evidence
 Scope: TIPSY 4.5 database, schema, reports, and samples; FAN$IER availability
-Related: [`tipsy-inventory.md`](tipsy-inventory.md), [`tipsy-table-manifest.csv`](tipsy-table-manifest.csv), [`tipsy-file-manifest.csv`](tipsy-file-manifest.csv), [`fansier-file-manifest.csv`](fansier-file-manifest.csv), [`../plan/0002-data-provenance.md`](../plan/0002-data-provenance.md)
+Related: [`tipsy-inventory.md`](tipsy-inventory.md), [`tab-taf-grammar.md`](tab-taf-grammar.md), [`tab-taf-columns.csv`](tab-taf-columns.csv), [`tipsy-table-manifest.csv`](tipsy-table-manifest.csv), [`tipsy-file-manifest.csv`](tipsy-file-manifest.csv), [`fansier-file-manifest.csv`](fansier-file-manifest.csv), [`../plan/0002-data-provenance.md`](../plan/0002-data-provenance.md)
 
 ## Method
 
@@ -105,7 +105,7 @@ These are observations for the grammar task, not a parser contract.
 - Every non-empty data row has exactly 22 fields in `.tab` and 151 fields in `.taf`; there are no field-count exceptions in the 192 files.
 - There are 246,048 data rows in total: 123,024 in `.tab` files and 123,024 in `.taf` files.
 - 1,384 rows have an empty first field. These are padding or leading rows and must not be treated as age-zero data without a rule.
-- 10,348 adjacent duplicate age values occur across 130 files, so strict age monotonicity cannot be assumed at the file or block level. Examples: `at 1032C04.tab` has two age-7 rows, `cw 1040N06.tab` has two age-13 rows, and `fdc1050N0021.tab` has two age-32 rows.
+- 5,174 adjacent duplicate age pairs occur in the `.tab` files, and the same count occurs in the matching `.taf` files, across 65 files. 63 of those files carry a PCT or CT header and the duplicates mark treatment boundaries; the other two are duplicated final blocks in `dr 2020N00.tab` and `dr 2828N00.tab`. Strict age monotonicity cannot be assumed, and the treatment rows must be preserved. See [`tab-taf-grammar.md`](tab-taf-grammar.md).
 - Each `.tab` file has a matching `.taf` file. For all 96 pairs, the headers, run counts, and row counts match.
 - Table size range: 15,458 to 1,678,256 bytes. Run count range: 12 to 179. Data-row range: 204 to 4,953.
 - Observed ages range from 1 to 501.
@@ -117,6 +117,8 @@ Open questions for P1.2:
 - The rule for duplicate ages within a run block.
 - The meaning and use of `PCT`, `CT`, `TASSsiteIndex`, and `TASSsiteSpecies`.
 - The filename grammar after the header fields are taken as the source of truth.
+
+These are resolved or narrowed in [`tab-taf-grammar.md`](tab-taf-grammar.md); the remaining column-level unknowns are listed there and in [`tab-taf-columns.csv`](tab-taf-columns.csv).
 
 ## Output schema, reports, and samples
 

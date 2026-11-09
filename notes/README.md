@@ -21,6 +21,10 @@ issues, or the changelog alone.
   4.5 install, table formats, species codes, and runtime note.
 - [`reference/source-inventory.md`](reference/source-inventory.md): P1.1 install
   inventory, table and file counts, checksum manifests, and FAN$IER status.
+- [`reference/tab-taf-grammar.md`](reference/tab-taf-grammar.md): P1.2 `.tab` and
+  `.taf` grammar, filename rules, run blocks, and column candidates.
+- [`reference/tab-taf-columns.csv`](reference/tab-taf-columns.csv): 173-row
+  column map with units, confidence, evidence, and open questions.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
