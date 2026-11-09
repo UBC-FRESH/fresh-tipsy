@@ -18,7 +18,7 @@ The dashboard runs lint, format, strict types, tests with the coverage gate, the
 | Unit | `tests/test_*` | Parser, metadata, manifest, normalization, and catalog behavior |
 | Contract | `tests/test_catalog.py`, `tests/test_manifest_io.py` | Public interfaces and the manifest schema |
 | Integration | `tests/test_cli_db.py` | `db extract`, `db validate`, and `db catalog` |
-| Property | `tests/test_properties_tables.py` | Row counts, age ranges, slug stability, and normalization invariants |
+| Property | `tests/test_properties_tables.py`, `tests/test_curve_properties.py` | Row counts, age ranges, slug stability, interpolation bounds, exact-age identity, and monotonicity |
 | Self-check | `tests/test_workflow.py` | The planning surfaces pass `scripts/check_workflow.py` |
 
 ## Synthetic fixtures
@@ -49,7 +49,7 @@ scripts/dashboard.py
 src/fresh_tipsy/
 ```
 
-`--cov-fail-under=95` applies to the combined branch coverage. As of P2.6 the combined result is about 97.6 percent. The old gate covered `scripts/` only; P2.6 extended it to `src/fresh_tipsy/` and recorded the change in `CHANGE_LOG.md`.
+`--cov-fail-under=95` applies to the combined branch coverage. As of P3.5 the combined result is about 97.6 percent, and the `curves/` package is at about 97 percent. P2.6 extended the gate from `scripts/` to `src/fresh_tipsy/`; P3.5 added the curve property and regression tests.
 
 ## No raw data in tests
 
