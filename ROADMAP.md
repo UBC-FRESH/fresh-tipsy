@@ -12,7 +12,7 @@ after its parent issue exists and the maintainer approves it.
 
 | Phase | Parent issue | Branch | Status |
 | --- | --- | --- | --- |
-| P0 Bootstrap and attribution | TBD | `feature/p0-bootstrap` | planned |
+| P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | active |
 | P1 Source inventory and provenance | TBD | `feature/p1-source-inventory` | planned |
 | P2 Table extraction and catalog | TBD | `feature/p2-table-extraction` | planned |
 | P3 Growth query engine | TBD | `feature/p3-growth-engine` | planned |
@@ -42,9 +42,9 @@ after its parent issue exists and the maintainer approves it.
 
 ## Phase 0: Bootstrap and attribution
 
-Parent issue: TBD
+Parent issue: #1
 Branch: `feature/p0-bootstrap`
-Status: planned
+Status: active
 
 Goal: make the repository's public purpose, attribution, and agent contract
 unambiguous before code lands.
@@ -52,7 +52,7 @@ unambiguous before code lands.
 - [ ] P0.1 Adapt `README.md`, `AGENTS.md`, `CITATION.cff`, and `LICENSE`
 - [ ] P0.2 Add the source-attribution and no-authorship rules to the docs
 - [ ] P0.3 Confirm the workflow validator, tests, and docs build pass
-- [ ] P0.4 Create the GitHub repository and Phase 0 parent issue
+- [x] P0.4 Create the GitHub repository and Phase 0 parent issue
 
 Acceptance criteria:
 
