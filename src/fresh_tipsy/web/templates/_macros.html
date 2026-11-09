@@ -1,0 +1,32 @@
+{% macro show_error(error) %}
+  {% if error %}
+    <div class="notice error">
+      <strong>{{ error.code }}</strong>
+      <p>{{ error.message }}</p>
+    </div>
+  {% endif %}
+{% endmacro %}
+
+{% macro provenance_drawer(request_data, provenance, warnings) %}
+  <details class="drawer" open>
+    <summary>Request and provenance</summary>
+    {% if request_data %}
+      <h3>Request</h3>
+      <pre>{{ request_data | tojson(indent=2) }}</pre>
+    {% endif %}
+    {% if provenance %}
+      <h3>Provenance</h3>
+      <pre>{{ provenance | tojson(indent=2) }}</pre>
+    {% else %}
+      <p class="muted">No single source table applies to this view.</p>
+    {% endif %}
+    {% if warnings %}
+      <h3>Warnings</h3>
+      <ul>
+        {% for warning in warnings %}
+          <li><code>{{ warning.code }}</code> {{ warning.message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </details>
+{% endmacro %}

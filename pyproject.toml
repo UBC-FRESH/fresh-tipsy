@@ -18,7 +18,7 @@ dependencies = ["typer>=0.12", "jsonschema>=4.20"]
 
 [project.optional-dependencies]
 parquet = ["pyarrow>=15"]
-api = ["fastapi>=0.115", "uvicorn>=0.30"]
+api = ["fastapi>=0.115", "uvicorn>=0.30", "jinja2>=3.1"]
 
 [project.scripts]
 fresh-tipsy = "fresh_tipsy.cli:main"
@@ -28,6 +28,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "fresh_tipsy.tables" = ["data/*.csv", "data/*.json"]
+"fresh_tipsy.web" = ["templates/*.html", "static/*.css"]
 
 [tool.ruff]
 line-length = 100

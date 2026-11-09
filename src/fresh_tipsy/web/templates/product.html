@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "_macros.html" import show_error, provenance_drawer %}
+{% block title %}Product mix · fresh-tipsy{% endblock %}
+{% block content %}
+  <h1>Product mix and residues</h1>
+  <p>Recover the product and grade columns from a `.taf` table. All values are model output.</p>
+
+  <form class="filters" method="get" action="/ui/products">
+    <label>Species <input name="species" value="{{ form.get('species') or '' }}" placeholder="PLI" required></label>
+    <label>Site index <input name="site_index" type="number" step="any" value="{{ form.get('site_index') or '' }}" required></label>
+    <label>Age <input name="age" type="number" step="any" value="{{ form.get('age') or '' }}" required></label>
+    <label>PNC
+      <select name="pnc">
+        <option value="">Any</option>
+        <option value="N" {% if form.get('pnc') == 'N' %}selected{% endif %}>N</option>
+        <option value="C" {% if form.get('pnc') == 'C' %}selected{% endif %}>C</option>
+        <option value="P" {% if form.get('pnc') == 'P' %}selected{% endif %}>P</option>
+      </select>
+    </label>
+    <label>Stock height <input name="stock_height" type="number" step="any" value="{{ form.get('stock_height') or '' }}"></label>
+    <button type="submit">Recover</button>
+  </form>
+
+  {{ show_error(error) }}
+
+  {% if result %}
+    <h2>{{ result.species_code }} · {{ result.age }} yr</h2>
+    <h3>Totals</h3>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><th>#2 &amp; Better</th><td>{{ result.totals.lumber_2_or_better_bf_ha }} bf/ha</td></tr>
+          <tr><th>Graded lumber</th><td>{{ result.totals.graded_bf_ha }} bf/ha</td></tr>
+          <tr><th>Degraded lumber</th><td>{{ result.totals.degraded_bf_ha }} bf/ha</td></tr>
+          <tr><th>Log grades</th><td>{{ result.totals.logs_m3_ha }} m³/ha</td></tr>
+          <tr><th>Residues</th><td>{{ result.totals.residues_odt_ha }} ODT/ha</td></tr>
+          <tr><th>Industrial logs</th><td>{{ result.totals.industrial_m3_ha }} m³/ha</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Mass balance</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Check</th><th>Status</th><th>Difference</th><th>Independent</th><th>Note</th></tr></thead>
+        <tbody>
+          {% for check in result.checks %}
+            <tr>
+              <td>{{ check.name }}</td>
+              <td><span class="badge {{ check.status }}">{{ check.status }}</span></td>
+              <td>{{ check.difference }}</td>
+              <td>{{ check.independent }}</td>
+              <td>{{ check.note }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {{ provenance_drawer(request_data, provenance, warnings) }}
+  {% endif %}
+{% endblock %}

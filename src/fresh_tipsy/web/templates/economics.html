@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% from "_macros.html" import show_error, provenance_drawer %}
+{% block title %}Economics · fresh-tipsy{% endblock %}
+{% block content %}
+  <h1>Economics scenario</h1>
+  <p>All prices, costs, and the discount rate are explicit inputs. Leave a price blank to see the missing-price gap.</p>
+
+  <form class="filters" method="get" action="/ui/economics">
+    <label>Species <input name="species" value="{{ form.get('species') or '' }}" placeholder="FDC" required></label>
+    <label>Site index <input name="site_index" type="number" step="any" value="{{ form.get('site_index') or '' }}" required></label>
+    <label>Age <input name="age" type="number" step="any" value="{{ form.get('age') or '' }}" required></label>
+    <label>PNC
+      <select name="pnc">
+        <option value="">Any</option>
+        <option value="N" {% if form.get('pnc') == 'N' %}selected{% endif %}>N</option>
+        <option value="C" {% if form.get('pnc') == 'C' %}selected{% endif %}>C</option>
+        <option value="P" {% if form.get('pnc') == 'P' %}selected{% endif %}>P</option>
+      </select>
+    </label>
+    <label>Stock height <input name="stock_height" type="number" step="any" value="{{ form.get('stock_height') or '' }}"></label>
+    <label>Product group
+      <select name="group">
+        <option value="lumber_2_or_better" {% if form.get('group') == 'lumber_2_or_better' %}selected{% endif %}>#2 &amp; Better</option>
+        <option value="lumber_graded" {% if form.get('group') == 'lumber_graded' %}selected{% endif %}>Graded lumber</option>
+        <option value="lumber_degraded" {% if form.get('group') == 'lumber_degraded' %}selected{% endif %}>Degraded lumber</option>
+        <option value="log_grade" {% if form.get('group') == 'log_grade' %}selected{% endif %}>Log grades</option>
+        <option value="industrial_log" {% if form.get('group') == 'industrial_log' %}selected{% endif %}>Industrial logs</option>
+      </select>
+    </label>
+    <label class="check"><input name="include_residues" type="checkbox" value="true" {% if form.get('include_residues') %}checked{% endif %}> Include residues</label>
+    <label>Price <input name="price" type="number" step="any" value="{{ form.get('price') if form.get('price') is not none else '' }}" placeholder="e.g. 1000"></label>
+    <label>Price unit <input name="unit" value="{{ form.get('unit') or 'CAD/mbf' }}"></label>
+    <label>Price period <input name="period" value="{{ form.get('period') or 'web' }}"></label>
+    <label>Cost <input name="cost" type="number" step="any" value="{{ form.get('cost') if form.get('cost') is not none else '' }}" placeholder="e.g. 1200"></label>
+    <label>Cost category
+      <select name="cost_category">
+        <option value="regeneration" {% if form.get('cost_category') == 'regeneration' %}selected{% endif %}>Regeneration</option>
+        <option value="post_regeneration" {% if form.get('cost_category') == 'post_regeneration' %}selected{% endif %}>Post-regeneration</option>
+        <option value="harvest" {% if form.get('cost_category') == 'harvest' %}selected{% endif %}>Harvest</option>
+        <option value="transport" {% if form.get('cost_category') == 'transport' %}selected{% endif %}>Transport</option>
+        <option value="milling" {% if form.get('cost_category') == 'milling' %}selected{% endif %}>Milling</option>
+        <option value="roads" {% if form.get('cost_category') == 'roads' %}selected{% endif %}>Roads</option>
+        <option value="annual" {% if form.get('cost_category') == 'annual' %}selected{% endif %}>Annual</option>
+        <option value="other" {% if form.get('cost_category') == 'other' %}selected{% endif %}>Other</option>
+      </select>
+    </label>
+    <label>Discount rate <input name="discount_rate" type="number" step="any" value="{{ form.get('discount_rate') if form.get('discount_rate') is not none else '' }}" placeholder="e.g. 0.04" required></label>
+    <button type="submit">Run scenario</button>
+  </form>
+
+  {{ show_error(error) }}
+
+  {% if result %}
+    <h2>Results</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><th>Revenue</th><td>{{ result.revenue_per_ha }} CAD/ha</td></tr>
+          <tr><th>Cost</th><td>{{ result.cost_per_ha }} CAD/ha</td></tr>
+          <tr><th>Discounted revenue</th><td>{{ result.discounted_revenue_per_ha }} CAD/ha</td></tr>
+          <tr><th>Discounted cost</th><td>{{ result.discounted_cost_per_ha }} CAD/ha</td></tr>
+          <tr><th>NPV</th><td>{{ result.npv_per_ha }} CAD/ha</td></tr>
+          <tr><th>Site value</th><td>{{ result.site_value_per_ha }} CAD/ha</td></tr>
+          <tr><th>B/C ratio</th><td>{{ result.benefit_cost_ratio }}</td></tr>
+          <tr><th>Evidence</th><td>{{ result.evidence }} / {{ result.validation }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    {% if result.gaps %}
+      <h3>Gaps</h3>
+      <ul class="gaps">
+        {% for gap in result.gaps %}
+          <li><code>{{ gap.code }}</code> {{ gap.message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if result.revenue_lines %}
+      <h3>Revenue lines</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Product</th><th>Quantity</th><th>Price</th><th>Revenue</th><th>Source</th></tr></thead>
+          <tbody>
+            {% for line in result.revenue_lines %}
+              <tr>
+                <td>{{ line.product_name }}</td>
+                <td>{{ line.quantity }} {{ line.quantity_units }}</td>
+                <td>{{ line.price_per_unit }} {{ line.price_units }}</td>
+                <td>{{ line.revenue_per_ha }} CAD/ha</td>
+                <td>{{ line.source }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+
+    {% if result.cost_lines %}
+      <h3>Cost lines</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Activity</th><th>Category</th><th>Age</th><th>Cost</th><th>Source</th></tr></thead>
+          <tbody>
+            {% for line in result.cost_lines %}
+              <tr>
+                <td>{{ line.label }}</td>
+                <td>{{ line.category }}</td>
+                <td>{{ line.age }}</td>
+                <td>{{ line.amount_per_ha }} CAD/ha</td>
+                <td>{{ line.source }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+
+    {{ provenance_drawer(request_data, provenance, warnings) }}
+  {% endif %}
+{% endblock %}

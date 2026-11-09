@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "_macros.html" import show_error, provenance_drawer %}
+{% block title %}Table · fresh-tipsy{% endblock %}
+{% block content %}
+  <h1>Table detail</h1>
+  <p><a href="/ui/catalog">Back to catalog</a></p>
+  {{ show_error(error) }}
+  {% if result %}
+    <h2>{{ result.species_code }} {{ result.species_name }}</h2>
+    <dl class="summary">
+      <dt>Asset</dt><dd class="mono">{{ result.id }}</dd>
+      <dt>Pair</dt><dd class="mono">{{ result.pair_id }}</dd>
+      <dt>Source</dt><dd>{{ result.source_model }} {{ result.source_version }}</dd>
+      <dt>Path</dt><dd class="mono">{{ result.relative_path }}</dd>
+      <dt>Format</dt><dd>{{ result.format }}</dd>
+      <dt>Rows</dt><dd>{{ result.data_rows }}</dd>
+      <dt>Runs</dt><dd>{{ result.run_count }}</dd>
+      <dt>Age range</dt><dd>{{ result.first_age }}-{{ result.last_age }}</dd>
+      <dt>SHA-256</dt><dd class="mono">{{ result.sha256 }}</dd>
+      <dt>Evidence</dt><dd>{{ result.evidence }}</dd>
+      <dt>Citation</dt><dd>{{ result.citation }}</dd>
+    </dl>
+    {{ provenance_drawer(request_data, provenance, warnings) }}
+  {% endif %}
+{% endblock %}

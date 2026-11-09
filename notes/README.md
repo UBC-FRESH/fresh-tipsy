@@ -57,6 +57,8 @@ issues, or the changelog alone.
   economics scenario schema.
 - [`reference/api.md`](reference/api.md): P5.2 shared service envelope, FastAPI
   endpoints, and error contract.
+- [`reference/web.md`](reference/web.md): P5.3 server-rendered views, provenance
+  drawer, and UI boundaries.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "_macros.html" import show_error, provenance_drawer %}
+{% block title %}Curve explorer · fresh-tipsy{% endblock %}
+{% block content %}
+  <h1>Curve explorer</h1>
+  <p>Query one source table. Results include the selected table and query inputs.</p>
+
+  <form class="filters" method="get" action="/ui/curve">
+    <label>Species <input name="species" value="{{ form.get('species') or '' }}" placeholder="PLI" required></label>
+    <label>Site index <input name="site_index" type="number" step="any" value="{{ form.get('site_index') or '' }}" required></label>
+    <label>Age <input name="age" type="number" step="any" value="{{ form.get('age') or '' }}" required></label>
+    <label>PNC
+      <select name="pnc">
+        <option value="">Any</option>
+        <option value="N" {% if form.get('pnc') == 'N' %}selected{% endif %}>N</option>
+        <option value="C" {% if form.get('pnc') == 'C' %}selected{% endif %}>C</option>
+        <option value="P" {% if form.get('pnc') == 'P' %}selected{% endif %}>P</option>
+      </select>
+    </label>
+    <label>Stock height <input name="stock_height" type="number" step="any" value="{{ form.get('stock_height') or '' }}"></label>
+    <label>Format
+      <select name="format">
+        <option value="tab" {% if form.get('format') == 'tab' %}selected{% endif %}>tab</option>
+        <option value="taf" {% if form.get('format') == 'taf' %}selected{% endif %}>taf</option>
+      </select>
+    </label>
+    <button type="submit">Query</button>
+  </form>
+
+  {{ show_error(error) }}
+
+  {% if result %}
+    <h2>{{ result.age }} yr · {{ result.format }} · {{ result.scenario }}</h2>
+    <div class="table-wrap">
+      <table>
+        <tbody>
+          <tr><th>Gross volume</th><td>{{ result.volume_gross_m3_ha }} m³/ha</td></tr>
+          <tr><th>Total volume</th><td>{{ result.volume_total_m3_ha }} m³/ha</td></tr>
+          <tr><th>Merchantable volume</th><td>{{ result.volume_merch_m3_ha }} m³/ha</td></tr>
+          <tr><th>Site height</th><td>{{ result.height_site_m }} m</td></tr>
+          <tr><th>Top height</th><td>{{ result.height_top_m }} m</td></tr>
+          <tr><th>Mean height</th><td>{{ result.height_mean_m }} m</td></tr>
+          <tr><th>Predominant height</th><td>{{ result.height_predominant_m }} m</td></tr>
+          <tr><th>DBH</th><td>{{ result.dbh_cm }} cm</td></tr>
+          <tr><th>Stems</th><td>{{ result.stems_per_ha }} /ha</td></tr>
+          <tr><th>Basal area</th><td>{{ result.basal_area_m2_ha }} m²/ha</td></tr>
+          <tr><th>Crown cover</th><td>{{ result.crown_cover_pct }} %</td></tr>
+          <tr><th>Live biomass</th><td>{{ result.biomass_live_odt_ha }} ODT/ha</td></tr>
+          <tr><th>Dead biomass</th><td>{{ result.biomass_dead_odt_ha }} ODT/ha</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">Unavailable metrics: {{ result.unavailable_metrics | join(", ") or "none" }}.</p>
+    {{ provenance_drawer(request_data, provenance, warnings) }}
+  {% endif %}
+{% endblock %}
