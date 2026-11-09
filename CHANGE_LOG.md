@@ -13,3 +13,5 @@ Newest entries last. Each milestone gets a dated entry that matches the roadmap 
 - Activated Phase 0 as parent issue #1, set its roadmap status to `active`, and created `feature/p0-bootstrap`. Dashboard at activation: GREEN on lint, format, types, tests, validator, and docs.
 - Completed P0.1–P0.3: refreshed the README phase status, removed a duplicated `AGENTS.md` section, and confirmed the attribution and no-authorship statements in `README.md`, `AGENTS.md`, `CITATION.cff`, `LICENSE`, and the docs. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
 - Queued the Phase 0 close-out in pull request #2 with `notes/reports/phase-0-closeout.md`; P0 status is `pr-open`. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
+- Closed Phase 0: squash-merged pull request #2 as `4bb9776`, deleted `feature/p0-bootstrap`, and closed parent issue #1. Dashboard and CI were green at the merge head.
+- Launched Phase 1 as parent issue #3 on `feature/p1-source-inventory`; created child issues #4–#8 for P1.1–P1.5 and started P1.1. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
