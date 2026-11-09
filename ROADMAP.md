@@ -17,7 +17,7 @@ after its parent issue exists and the maintainer approves it.
 | P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | complete |
 | P3 Growth query engine | #18 | `feature/p3-growth-engine` | complete |
 | P4 Product recovery and economics | #25 | `feature/p4-product-economics` | complete |
-| P5 CLI, API, web, and agent | #32 | `feature/p5-interfaces` | active |
+| P5 CLI, API, web, and agent | #32 | `feature/p5-interfaces` | pr-open |
 | P6 Validation, packaging, and femic integration | TBD | `feature/p6-release-integration` | planned |
 
 ## Lifecycle Map
@@ -157,7 +157,7 @@ Acceptance criteria:
 
 Parent issue: #32
 Branch: `feature/p5-interfaces`
-Status: active
+Status: pr-open
 
 Goal: make the package usable by people and agents through a typed API, CLI,
 FRESH-style web UI, and bounded assistant tools.
