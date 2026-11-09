@@ -13,11 +13,12 @@ specific rules go at the end, each with its reason.
 Before you change anything, read in this order:
 
 1. This file.
-2. `ROADMAP.md`: the active phase and its "Detailed Next Steps Notes".
-3. The latest entries in `CHANGE_LOG.md`.
-4. The notes your task names, in `notes/`.
-5. The docs pages that govern your task, in `docs/`.
-6. If present, the untracked host-specific notes in `notes/local/README.md`.
+2. `HANDOFF.md`.
+3. `ROADMAP.md`: the active phase and its "Detailed Next Steps Notes".
+4. The latest entries in `CHANGE_LOG.md`.
+5. The notes your task names, in `notes/`.
+6. The docs pages that govern your task, in `docs/`.
+7. If present, the untracked host-specific notes in `notes/local/README.md`.
 
 Cite the pages you relied on in your report.
 

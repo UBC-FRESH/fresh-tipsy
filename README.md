@@ -76,6 +76,7 @@ python scripts/dashboard.py
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | Operating contract for coding agents |
+| `HANDOFF.md` | First-read handoff note for a new session agent |
 | `ROADMAP.md` | Plan of record and issue tracker map |
 | `CHANGE_LOG.md` | Dated narrative of changes |
 | `notes/plan/` | Detailed program, data, architecture, and validation plans |
