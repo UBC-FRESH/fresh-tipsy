@@ -373,8 +373,8 @@ def build_normalized_manifest_entry(
     artifact_sha = assets.csv_sha256 if artifact_format == "csv" else assets.parquet_sha256
     artifact_size = assets.csv_size_bytes if artifact_format == "csv" else assets.parquet_size_bytes
     try:
-        relative_artifact = artifact_path.resolve().relative_to(output_root.resolve()).as_posix()
-        relative_source = source.path.resolve().relative_to(source_root.resolve()).as_posix()
+        relative_artifact = artifact_path.absolute().relative_to(output_root.absolute()).as_posix()
+        relative_source = source.path.absolute().relative_to(source_root.absolute()).as_posix()
     except ValueError as exc:
         message = "normalized or source path is outside its declared root"
         raise NormalizationError(message) from exc
@@ -393,7 +393,7 @@ def build_normalized_manifest_entry(
         table_entry["last_age"] = source.last_age
     columns_ref = TAF_COLUMNS_REF if source.format == "taf" else TAB_COLUMNS_REF
     return {
-        "id": f"normalized-{slugify(source.path.stem)}-{artifact_format}",
+        "id": f"normalized-{slugify(source.path.stem)}-{source.format}-{artifact_format}",
         "kind": "normalized_table",
         "format": artifact_format,
         "role": "release_asset",

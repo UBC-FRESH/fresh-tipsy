@@ -96,7 +96,7 @@ asset and make it discoverable.
 - [x] P2.2 Implement the `.taf` parser and fixed-width/tab-delimited handling (#12)
 - [x] P2.3 Implement the table catalog and search index (#13)
 - [x] P2.4 Write normalized Parquet/CSV plus a checksum manifest (#14)
-- [ ] P2.5 Add `fresh-tipsy db extract`, `validate`, and `catalog` CLI commands (#15)
+- [x] P2.5 Add `fresh-tipsy db extract`, `validate`, and `catalog` CLI commands (#15)
 - [ ] P2.6 Add parser, schema, and catalog tests (#16)
 
 Acceptance criteria:

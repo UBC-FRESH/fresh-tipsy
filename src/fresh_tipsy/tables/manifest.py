@@ -70,7 +70,7 @@ def build_tab_manifest_entry(
         message = f"expected a .tab table, got {table.format!r}"
         raise ValueError(message)
     try:
-        relative_path = table.path.resolve().relative_to(source_root.resolve()).as_posix()
+        relative_path = table.path.absolute().relative_to(source_root.absolute()).as_posix()
     except ValueError as exc:
         message = f"table path {table.path} is not under source root {source_root}"
         raise ValueError(message) from exc
@@ -164,7 +164,7 @@ def build_taf_manifest_entry(
         message = f"expected a .taf table, got {table.format!r}"
         raise ValueError(message)
     try:
-        relative_path = table.path.resolve().relative_to(source_root.resolve()).as_posix()
+        relative_path = table.path.absolute().relative_to(source_root.absolute()).as_posix()
     except ValueError as exc:
         message = f"table path {table.path} is not under source root {source_root}"
         raise ValueError(message) from exc
