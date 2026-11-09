@@ -61,6 +61,22 @@ issues, or the changelog alone.
   drawer, and UI boundaries.
 - [`reference/agent.md`](reference/agent.md): P5.4 bounded assistant tools and
   provenance-first prompt guidance.
+- [`reference/release-validation.md`](reference/release-validation.md): P6.1
+  four-species golden regression, tolerances, and FEMIC gap.
+- [`reference/package-build.md`](reference/package-build.md): P6.2 wheel/sdist,
+  packaged data, and clean-install smoke test.
+- [`reference/release-assets.md`](reference/release-assets.md): P6.3 publication
+  decision, asset set, and rebuild instructions.
+- [`reference/release-assets.csv`](reference/release-assets.csv): machine-readable
+  release asset register with checksums.
+- [`reference/femic-integration.md`](reference/femic-integration.md): P6.4
+  optional dependency, thin adapter, provenance pass-through, and external
+  repository gap.
+- [`reference/known-gaps.md`](reference/known-gaps.md): P6.5 release gaps and
+  limits.
+- [`reference/citation.md`](reference/citation.md): P6.5 citation instructions
+  for code, manifests, and source data.
+- [`../RELEASE_NOTES.md`](../RELEASE_NOTES.md): 0.1.0 release notes.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

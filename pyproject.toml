@@ -12,7 +12,7 @@ version = "0.1.0"
 description = "A provenance-first Python interoperability layer for BC TIPSY and FAN$IER tables."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = "MIT"
 authors = [{ name = "UBC FRESH Lab" }]
 dependencies = ["typer>=0.12", "jsonschema>=4.20"]
 

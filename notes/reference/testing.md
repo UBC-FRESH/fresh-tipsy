@@ -22,6 +22,9 @@ The dashboard runs lint, format, strict types, tests with the coverage gate, the
 | Product | `tests/test_product_schema.py`, `tests/test_product_recovery.py`, `tests/test_product_regression.py` | 77-field contract, aggregation, mass balance, missing dimensions, and real-source PLI checks |
 | Economics | `tests/test_economics.py` | Explicit prices/costs, unit gaps, hand-checked NPV, site value, and sensitivity direction |
 | Interface | `tests/test_cli_interfaces.py`, `tests/test_cli*.py`, `tests/test_api.py`, `tests/test_web.py`, `tests/test_agent.py`, `tests/test_interfaces.py` | CLI/API/web/agent parity, provenance envelopes, error codes, UI routes, assistant tools, and missing-data contracts |
+| Package | `tests/test_package_data.py` | Packaged column map, manifest schema, templates, and static assets |
+| Release | `tests/test_release_assets.py` | Checksum verification, raw-table rejection, and manifest validation |
+| Integration | `tests/test_femic_integration.py` | Optional FEMIC adapter, provenance, manifest hash, and structured errors |
 | Self-check | `tests/test_workflow.py` | The planning surfaces pass `scripts/check_workflow.py` |
 
 ## Synthetic fixtures
@@ -36,7 +39,8 @@ Real-source tests skip when `TIPSY_DATABASE` is unset. To run them:
 TIPSY_DATABASE="$TIPSY_INSTALL/Database" python -m pytest \
   tests/test_tab_parser.py tests/test_taf_parser.py \
   tests/test_catalog.py tests/test_normalized.py tests/test_cli_db.py \
-  tests/test_product_regression.py tests/test_product_goldens.py -q
+  tests/test_product_regression.py tests/test_product_goldens.py \
+  tests/test_release_golden.py -q
 ```
 
 The tests read the installed tables, verify checksums and pair structure, and never copy raw tables into the repository. A missing install is a skip, not a pass of the real-data path.
@@ -55,7 +59,7 @@ scripts/dashboard.py
 src/fresh_tipsy/
 ```
 
-`--cov-fail-under=95` applies to the combined branch coverage. As of P5.5 the combined result is about 96.3 percent; `web/` is at 100 percent branch coverage, `api/app.py` at 97 percent, and `products/`/`economics/` at 100 percent. P2.6 extended the gate from `scripts/` to `src/fresh_tipsy/`; P3.5 added curve property and regression tests; P4.5 added product and economics regression, boundary, and missing-data tests; P5.1 added CLI contract tests; P5.2 added service and API tests; P5.3 added web route tests; P5.4 added assistant tool tests; P5.5 added cross-interface parity and envelope contract tests.
+`--cov-fail-under=95` applies to the combined branch coverage. As of P6.4 the combined result is about 95.5 percent; `web/` is at 100 percent branch coverage, `api/app.py` at 97 percent, and `products/`/`economics/` at 100 percent. P2.6 extended the gate from `scripts/` to `src/fresh_tipsy/`; P3.5 added curve property and regression tests; P4.5 added product and economics regression, boundary, and missing-data tests; P5.1 added CLI contract tests; P5.2 added service and API tests; P5.3 added web route tests; P5.4 added assistant tool tests; P5.5 added cross-interface parity and envelope contract tests; P6.1–P6.3 added release golden, package-data, and release-asset tests; P6.4 added FEMIC adapter tests.
 
 ## No raw data in tests
 
