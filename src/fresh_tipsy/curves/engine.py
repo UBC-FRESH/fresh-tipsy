@@ -5,9 +5,22 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from fresh_tipsy.curves.errors import SourceUnavailableError, UnsupportedQueryError
+from fresh_tipsy.curves.errors import (
+    MetricUnavailableError,
+    SourceUnavailableError,
+    UnknownMetricError,
+    UnsupportedQueryError,
+)
 from fresh_tipsy.curves.interpolation import interpolate_table
-from fresh_tipsy.curves.models import CurveQuery, Provenance, QueryResult, TableSelection
+from fresh_tipsy.curves.metrics import METRICS, build_curve_point
+from fresh_tipsy.curves.models import (
+    CurvePoint,
+    CurveQuery,
+    MetricValue,
+    Provenance,
+    QueryResult,
+    TableSelection,
+)
 from fresh_tipsy.tables.catalog import CatalogEntry, CatalogQuery, TableCatalog
 from fresh_tipsy.tables.parsers import TIPSYTable, parse_tab_file, parse_taf_file
 
@@ -73,6 +86,66 @@ class CurveEngine:
         table = self.load_table(selection)
         row = interpolate_table(table, query)
         return QueryResult(selection=selection, row=row)
+
+    def point(self, query: CurveQuery) -> CurvePoint:
+        """Return typed metrics for a query.
+
+        Parameters
+        ----------
+        query : CurveQuery
+            Growth query.
+
+        Returns
+        -------
+        CurvePoint
+            Typed metric values and provenance.
+        """
+        return build_curve_point(self.query(query))
+
+    def metric(self, query: CurveQuery, metric: str) -> MetricValue:
+        """Return one named metric for a query.
+
+        Parameters
+        ----------
+        query : CurveQuery
+            Growth query.
+        metric : str
+            Metric name from `METRICS`.
+
+        Returns
+        -------
+        MetricValue
+            Metric value with units, evidence, and provenance.
+
+        Raises
+        ------
+        UnknownMetricError
+            When the metric name is not defined.
+        MetricUnavailableError
+            When the metric is unavailable in the selected format or has no
+            value at the query age.
+        """
+        if metric not in METRICS:
+            message = f"unknown metric: {metric}"
+            raise UnknownMetricError(message)
+        point = self.point(query)
+        spec = METRICS[metric]
+        if point.format not in spec.formats:
+            message = f"metric {metric} is not available in {point.format}"
+            raise MetricUnavailableError(message)
+        raw = getattr(point, spec.field)
+        if not isinstance(raw, (int, float)):
+            message = f"metric {metric} has no value at age {point.age}"
+            raise MetricUnavailableError(message)
+        return MetricValue(
+            metric=metric,
+            value=float(raw),
+            units=spec.units,
+            evidence=spec.evidence_for(point.format),
+            age=point.age,
+            scenario=point.scenario,
+            provenance=point.provenance,
+        )
 
     def load_table(self, selection: TableSelection) -> TIPSYTable:
         """Load the parsed source table for a selection.

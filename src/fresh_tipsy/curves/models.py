@@ -272,3 +272,113 @@ class QueryResult:
 
     selection: TableSelection
     row: InterpolatedRow
+
+
+@dataclass(frozen=True)
+class CurvePoint:
+    """Typed metric values at one age.
+
+    Parameters
+    ----------
+    age : float
+        Query age.
+    format : str
+        Source table format.
+    volume_gross_m3_ha : float or None
+        Gross volume.
+    volume_total_m3_ha : float or None
+        Total standing volume.
+    volume_merch_m3_ha : float or None
+        Merchantable volume.
+    height_site_m : float or None
+        Site height.
+    height_top_m : float or None
+        TASS top height.
+    height_mean_m : float or None
+        TASS mean height.
+    height_predominant_m : float or None
+        TASS predominant height.
+    dbh_cm : float or None
+        Quadratic mean DBH.
+    stems_per_ha : float or None
+        Live stems per hectare.
+    basal_area_m2_ha : float or None
+        Basal area.
+    crown_cover_pct : float or None
+        Crown cover.
+    biomass_live_odt_ha : float or None
+        Live biomass.
+    biomass_dead_odt_ha : float or None
+        Dead biomass.
+    carbon_live_t_ha : float or None
+        Live carbon.
+    carbon_dead_t_ha : float or None
+        Dead carbon.
+    scenario : str
+        Scenario label.
+    lower_age : float
+        Lower bracketing age.
+    upper_age : float
+        Upper bracketing age.
+    fraction : float
+        Interpolation fraction.
+    provenance : Provenance
+        Source provenance.
+    unavailable_metrics : tuple of str
+        Metrics not available in this source format.
+    """
+
+    age: float
+    format: str
+    volume_gross_m3_ha: float | None
+    volume_total_m3_ha: float | None
+    volume_merch_m3_ha: float | None
+    height_site_m: float | None
+    height_top_m: float | None
+    height_mean_m: float | None
+    height_predominant_m: float | None
+    dbh_cm: float | None
+    stems_per_ha: float | None
+    basal_area_m2_ha: float | None
+    crown_cover_pct: float | None
+    biomass_live_odt_ha: float | None
+    biomass_dead_odt_ha: float | None
+    carbon_live_t_ha: float | None
+    carbon_dead_t_ha: float | None
+    scenario: str
+    lower_age: float
+    upper_age: float
+    fraction: float
+    provenance: Provenance
+    unavailable_metrics: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class MetricValue:
+    """One metric value with its units and evidence.
+
+    Parameters
+    ----------
+    metric : str
+        Metric name.
+    value : float
+        Metric value.
+    units : str
+        Source unit.
+    evidence : str
+        Evidence label.
+    age : float
+        Query age.
+    scenario : str
+        Scenario label.
+    provenance : Provenance
+        Source provenance.
+    """
+
+    metric: str
+    value: float
+    units: str
+    evidence: str
+    age: float
+    scenario: str
+    provenance: Provenance

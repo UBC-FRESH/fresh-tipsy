@@ -17,3 +17,11 @@ class InterpolationError(UnsupportedQueryError):
 
 class SourceUnavailableError(UnsupportedQueryError):
     """Raised when the source table data cannot be loaded."""
+
+
+class UnknownMetricError(UnsupportedQueryError):
+    """Raised when a metric name is not defined."""
+
+
+class MetricUnavailableError(UnsupportedQueryError):
+    """Raised when a metric is not available in the selected source format."""
