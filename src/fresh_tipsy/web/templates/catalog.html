@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% from "_macros.html" import show_error, provenance_drawer %}
+{% block title %}Catalog · fresh-tipsy{% endblock %}
+{% block content %}
+  <h1>Catalog</h1>
+  <p>Search source tables by species, site, PNC, stock height, version, format, or text.</p>
+
+  <form class="filters" method="get" action="/ui/catalog">
+    <label>Species <input name="species" value="{{ form.get('species') or '' }}" placeholder="PLI"></label>
+    <label>Site index <input name="site_index" type="number" step="any" value="{{ form.get('site_index') or '' }}"></label>
+    <label>PNC
+      <select name="pnc">
+        <option value="">Any</option>
+        <option value="N" {% if form.get('pnc') == 'N' %}selected{% endif %}>N</option>
+        <option value="C" {% if form.get('pnc') == 'C' %}selected{% endif %}>C</option>
+        <option value="P" {% if form.get('pnc') == 'P' %}selected{% endif %}>P</option>
+      </select>
+    </label>
+    <label>Stock height <input name="stock_height" type="number" step="any" value="{{ form.get('stock_height') or '' }}"></label>
+    <label>Version <input name="source_version" value="{{ form.get('source_version') or '' }}"></label>
+    <label>Format
+      <select name="format">
+        <option value="">Any</option>
+        <option value="tab" {% if form.get('format') == 'tab' %}selected{% endif %}>tab</option>
+        <option value="taf" {% if form.get('format') == 'taf' %}selected{% endif %}>taf</option>
+      </select>
+    </label>
+    <label>Text <input name="q" value="{{ form.get('q') or '' }}"></label>
+    <button type="submit">Search</button>
+  </form>
+
+  {{ show_error(error) }}
+
+  {% if result %}
+    <p class="muted">{{ result.count }} table(s) matched.</p>
+    {% if result.tables %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ID</th><th>Species</th><th>Site</th><th>PNC</th><th>Rows</th><th>Format</th><th>SHA-256</th></tr>
+          </thead>
+          <tbody>
+            {% for table in result.tables %}
+              <tr>
+                <td><a href="/ui/catalog/{{ table.id }}">{{ table.id }}</a></td>
+                <td>{{ table.species_code }} {{ table.species_name }}</td>
+                <td>{{ table.site_from }}-{{ table.site_to }}</td>
+                <td>{{ table.pnc }}</td>
+                <td>{{ table.data_rows }}</td>
+                <td>{{ table.format }}</td>
+                <td class="mono">{{ table.sha256[:16] }}…</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>No tables matched.</p>
+    {% endif %}
+    {{ provenance_drawer(request_data, provenance, warnings) }}
+  {% endif %}
+{% endblock %}

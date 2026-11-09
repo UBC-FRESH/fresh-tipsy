@@ -352,6 +352,40 @@ class CurvePoint:
     provenance: Provenance
     unavailable_metrics: tuple[str, ...]
 
+    def as_dict(self) -> dict[str, object]:
+        """Return a JSON-ready curve point.
+
+        Returns
+        -------
+        dict of str to object
+            Metric values, provenance, and unavailable metrics.
+        """
+        return {
+            "age": self.age,
+            "format": self.format,
+            "volume_gross_m3_ha": self.volume_gross_m3_ha,
+            "volume_total_m3_ha": self.volume_total_m3_ha,
+            "volume_merch_m3_ha": self.volume_merch_m3_ha,
+            "height_site_m": self.height_site_m,
+            "height_top_m": self.height_top_m,
+            "height_mean_m": self.height_mean_m,
+            "height_predominant_m": self.height_predominant_m,
+            "dbh_cm": self.dbh_cm,
+            "stems_per_ha": self.stems_per_ha,
+            "basal_area_m2_ha": self.basal_area_m2_ha,
+            "crown_cover_pct": self.crown_cover_pct,
+            "biomass_live_odt_ha": self.biomass_live_odt_ha,
+            "biomass_dead_odt_ha": self.biomass_dead_odt_ha,
+            "carbon_live_t_ha": self.carbon_live_t_ha,
+            "carbon_dead_t_ha": self.carbon_dead_t_ha,
+            "scenario": self.scenario,
+            "lower_age": self.lower_age,
+            "upper_age": self.upper_age,
+            "fraction": self.fraction,
+            "provenance": self.provenance.as_dict(),
+            "unavailable_metrics": list(self.unavailable_metrics),
+        }
+
 
 @dataclass(frozen=True)
 class MetricValue:

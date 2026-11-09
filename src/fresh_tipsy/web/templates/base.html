@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}fresh-tipsy{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/ui">fresh-tipsy</a>
+    <nav>
+      <a href="/ui/catalog">Catalog</a>
+      <a href="/ui/curve">Curves</a>
+      <a href="/ui/products">Products</a>
+      <a href="/ui/economics">Economics</a>
+    </nav>
+  </header>
+  <main class="page">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <p>Provenance-first TIPSY product and economics service. Model output is not a measured field grade.</p>
+  </footer>
+</body>
+</html>

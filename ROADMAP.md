@@ -16,8 +16,8 @@ after its parent issue exists and the maintainer approves it.
 | P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
 | P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | complete |
 | P3 Growth query engine | #18 | `feature/p3-growth-engine` | complete |
-| P4 Product recovery and economics | #25 | `feature/p4-product-economics` | pr-open |
-| P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
+| P4 Product recovery and economics | #25 | `feature/p4-product-economics` | complete |
+| P5 CLI, API, web, and agent | #32 | `feature/p5-interfaces` | pr-open |
 | P6 Validation, packaging, and femic integration | TBD | `feature/p6-release-integration` | planned |
 
 ## Lifecycle Map
@@ -133,7 +133,7 @@ Acceptance criteria:
 
 Parent issue: #25
 Branch: `feature/p4-product-economics`
-Status: pr-open
+Status: complete
 
 Goal: expose TIPSY product columns, residue categories, and FAN$IER-style
 economics through a documented reimplementation.
@@ -155,18 +155,18 @@ Acceptance criteria:
 
 ## Phase 5: CLI, API, web, and agent
 
-Parent issue: TBD
+Parent issue: #32
 Branch: `feature/p5-interfaces`
-Status: planned
+Status: pr-open
 
 Goal: make the package usable by people and agents through a typed API, CLI,
 FRESH-style web UI, and bounded assistant tools.
 
-- [ ] P5.1 Build the Typer CLI and command contracts
-- [ ] P5.2 Build the FastAPI service and typed response models
-- [ ] P5.3 Build the FRESH-style table, curve, product, and economics UI
-- [ ] P5.4 Add LLM tools for catalog search, curve query, provenance, and economics
-- [ ] P5.5 Add API, CLI, UI, and assistant tests
+- [x] P5.1 Build the Typer CLI and command contracts
+- [x] P5.2 Build the FastAPI service and typed response models
+- [x] P5.3 Build the FRESH-style table, curve, product, and economics UI
+- [x] P5.4 Add LLM tools for catalog search, curve query, provenance, and economics
+- [x] P5.5 Add API, CLI, UI, and assistant tests
 
 Acceptance criteria:
 

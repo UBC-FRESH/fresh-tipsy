@@ -8,6 +8,14 @@ from typing import Annotated
 
 import typer
 
+from fresh_tipsy.api.service import (
+    ServiceError,
+    parse_scenario,
+    query_curve,
+    recover_products,
+    run_economics,
+)
+from fresh_tipsy.curves import CurveQuery
 from fresh_tipsy.tables import (
     CatalogQuery,
     TableCatalog,
@@ -36,7 +44,22 @@ db_app = typer.Typer(
     no_args_is_help=True,
     help="Extract, validate, and browse TIPSY database tables.",
 )
+curve_app = typer.Typer(
+    no_args_is_help=True,
+    help="Query growth curves from a validated catalog.",
+)
+product_app = typer.Typer(
+    no_args_is_help=True,
+    help="Recover product and grade values from a .taf table.",
+)
+econ_app = typer.Typer(
+    no_args_is_help=True,
+    help="Run explicit product economics and sensitivity.",
+)
 app.add_typer(db_app, name="db")
+app.add_typer(curve_app, name="curve")
+app.add_typer(product_app, name="product")
+app.add_typer(econ_app, name="econ")
 
 
 class CliError(ValueError):
@@ -339,6 +362,144 @@ def catalog(
             f"site {entry.site_from}-{entry.site_to}  PNC {entry.pnc}  "
             f"{entry.data_rows} rows  {entry.format}"
         )
+
+
+@curve_app.command("query")
+def curve_query(
+    catalog: Annotated[Path, typer.Option("--catalog", help="Manifest JSON path.")],
+    species: Annotated[str, typer.Option("--species", help="Species code.")],
+    site_index: Annotated[float, typer.Option("--site-index", help="Site index.")],
+    age: Annotated[float, typer.Option("--age", help="Query age in years.")],
+    source: Annotated[Path | None, typer.Option("--source", help="TIPSY install root.")] = None,
+    pnc: Annotated[str | None, typer.Option("--pnc", help="PNC filter.")] = None,
+    stock_height: Annotated[
+        float | None, typer.Option("--stock-height", help="Stock height in metres.")
+    ] = None,
+    source_version: Annotated[
+        str | None, typer.Option("--source-version", help="Source version filter.")
+    ] = None,
+    scenario: Annotated[
+        str | None, typer.Option("--scenario", help="Treatment scenario filter.")
+    ] = None,
+    table_format: Annotated[
+        str, typer.Option("--format", help="Source format: tab or taf.")
+    ] = "tab",
+    initial_density: Annotated[
+        int | None, typer.Option("--initial-density", help="Initial density filter.")
+    ] = None,
+    pct_density: Annotated[
+        int | None, typer.Option("--pct-density", help="Post-PCT density filter.")
+    ] = None,
+    ct_density: Annotated[
+        int | None, typer.Option("--ct-density", help="Post-CT density filter.")
+    ] = None,
+    json_output: Annotated[bool, typer.Option("--json", help="Print JSON.")] = False,
+) -> None:
+    """Query a growth curve and print typed metrics with provenance."""
+    try:
+        query = CurveQuery(
+            species_code=species,
+            site_index=site_index,
+            age=age,
+            pnc=pnc,
+            stock_height_m=stock_height,
+            source_version=source_version,
+            scenario=scenario,
+            initial_density=initial_density,
+            pct_density=pct_density,
+            ct_density=ct_density,
+            format=table_format,
+        )
+        response = query_curve(catalog, source, query)
+    except (ServiceError, ValueError, OSError) as exc:
+        raise _fail(str(exc)) from exc
+    if json_output:
+        _print_json(response.as_dict())
+        return
+    result = response.result or {}
+    typer.echo(
+        f"{result.get('age')} yr  {result.get('format')}  "
+        f"{response.provenance['relative_path'] if response.provenance else ''}"
+    )
+    typer.echo(
+        f"Volume gross {result.get('volume_gross_m3_ha')}, "
+        f"height site {result.get('height_site_m')}, "
+        f"stems {result.get('stems_per_ha')}"
+    )
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
+
+
+@product_app.command("recover")
+def product_recover(
+    catalog: Annotated[Path, typer.Option("--catalog", help="Manifest JSON path.")],
+    species: Annotated[str, typer.Option("--species", help="Species code.")],
+    site_index: Annotated[float, typer.Option("--site-index", help="Site index.")],
+    age: Annotated[float, typer.Option("--age", help="Query age in years.")],
+    source: Annotated[Path | None, typer.Option("--source", help="TIPSY install root.")] = None,
+    pnc: Annotated[str | None, typer.Option("--pnc", help="PNC filter.")] = None,
+    stock_height: Annotated[
+        float | None, typer.Option("--stock-height", help="Stock height in metres.")
+    ] = None,
+    json_output: Annotated[bool, typer.Option("--json", help="Print JSON.")] = False,
+) -> None:
+    """Recover product groups and run mass-balance checks."""
+    try:
+        query = CurveQuery(
+            species_code=species,
+            site_index=site_index,
+            age=age,
+            pnc=pnc,
+            stock_height_m=stock_height,
+            format="taf",
+        )
+        response = recover_products(catalog, source, query)
+    except (ServiceError, ValueError, OSError) as exc:
+        raise _fail(str(exc)) from exc
+    if json_output:
+        _print_json(response.as_dict())
+        return
+    result = response.result or {}
+    totals = result.get("totals")
+    typer.echo(f"Product recovery at {result.get('age')} yr ({result.get('species_code')})")
+    if isinstance(totals, dict):
+        typer.echo(f"#2 & Better: {totals.get('lumber_2_or_better_bf_ha')} bf/ha")
+        typer.echo(f"Graded: {totals.get('graded_bf_ha')} bf/ha")
+        typer.echo(f"Logs: {totals.get('logs_m3_ha')} m3/ha")
+        typer.echo(f"Residues: {totals.get('residues_odt_ha')} ODT/ha")
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
+
+
+@econ_app.command("run")
+def econ_run(
+    catalog: Annotated[Path, typer.Option("--catalog", help="Manifest JSON path.")],
+    scenario: Annotated[Path, typer.Option("--scenario", help="Scenario JSON path.")],
+    source: Annotated[Path | None, typer.Option("--source", help="TIPSY install root.")] = None,
+    json_output: Annotated[bool, typer.Option("--json", help="Print JSON.")] = False,
+) -> None:
+    """Run an explicit price/cost/NPV scenario."""
+    try:
+        if not scenario.is_file():
+            message = f"scenario does not exist: {scenario}"
+            raise CliError(message)
+        data = json.loads(scenario.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            message = "scenario must be a JSON object"
+            raise CliError(message)
+        response = run_economics(catalog, source, parse_scenario(data))
+    except (ServiceError, ValueError, OSError) as exc:
+        raise _fail(str(exc)) from exc
+    if json_output:
+        _print_json(response.as_dict())
+        return
+    result = response.result or {}
+    typer.echo(f"Revenue: {result.get('revenue_per_ha')} CAD/ha")
+    typer.echo(f"Cost: {result.get('cost_per_ha')} CAD/ha")
+    typer.echo(f"NPV: {result.get('npv_per_ha')} CAD/ha")
+    typer.echo(f"Site value: {result.get('site_value_per_ha')} CAD/ha")
+    for warning in response.warnings:
+        typer.echo(f"{warning.code}: {warning.message}", err=True)
 
 
 def main() -> None:

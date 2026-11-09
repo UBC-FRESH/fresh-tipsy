@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}fresh-tipsy UI{% endblock %}
+{% block content %}
+  <h1>Fresh-style forest economics</h1>
+  <p class="lede">Browse source tables, query growth curves, inspect product recovery, and run explicit economics scenarios. Every result keeps its source and inputs.</p>
+
+  <div class="cards">
+    <a class="card" href="/ui/catalog">
+      <h2>Catalog</h2>
+      <p>Search TIPSY tables and inspect source metadata and checksums.</p>
+    </a>
+    <a class="card" href="/ui/curve">
+      <h2>Curve explorer</h2>
+      <p>Query growth metrics by species, site, age, and format.</p>
+    </a>
+    <a class="card" href="/ui/products">
+      <h2>Product mix</h2>
+      <p>Recover lumber, residues, log grades, and industrial logs.</p>
+    </a>
+    <a class="card" href="/ui/economics">
+      <h2>Economics</h2>
+      <p>Run explicit price, cost, discount, NPV, and site-value scenarios.</p>
+    </a>
+  </div>
+
+  <div class="notice">
+    <strong>Status:</strong> {{ result.result.status if result and result.result else "unknown" }}.
+    The UI works without an assistant or external network. Product values are model output, not measured field grades.
+  </div>
+{% endblock %}
