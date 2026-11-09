@@ -14,8 +14,8 @@ after its parent issue exists and the maintainer approves it.
 | --- | --- | --- | --- |
 | P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
 | P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
-| P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | pr-open |
-| P3 Growth query engine | TBD | `feature/p3-growth-engine` | planned |
+| P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | complete |
+| P3 Growth query engine | #18 | `feature/p3-growth-engine` | active |
 | P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
 | P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
 | P6 Validation, packaging, and femic integration | TBD | `feature/p6-release-integration` | planned |
@@ -87,7 +87,7 @@ Acceptance criteria:
 
 Parent issue: #10
 Branch: `feature/p2-table-extraction`
-Status: pr-open
+Status: complete
 
 Goal: convert every TIPSY database table to a normalized, validated public
 asset and make it discoverable.
@@ -110,17 +110,17 @@ Acceptance criteria:
 
 ## Phase 3: Growth query engine
 
-Parent issue: TBD
+Parent issue: #18
 Branch: `feature/p3-growth-engine`
-Status: planned
+Status: active
 
 Goal: query the extracted TASS/TIPSY yield surfaces with a stable Python API.
 
-- [ ] P3.1 Implement species/site-index/PNC/stock-height table selection
-- [ ] P3.2 Implement age interpolation and scenario extraction
-- [ ] P3.3 Expose volume, height, DBH, density, biomass, and carbon queries
-- [ ] P3.4 Compare queries against TIPSY outputs and FEMIC TSR curves
-- [ ] P3.5 Add property and regression tests for monotonicity and interpolation
+- [ ] P3.1 Implement species/site-index/PNC/stock-height table selection (#19)
+- [ ] P3.2 Implement age interpolation and scenario extraction (#20)
+- [ ] P3.3 Expose volume, height, DBH, density, biomass, and carbon queries (#21)
+- [ ] P3.4 Compare queries against TIPSY outputs and FEMIC TSR curves (#22)
+- [ ] P3.5 Add property and regression tests for monotonicity and interpolation (#23)
 
 Acceptance criteria:
 

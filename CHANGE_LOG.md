@@ -32,3 +32,5 @@ Newest entries last. Each milestone gets a dated entry that matches the roadmap 
 - Completed P2.6: added parser error and property tests, catalog/manifest/normalization edge tests, and CLI integration tests; extended the coverage gate to `src/fresh_tipsy/` with a combined 97.6% branch result; documented real-source tests with `TIPSY_DATABASE`. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
 - Fixed CI type-check parity by adding `types-jsonschema` to the dev requirements; no runtime behavior changed.
 - Queued the Phase 2 close-out in pull request #17 with `notes/reports/phase-2-closeout.md`; P2 status is `pr-open`. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
+- Closed Phase 2: squash-merged pull request #17 as `55214c1`, deleted `feature/p2-table-extraction`, and closed parent issue #10. Dashboard and CI were green at the merge head; the full extraction verified 96 pairs, 576 assets, and 192/192 round trips.
+- Launched Phase 3 as parent issue #18 on `feature/p3-growth-engine`; created child issues #19–#23 for P3.1–P3.5 and started P3.1. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
