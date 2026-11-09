@@ -53,6 +53,8 @@ issues, or the changelog alone.
   aggregation, mass-balance checks, strict failure behavior, and limits.
 - [`reference/economics.md`](reference/economics.md): P4.4 explicit prices,
   costs, NPV, site value, sensitivity, and validation limits.
+- [`reference/cli.md`](reference/cli.md): P5.1 CLI commands, exit codes, and the
+  economics scenario schema.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

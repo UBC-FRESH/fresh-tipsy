@@ -21,6 +21,7 @@ The dashboard runs lint, format, strict types, tests with the coverage gate, the
 | Property | `tests/test_properties_tables.py`, `tests/test_curve_properties.py` | Row counts, age ranges, slug stability, interpolation bounds, exact-age identity, and monotonicity |
 | Product | `tests/test_product_schema.py`, `tests/test_product_recovery.py`, `tests/test_product_regression.py` | 77-field contract, aggregation, mass balance, missing dimensions, and real-source PLI checks |
 | Economics | `tests/test_economics.py` | Explicit prices/costs, unit gaps, hand-checked NPV, site value, and sensitivity direction |
+| Interface | `tests/test_cli_interfaces.py`, `tests/test_cli*.py` | CLI command contracts, JSON envelopes, exit codes, and scenario validation |
 | Self-check | `tests/test_workflow.py` | The planning surfaces pass `scripts/check_workflow.py` |
 
 ## Synthetic fixtures
@@ -54,7 +55,7 @@ scripts/dashboard.py
 src/fresh_tipsy/
 ```
 
-`--cov-fail-under=95` applies to the combined branch coverage. As of P4.5 the combined result is about 98.1 percent; `products/` and `economics/` are at 100 percent branch coverage. P2.6 extended the gate from `scripts/` to `src/fresh_tipsy/`; P3.5 added curve property and regression tests; P4.5 added product and economics regression, boundary, and missing-data tests.
+`--cov-fail-under=95` applies to the combined branch coverage. As of P5.1 the combined result is about 95.8 percent; `products/` and `economics/` are at 100 percent branch coverage. P2.6 extended the gate from `scripts/` to `src/fresh_tipsy/`; P3.5 added curve property and regression tests; P4.5 added product and economics regression, boundary, and missing-data tests; P5.1 added CLI contract tests.
 
 ## No raw data in tests
 
