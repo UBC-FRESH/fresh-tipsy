@@ -47,6 +47,8 @@ issues, or the changelog alone.
   query set, tolerances, TIPSY comparisons, and the FEMIC TSR gap.
 - [`reference/product-schema.md`](reference/product-schema.md): P4.1 typed
   product groups, totals, and mass-balance rules.
+- [`reference/product-goldens.md`](reference/product-goldens.md): P4.2 product
+  golden candidates, checksums, runtime/FAN$IER gaps, and reproduction commands.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
