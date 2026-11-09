@@ -14,7 +14,7 @@ after its parent issue exists and the maintainer approves it.
 | --- | --- | --- | --- |
 | P0 Bootstrap and attribution | #1 | `feature/p0-bootstrap` | complete |
 | P1 Source inventory and provenance | #3 | `feature/p1-source-inventory` | complete |
-| P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | active |
+| P2 Table extraction and catalog | #10 | `feature/p2-table-extraction` | pr-open |
 | P3 Growth query engine | TBD | `feature/p3-growth-engine` | planned |
 | P4 Product recovery and economics | TBD | `feature/p4-product-economics` | planned |
 | P5 CLI, API, web, and agent | TBD | `feature/p5-interfaces` | planned |
@@ -87,7 +87,7 @@ Acceptance criteria:
 
 Parent issue: #10
 Branch: `feature/p2-table-extraction`
-Status: active
+Status: pr-open
 
 Goal: convert every TIPSY database table to a normalized, validated public
 asset and make it discoverable.
