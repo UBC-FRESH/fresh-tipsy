@@ -65,6 +65,10 @@ issues, or the changelog alone.
   four-species golden regression, tolerances, and FEMIC gap.
 - [`reference/package-build.md`](reference/package-build.md): P6.2 wheel/sdist,
   packaged data, and clean-install smoke test.
+- [`reference/release-assets.md`](reference/release-assets.md): P6.3 publication
+  decision, asset set, and rebuild instructions.
+- [`reference/release-assets.csv`](reference/release-assets.csv): machine-readable
+  release asset register with checksums.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
