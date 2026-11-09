@@ -134,7 +134,7 @@ Rules:
 - 5,174 adjacent duplicate-age pairs occur in the `.tab` files, and the same count occurs in the matching `.taf` files.
 - Duplicates occur in 65 `.tab` files.
 - 63 of those files carry a PCT or CT header; the duplicates line up with the treatment boundaries.
-- The remaining two files, `dr 2020N00.tab` and `dr 2828N00.tab`, have a duplicated final run block rather than a treatment. Treat that as a data defect to record, not a treatment.
+- The remaining two files have a malformed duplicate-age block rather than a treatment: the final block of `dr 2020N00.tab` (11 duplicate pairs) and block 9 of `dr 2828N00.tab` (8 duplicate pairs). Record them as data defects, not treatments.
 
 ## Data-row grammar
 
@@ -221,7 +221,7 @@ Mortality-summary caveat:
 - `.tab` positions 4-5 equal cumulative stock-table volume sums on sampled rows.
 - `.tab` positions 6-11 equal stock-table basal-area and DBHq recomputations on sampled rows.
 - `[RUN]` density parameters match the observed post-treatment stem counts.
-- The two DR duplicate blocks are recorded as data defects.
+- The two DR malformed blocks are recorded as data defects: the final block of `dr 2020N00.tab` and block 9 of `dr 2828N00.tab`.
 
 ## Open questions for P2 and P3
 
