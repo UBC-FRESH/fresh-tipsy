@@ -9,6 +9,8 @@ claim authorship of TIPSY, FAN$IER, TASS, or BC government data. It exists so
 those models and tables can be queried from Python, tested in the open, and
 used by tools such as FEMIC without a GUI boundary.
 
+Repository: <https://github.com/UBC-FRESH/fresh-tipsy>
+
 ## Status
 
 Phase 0 (bootstrap and attribution) is planned. `ROADMAP.md` lists the phases,
