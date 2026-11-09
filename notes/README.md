@@ -45,6 +45,8 @@ issues, or the changelog alone.
   environment variables, and the coverage gate.
 - [`reference/curve-validation.md`](reference/curve-validation.md): P3.4 golden
   query set, tolerances, TIPSY comparisons, and the FEMIC TSR gap.
+- [`reference/product-schema.md`](reference/product-schema.md): P4.1 typed
+  product groups, totals, and mass-balance rules.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
