@@ -12,3 +12,4 @@ Newest entries last. Each milestone gets a dated entry that matches the roadmap 
 - Created the private `UBC-FRESH/fresh-tipsy` GitHub repository and pushed the seed on `main`.
 - Activated Phase 0 as parent issue #1, set its roadmap status to `active`, and created `feature/p0-bootstrap`. Dashboard at activation: GREEN on lint, format, types, tests, validator, and docs.
 - Completed P0.1–P0.3: refreshed the README phase status, removed a duplicated `AGENTS.md` section, and confirmed the attribution and no-authorship statements in `README.md`, `AGENTS.md`, `CITATION.cff`, `LICENSE`, and the docs. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
+- Queued the Phase 0 close-out in pull request #2 with `notes/reports/phase-0-closeout.md`; P0 status is `pr-open`. Dashboard: GREEN on lint, format, types, tests, validator, and docs.
