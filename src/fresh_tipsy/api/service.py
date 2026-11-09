@@ -558,6 +558,44 @@ def _optional_int(data: dict[str, object], key: str) -> int | None:
     return None if value is None else int(float(str(value)))
 
 
+def parse_curve_query(data: dict[str, object]) -> CurveQuery:
+    """Parse a growth query mapping.
+
+    Parameters
+    ----------
+    data : dict of str to object
+        Query fields.
+
+    Returns
+    -------
+    CurveQuery
+        Growth query.
+
+    Raises
+    ------
+    ServiceError
+        When the query is malformed.
+    """
+    try:
+        return CurveQuery(
+            species_code=str(data["species_code"]),
+            site_index=float(str(data["site_index"])),
+            age=float(str(data["age"])),
+            pnc=None if data.get("pnc") is None else str(data["pnc"]),
+            stock_height_m=_optional_float(data, "stock_height_m"),
+            source_version=(
+                None if data.get("source_version") is None else str(data["source_version"])
+            ),
+            scenario=None if data.get("scenario") is None else str(data["scenario"]),
+            initial_density=_optional_int(data, "initial_density"),
+            pct_density=_optional_int(data, "pct_density"),
+            ct_density=_optional_int(data, "ct_density"),
+            format=str(data.get("format", "taf")),
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ServiceError("invalid_request", f"invalid scenario.query: {exc}", 422) from exc
+
+
 def _scenario_query(data: dict[str, object]) -> CurveQuery:
     """Build a curve query from scenario data.
 
@@ -579,24 +617,7 @@ def _scenario_query(data: dict[str, object]) -> CurveQuery:
     raw = data.get("query")
     if not isinstance(raw, dict):
         raise ServiceError("invalid_request", "scenario.query must be an object", 422)
-    try:
-        return CurveQuery(
-            species_code=str(raw["species_code"]),
-            site_index=float(raw["site_index"]),
-            age=float(raw["age"]),
-            pnc=None if raw.get("pnc") is None else str(raw["pnc"]),
-            stock_height_m=_optional_float(raw, "stock_height_m"),
-            source_version=(
-                None if raw.get("source_version") is None else str(raw["source_version"])
-            ),
-            scenario=None if raw.get("scenario") is None else str(raw["scenario"]),
-            initial_density=_optional_int(raw, "initial_density"),
-            pct_density=_optional_int(raw, "pct_density"),
-            ct_density=_optional_int(raw, "ct_density"),
-            format=str(raw.get("format", "taf")),
-        )
-    except (KeyError, TypeError, ValueError) as exc:
-        raise ServiceError("invalid_request", f"invalid scenario.query: {exc}", 422) from exc
+    return parse_curve_query(raw)
 
 
 def parse_scenario(data: dict[str, object]) -> EconomicsScenario:

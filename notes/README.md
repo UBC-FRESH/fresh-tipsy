@@ -59,6 +59,8 @@ issues, or the changelog alone.
   endpoints, and error contract.
 - [`reference/web.md`](reference/web.md): P5.3 server-rendered views, provenance
   drawer, and UI boundaries.
+- [`reference/agent.md`](reference/agent.md): P5.4 bounded assistant tools and
+  provenance-first prompt guidance.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):
