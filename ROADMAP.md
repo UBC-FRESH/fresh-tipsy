@@ -140,7 +140,7 @@ economics through a documented reimplementation.
 
 - [x] P4.1 Map TIPSY lumber, residue, log-grade, and industrial-log columns (#26)
 - [x] P4.2 Capture or extract golden product outputs from TIPSY/FAN$IER (#27)
-- [ ] P4.3 Implement product recovery with mass-balance checks (#28)
+- [x] P4.3 Implement product recovery with mass-balance checks (#28)
 - [ ] P4.4 Implement FAN$IER-style prices, costs, NPV, and sensitivity (#29)
 - [ ] P4.5 Add product/economics regression and boundary tests (#30)
 

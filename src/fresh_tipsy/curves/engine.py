@@ -21,6 +21,7 @@ from fresh_tipsy.curves.models import (
     QueryResult,
     TableSelection,
 )
+from fresh_tipsy.products.recovery import ProductRecovery, recover_products
 from fresh_tipsy.tables.catalog import CatalogEntry, CatalogQuery, TableCatalog
 from fresh_tipsy.tables.parsers import TIPSYTable, parse_tab_file, parse_taf_file
 
@@ -101,6 +102,28 @@ class CurveEngine:
             Typed metric values and provenance.
         """
         return build_curve_point(self.query(query))
+
+    def products(self, query: CurveQuery) -> ProductRecovery:
+        """Recover product groups and run mass-balance checks.
+
+        Parameters
+        ----------
+        query : CurveQuery
+            Growth query. The selected table must be a `.taf` table.
+
+        Returns
+        -------
+        ProductRecovery
+            Recovered groups, totals, and checks.
+
+        Raises
+        ------
+        ProductUnavailableError
+            When the selected table is not a `.taf` table.
+        MassBalanceError
+            When a mass-balance check fails.
+        """
+        return recover_products(self.query(query))
 
     def metric(self, query: CurveQuery, metric: str) -> MetricValue:
         """Return one named metric for a query.

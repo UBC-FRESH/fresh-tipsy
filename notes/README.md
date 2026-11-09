@@ -49,6 +49,8 @@ issues, or the changelog alone.
   product groups, totals, and mass-balance rules.
 - [`reference/product-goldens.md`](reference/product-goldens.md): P4.2 product
   golden candidates, checksums, runtime/FAN$IER gaps, and reproduction commands.
+- [`reference/product-recovery.md`](reference/product-recovery.md): P4.3 product
+  aggregation, mass-balance checks, strict failure behavior, and limits.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

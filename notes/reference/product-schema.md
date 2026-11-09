@@ -44,7 +44,7 @@ LRF_Degraded_All
 | `logs` | `Logs_Grade_All` | 8 | `1e-6` |
 | `residues` | none stored | 5 | `1e-6` |
 
-The residue components are reported individually because the extracted tables have no residue total. P4.3 must record that check as unavailable rather than inventing a remainder.
+The residue components are reported individually because the extracted tables have no residue total. P4.3 records that check as unavailable rather than inventing a remainder; see [`product-recovery.md`](product-recovery.md).
 
 ## Source contract
 
