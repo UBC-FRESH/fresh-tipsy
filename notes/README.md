@@ -61,6 +61,8 @@ issues, or the changelog alone.
   drawer, and UI boundaries.
 - [`reference/agent.md`](reference/agent.md): P5.4 bounded assistant tools and
   provenance-first prompt guidance.
+- [`reference/release-validation.md`](reference/release-validation.md): P6.1
+  four-species golden regression, tolerances, and FEMIC gap.
 - [`reference/tipsy-table-manifest.csv`](reference/tipsy-table-manifest.csv):
   192 TIPSY table entries with IDs, sizes, SHA-256, and header metadata.
 - [`reference/tipsy-file-manifest.csv`](reference/tipsy-file-manifest.csv):

@@ -183,7 +183,7 @@ Status: active
 
 Goal: prove the package, publish it, and make it a usable dependency for FEMIC.
 
-- [ ] P6.1 Run golden regression against TIPSY/FEMIC outputs
+- [x] P6.1 Run golden regression against TIPSY/FEMIC outputs
 - [ ] P6.2 Build and test the Python package and data manifest
 - [ ] P6.3 Publish release assets and a stable data manifest
 - [ ] P6.4 Add the FEMIC dependency and back-link documentation

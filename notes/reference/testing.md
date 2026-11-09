@@ -36,7 +36,8 @@ Real-source tests skip when `TIPSY_DATABASE` is unset. To run them:
 TIPSY_DATABASE="$TIPSY_INSTALL/Database" python -m pytest \
   tests/test_tab_parser.py tests/test_taf_parser.py \
   tests/test_catalog.py tests/test_normalized.py tests/test_cli_db.py \
-  tests/test_product_regression.py tests/test_product_goldens.py -q
+  tests/test_product_regression.py tests/test_product_goldens.py \
+  tests/test_release_golden.py -q
 ```
 
 The tests read the installed tables, verify checksums and pair structure, and never copy raw tables into the repository. A missing install is a skip, not a pass of the real-data path.
